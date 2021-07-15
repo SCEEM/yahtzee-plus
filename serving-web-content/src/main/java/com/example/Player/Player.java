@@ -1,7 +1,10 @@
 package com.example.Player;
 
-public class Player{
+import com.example.Turn.Turn;
+
+public class Player {
     /* Instantiate Fields Here*/
+    Turn currentTurn;
 
     /* Constructor */
     public Player(){
