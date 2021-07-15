@@ -1,0 +1,56 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Yahtzee++</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <link th:href="@{/styles/cssandjs/main.css}" rel="stylesheet" />
+</head>
+<body>
+    <div class="wrapper">
+        <scorecard>
+            <div class="user-scorecard">
+                <p>
+                    Your Scorecard
+                </p>
+                    <button>Submit Score</button>
+            </div>
+            <div class="active-scorecard">
+                <p>Active Scorecard</p>
+            </div>
+        </scorecard>
+
+        <header >SCEEM logo</header>
+        <div class="current-roll">
+            Current Roll Display
+        </div>
+        <div class="roll-history">
+            Roll History Display
+        </div>
+        <div class="keepers">
+            Keepers
+        </div>
+
+        <div class="buttons">
+            <button>Roll</button>
+            <button>Lock Keepers</button>
+            <button>Complete Turn</button>
+        </div>
+        <div class="all-scores">
+            All Scores Table
+        </div>
+
+        <div class="chat">
+            Chat
+        </div>
+
+
+<!--        <div class="current-roll">-->
+<!--        </div>-->
+<!--        <div class="roll-history">-->
+<!--        </div>-->
+<!--        <button>Roll Dice</button>-->
+<!--        <button>Finish Rolling</button>-->
+<!--        <button>Finish Turn</button>-->
+    </div>
+</body>
+</html>

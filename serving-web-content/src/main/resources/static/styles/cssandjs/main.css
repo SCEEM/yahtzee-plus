@@ -1,0 +1,88 @@
+h2 {
+    font-family: sans-serif;
+    font-size: 1.5em;
+    text-transform: uppercase;
+}
+
+strong {
+    font-weight: 700;
+    background-color: yellow;
+}
+
+p {
+    font-family: sans-serif;
+}
+
+.wrapper {
+    display: grid;
+    width: 100vw;
+    height: 100vh;
+    grid-template-columns: repeat(10, 1fr);
+    grid-template-rows: repeat(5, 1fr);
+    grid-template-areas:
+            "sc sc sc   hd   hd   hd   hd   as   as   as  "
+            "sc sc sc   cr   cr   cr   cr   as   as   as  "
+            "sc sc sc   rh   rh   rh   rh   chat chat chat"
+            "sc sc sc   ke   ke   ke   ke   chat chat chat"
+            "sc sc sc   bu   bu   bu   bu   chat chat chat"
+}
+
+scorecard {
+    grid-area: sc;
+}
+
+.user-scorecard {
+    background-color: #F4A62D;
+    float: left;
+    width: 50%;
+    height: 100%;
+}
+.active-scorecard {
+    background-color: #F7C830;
+    float: right;
+    width: 50%;
+    height: 100%;
+}
+.current-roll {
+    background-color: #F4A62D;
+    grid-area: cr;
+    margin: 10px;
+}
+.roll-history {
+    background-color: #F7C830;
+    grid-area: rh;
+    margin: 10px;
+}
+.keepers {
+    background-color: #F4A62D;
+    grid-area: ke;
+    margin: 10px;
+}
+.buttons {
+    background-color: #000000;
+    grid-area: bu;
+    margin: 10px;
+}
+.all-scores {
+    background-color: #EA4235;
+    grid-area: as;
+    margin: 5px 20px 5px 20px;
+}
+.chat {
+    background-color: #FFFFFF;
+    grid-area: chat;
+    margin: 10px 20px 5px 20px;
+}
+
+body {
+    background-color: #DC2A28;
+}
+
+header {
+    grid-area: hd;
+}
+
+main {
+    background-color: #ED7D31;
+    grid-area: main;
+}
