@@ -1,10 +1,10 @@
-package com.example.web;
+package com.example;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 
 @SpringBootTest
-class ServingWebContentApplicationTests {
+class MainTest {
 
 	@Test
 	void contextLoads() {

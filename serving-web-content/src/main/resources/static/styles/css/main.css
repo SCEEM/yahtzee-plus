@@ -4,6 +4,10 @@ h2 {
     text-transform: uppercase;
 }
 
+h3 {
+    font-family: sans-serif;
+}
+
 strong {
     font-weight: 700;
     background-color: yellow;

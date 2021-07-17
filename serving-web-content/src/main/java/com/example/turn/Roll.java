@@ -25,10 +25,10 @@ public class Roll {
    */
   public ArrayList<Integer> rollDice() {
     Random random = new Random();
-    int min = 1;
-    int max = 6;
+    int min = 1; // min is inclusive
+    int max = 7; // max is exclusive
 
-    ArrayList<Integer> dice = new ArrayList<Integer>();
+    ArrayList<Integer> dice = new ArrayList<>();
     for (int i = 0; i < 5; i++) {
       dice.add(random.nextInt(max - min) + min);
     }

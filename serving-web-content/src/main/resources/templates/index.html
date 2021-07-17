@@ -3,52 +3,62 @@
 <head>
     <title>Yahtzee++</title>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
-    <link th:href="@{/styles/cssandjs/main.css}" rel="stylesheet" />
+    <link th:href="@{/styles/css/main.css}" rel="stylesheet" />
 </head>
 <body>
     <p th:text="'Hello, ' + ${name} + '!'" />
     <div class="wrapper">
         <scorecard>
             <div class="user-scorecard">
-                <p>
-                    Your Scorecard
-                </p>
+                <h3>Your Scorecard</h3>
 <!--                <form th:action="@{/submitScorecard}" method="post">-->
 <!--                    <input type="submit" value="Submit Score" />-->
 <!--                </form>-->
             </div>
             <div class="active-scorecard">
-                <p>Active Scorecard</p>
+                <h3>Active Scorecard</h3>
             </div>
         </scorecard>
 
         <header >SCEEM logo</header>
+
+        <!-- Current Roll section -->
         <div class="current-roll">
-            <h2>Current Roll Display:</h2>
+            <h2>Current Roll</h2>
             <p th:text="${dice_0} + ' ' + ${dice_1} + ' ' + ${dice_2} + ' ' + ${dice_3} + ' ' + ${dice_4}" />
             <form th:action="@{/turn/roll}" method="post">
                 <input type="submit" value="Roll"/>
             </form>
         </div>
+
+        <!-- Roll History section -->
         <div class="roll-history">
-            Roll History Display
+            <h3>Roll History</h3>
         </div>
+
+        <!-- Keepers section -->
         <div class="keepers">
-            Keepers
-<!--            <form th:action="@{/lockKeepers}"><input type="submit" value="Lock Keepers"/></form>-->
+            <h3>Keepers</h3>
+           <form th:action="@{/turn/roll/keep(values=${dice_0})}" method="post">
+               <input type="submit" value="Lock Keepers"/>
+           </form>
+            <p th:text="${keepers_msg}"/>
         </div>
 
         <div class="buttons">
-            <form th:action="@{/finishTurn}" method="post">
+            <form th:action="@{/turn/finish}" method="post">
                 <input type="submit" value="Finish Turn"/>
             </form>
         </div>
+
+        <!-- All Scores -->
         <div class="all-scores">
-            All Scores Table
+            <h3>All Scores Table</h3>
         </div>
 
+        <!-- Chat -->
         <div class="chat">
-            Chat
+            <h3>Chat</h3>
         </div>
     </div>
 </body>
