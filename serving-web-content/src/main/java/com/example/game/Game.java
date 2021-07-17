@@ -10,7 +10,8 @@ public class Game {
 
     private ArrayList<Player> playerList ;
     private int playerListIndex;
-    private Player currentActivePlayer;
+    private Player currentActivePlayer, system;
+    private Chat chat;
 
     
     /**
@@ -19,6 +20,9 @@ public class Game {
     public Game() {
         this.playerList = new ArrayList<Player>();
         this.playerListIndex = 0;
+        this.currentActivePlayer = null; // placeholder for assignActivePlayer functionality
+        this.system = new Player(); // a representation of the system for Chat purposes
+        this.chat = new Chat();
     }
 
     /**
@@ -31,18 +35,18 @@ public class Game {
         ++playerListIndex;
     }
 
-    /**
-     *
-     */
-    public void createTurnForPlayer() {
-
+    public void addPlayerMessage(String msg){
+        this.chat.addMessage(this.currentActivePlayer, msg);
     }
 
 
-
-    /* This is the inner class representing the chat. Can be switched to be non-static as necessary */
-    private static class Chat {
-
+    public void addSystemMessage(String msg){
+        this.chat.addMessage(system, msg);
     }
+
+    public ArrayList<String> getAllMessages(){
+        return this.chat.getAllMessages();
+    }
+    
 
 }
