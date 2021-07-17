@@ -17,28 +17,23 @@ public class Player {
      * Constructor
      */
     public Player() {
-        this.currentTurn = false;
+        this.currentTurn = false; //active player not assigned yet
         this.playerId = playerId;
         this.playerName = playerName;
-        this.isHost = isHost;
+        this.isHost = isHost; 
         this.scoreCardId = scoreCardId;
     }
 
     public void takeTurn() {
         currentTurn = true;
-        
+        //roll dice, select keepers...
     }
 
     /* May be moved to inside the takeTurn() method */
     public void fillInScoreCard() {
-
+        ScoreCard.editMode = true; 
     }
 
-    /* This is the inner class representing the ScoreCard. 
-     * I couldn't remember what we decided to do with the score card and the player 
-     */
-    private static class ScoreCard {
-
-    }
+ 
 
 }
