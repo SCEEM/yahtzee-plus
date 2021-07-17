@@ -2,7 +2,7 @@ package com.example.web;
 
 import com.example.turn.Roll;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -16,9 +16,15 @@ import java.util.ArrayList;
 @RequestMapping("/turn")
 public class TurnController {
 
-  @GetMapping("/roll")
-  public ArrayList<Integer> rollDice(Model model) {
+  @PostMapping("/turn/roll")
+  public String rollDice(Model model) {
     Roll roll = new Roll();
-    return roll.rollDice();
+    ArrayList<Integer> rollReturned = roll.rollDice();
+    model.addAttribute("dice_0", rollReturned.get(0).toString());
+    model.addAttribute("dice_1", rollReturned.get(1).toString());
+    model.addAttribute("dice_2", rollReturned.get(2).toString());
+    model.addAttribute("dice_3", rollReturned.get(3).toString());
+    model.addAttribute("dice_4", rollReturned.get(4).toString());
+    return "index";
   }
 }

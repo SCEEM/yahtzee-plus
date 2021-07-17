@@ -6,13 +6,16 @@
     <link th:href="@{/styles/cssandjs/main.css}" rel="stylesheet" />
 </head>
 <body>
+    <p th:text="'Hello, ' + ${name} + '!'" />
     <div class="wrapper">
         <scorecard>
             <div class="user-scorecard">
                 <p>
                     Your Scorecard
                 </p>
-                    <button>Submit Score</button>
+<!--                <form th:action="@{/submitScorecard}" method="post">-->
+<!--                    <input type="submit" value="Submit Score" />-->
+<!--                </form>-->
             </div>
             <div class="active-scorecard">
                 <p>Active Scorecard</p>
@@ -21,19 +24,24 @@
 
         <header >SCEEM logo</header>
         <div class="current-roll">
-            Current Roll Display
+            <h2>Current Roll Display:</h2>
+            <p th:text="${dice_0} + ' ' + ${dice_1} + ' ' + ${dice_2} + ' ' + ${dice_3} + ' ' + ${dice_4}" />
+            <form th:action="@{/turn/roll}" method="post">
+                <input type="submit" value="Roll"/>
+            </form>
         </div>
         <div class="roll-history">
             Roll History Display
         </div>
         <div class="keepers">
             Keepers
+<!--            <form th:action="@{/lockKeepers}"><input type="submit" value="Lock Keepers"/></form>-->
         </div>
 
         <div class="buttons">
-            <button>Roll</button>
-            <button>Lock Keepers</button>
-            <button>Complete Turn</button>
+            <form th:action="@{/finishTurn}" method="post">
+                <input type="submit" value="Finish Turn"/>
+            </form>
         </div>
         <div class="all-scores">
             All Scores Table
@@ -42,15 +50,6 @@
         <div class="chat">
             Chat
         </div>
-
-
-<!--        <div class="current-roll">-->
-<!--        </div>-->
-<!--        <div class="roll-history">-->
-<!--        </div>-->
-<!--        <button>Roll Dice</button>-->
-<!--        <button>Finish Rolling</button>-->
-<!--        <button>Finish Turn</button>-->
     </div>
 </body>
 </html>
