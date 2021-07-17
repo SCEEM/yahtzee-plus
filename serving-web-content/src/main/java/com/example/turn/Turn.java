@@ -7,12 +7,14 @@ public class Turn {
     /* Instantiate Fields Here
      * keeper attribute?
     */
+    public int numRollsTaken;
 
 
     /**
      * Constructor
      */
     public Turn() {
+        numRollsTaken = 0; // no rolls taken yet for a new Turn
 
     }
 
@@ -22,33 +24,6 @@ public class Turn {
 
     public void storeKeepers() {
 
-    }
-
-    /* This is the inner class representing a roll. Can be switched to be non-static as necessary */
-    private static class Roll {
-
-        /*
-         * call dice methods from here
-         */
-        private void roll() {
-            // Dice.rollDice();
-        }
-
-        private void selectKeepers() {
-
-        }
-
-    }
-
-    /* This is the inner class representing the Dice. Can be switched to be non-static as necessary */
-    private static class Dice {
-
-        /*
-         * get random roll results from here
-         */
-         private int rollDice() {
-            return 0;
-         }
     }
 
 }

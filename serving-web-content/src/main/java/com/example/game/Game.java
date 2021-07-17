@@ -7,7 +7,7 @@ import com.example.player.Player;
  * This class represents the game state for all players.
  */
 public class Game {
-    /* Instantiate Fields Here*/
+
     private ArrayList<Player> playerList ;
     private int playerListIndex;
     private Player currentActivePlayer;
