@@ -1,91 +1,111 @@
 package com.example.player;
 
-/* This is the inner class representing the ScoreCard.
-     */
-    public class ScoreCard {
-        private boolean editMode;
-        private int[] scores; 
-        private int numYahtzeeBonuses; 
-    
-    /**
-     * Constructor
-     */
-    public ScoreCard() {
-        scores = new int[13];
-        for (int i = 0; i < 13; i++)
-		{
-			scores[i] = null;
-		}
-        this.editMode = false; 
-        this.numYahtzeeBonuses = 0; 
+/**
+ * This class represents a Yahtzee scorecard.
+ */
+public class ScoreCard {
+  private boolean editMode;
+  private int[] scores;
+  int upperScore;
+  int lowerScore;
+  private int numYahtzeeBonuses;
+
+  /**
+   * Constructor
+   */
+  public ScoreCard() {
+    upperScore = 0;
+    lowerScore = 0;
+    this.editMode = false;
+    this.numYahtzeeBonuses = 0;
+
+    int[] scores = new int[13];
+    for (int i = 0; i < 13; i++) {
+      scores[i] = -1; // TODO update
+    }
+  }
+
+  /**
+   * @param ind
+   * @param points
+   */
+  public void saveScore(int ind, int points) {
+    if (this.editMode == true) {
+      scores[ind] = points;
+    }
+  }
+
+  /**
+   * @param ind
+   * @return
+   */
+  public boolean getSectionAvailabilty(int ind) {
+    boolean sectionAvailable = true;
+    if (scores[ind] == -1) {
+      sectionAvailable = false;
+    }
+    return sectionAvailable; // TODO update
+  }
+
+  /**
+   * @return
+   */
+  public boolean boardFilled() {
+    boolean filled = true;
+    for (int i = 0; i < 13; i++) {
+      if (scores[i] == -1) { // TODO update
+        filled = false;
+      }
+    }
+    return filled;
+  }
+
+  public int getScore(int ind) {
+    return scores[ind];
+  }
+
+  public int getUpperScore() {
+
+    for (int i = 0; i < 6; i++) {
+      if (scores[i] != -1) {
+        upperScore = upperScore + scores[i];
+      }
     }
 
-    public void saveScore(int ind, int points) {
-        if this.editMode = true{
-            scores[ind] = points; 
-        } 
+    // Bonus Score
+    if (upperScore >= 63) {
+      upperScore = upperScore + 35;
+    }
+    return upperScore;
+  }
+
+  public void yahtzeeBonusScore() {
+    // probably need to check if valid yahtzee first
+    if (numYahtzeeBonuses < 3) {
+      numYahtzeeBonuses += 1;
+    }
+  }
+
+  public int getLowerScore() {
+    for (int i = 7; i < 13; i++) {
+      if (scores[i] != -1) {
+        lowerScore = lowerScore + scores[i];
+      }
     }
 
-    public boolean getSectionAvailabilty(int ind){
-        if scores[ind] == null{
-            sectionAvailable = false;
-        } 
-    }
+    int yahtzeeBonus = numYahtzeeBonuses * 100;
+    lowerScore = lowerScore + yahtzeeBonus;
+    return lowerScore;
+  }
 
-    public boolean boardFilled(){
-        filled = true; 
-        for (int i = 0; i < 13; i++){ 
-            if scores[i] == null{ 
-                filled = false;
-            }
-        }
-        return filled; 
-    }
+  /**
+   * @return
+   */
+  public int getTotalScore() {
+    return upperScore + lowerScore;
+  }
 
-    public int getScore(int ind) {
-        return  scores[ind];
-    }
+  public void checkScoreValidity() { //TODO, might need one for each section of scorecard
 
-    public int getUpperScore() { 
-        int upperScore = 0; 
-        for (int i = 0; i < 6; i++){ 
-            if scores[i] != null{
-                upperScore = upperScore + scores[i];
-            } 
-        }
-
-        //Bonus Score 
-        if upperScore >= 63 { 
-            upperScore = upperScore + 35; 
-        }
-        return upperScore;
-    }
-
-    public void yahtzeeBonusScore(){ 
-        //probably need to check if valid yahtzee first
-        if numYahtzeeBonuses < 3 {
-            numYahtzeeBonuses += 1; 
-        }
-    }
-
-    public int getLowerScore() { 
-        int lowerScore = 0; 
-        for (int i = 7; i < 13; i++){ 
-            if scores[i] != null{
-                lowerScore = lowerScore + scores[i];
-            } 
-        }
-
-        yahtzeeBonus = numYahtzeeBonuses * 100; 
-        lowerScore = lowerScore + yahtzeeBonus; 
-        return lowerScore;
-    }
-
-    public int getTotalScore(){ 
-        return upperScore + lowerScore;
-    }
-
-    public void checkScoreValidity() { //TODO, might need one for each section of scorecard 
-      
-    }
+  }
 }
