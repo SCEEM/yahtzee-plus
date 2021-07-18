@@ -11,17 +11,16 @@ import org.springframework.web.bind.annotation.RequestParam;
 @Controller
 public class MainController {
 
-    /**
-     *
-     * @param name
-     * @param model
-     * @return
-     */
-    @GetMapping("/greeting")
-    public String greeting(@RequestParam(name = "name",
-                required = false,
-                defaultValue = "World") String name, Model model) {
-        return "index";
-    }
+  /**
+   * @param name
+   * @param model
+   * @return
+   */
+  @GetMapping("/greeting")
+  public String greeting(@RequestParam(name = "name",
+      required = false,
+      defaultValue = "World") String name, Model model) {
+    return "index";
+  }
 
 }
