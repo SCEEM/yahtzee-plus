@@ -25,8 +25,8 @@ public class Player {
     }
 
     public void takeTurn() {
-        currentTurn = true;
-        //roll dice, select keepers...
+        this.currentTurn = true;
+        Turn newTurn = new Turn();
     }
 
     /* May be moved to inside the takeTurn() method */
