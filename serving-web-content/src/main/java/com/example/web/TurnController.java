@@ -1,7 +1,11 @@
 package com.example.web;
 
+import com.example.game.Game;
 import com.example.player.Player;
 import com.example.turn.Roll;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.ApplicationContext;
+import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -19,6 +23,9 @@ import java.util.List;
 @Controller
 @RequestMapping("/turn")
 public class TurnController {
+
+  @Autowired
+  ApplicationContext ctx;
 
   /**
    * Generate a new {@link Roll}
@@ -53,11 +60,14 @@ public class TurnController {
   /**
    * Complete the given {@link Player}'s turn.
    *
-   * @param playerId the id of the {@link Player}
+   *
    */
   @PostMapping("/finish")
-  public void finishTurn(@RequestParam(name = "playerId") int playerId) {
-
+  public String finishTurn(Model model) {
+    Game game = ctx.getBean(Game.class);
+    model.addAttribute("lastPlayerScore", game.getCurrentActivePlayer().getTotalScore());
+    game.assignActivePlayer();
+    return "index";
   }
 
 }

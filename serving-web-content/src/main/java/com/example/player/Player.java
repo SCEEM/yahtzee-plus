@@ -11,17 +11,17 @@ public class Player {
   private boolean isHost;
   private int playerId;
   private String playerName;
-  private int scoreCardId;
+  private ScoreCard scoreCard;
 
   /**
    * Constructor
    */
-  public Player() {
+  public Player(int playerId) {
     this.currentTurn = false; //active player not assigned yet
     this.playerId = playerId;
     this.playerName = playerName;
     this.isHost = isHost;
-    this.scoreCardId = scoreCardId;
+    this.scoreCard = new ScoreCard();
   }
 
     public void takeTurn() {
@@ -29,7 +29,15 @@ public class Player {
         Turn newTurn = new Turn();
     }
 
-  /* May be moved to inside the takeTurn() method */
+    public int getPlayerId() {
+      return this.playerId;
+    }
+
+    public int getTotalScore() {
+        return scoreCard.getTotalScore();
+    }
+
+    /* May be moved to inside the takeTurn() method */
   public void fillInScoreCard() {
     //ScoreCard.editMode = true;
   }
