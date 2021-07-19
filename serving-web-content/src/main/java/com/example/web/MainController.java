@@ -30,6 +30,8 @@ public class MainController {
       Game game = ctx.getBean(Game.class);
       Player newPlayer = game.createPlayer();
       model.addAttribute("playerId", newPlayer.getPlayerId());
+      model.addAttribute("playerList", game.getPlayerList());
+      model.addAttribute("scoreList", game.getScoreList());
     return "index";
   }
 

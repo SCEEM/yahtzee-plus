@@ -6,7 +6,7 @@
     <link th:href="@{/styles/css/main.css}" rel="stylesheet" />
 </head>
 <body>
-    <p th:text="'Hello, player number' + ${playerId} + '!'" />
+    <p th:text="'Hello, player number: ' + ${playerId} + '!'" />
     <div class="wrapper">
         <scorecard>
             <div class="user-scorecard">
@@ -25,7 +25,7 @@
         <!-- Current Roll section -->
         <div class="current-roll">
             <h2>Current Roll</h2>
-            <p th:text="${dice_0} + ' ' + ${dice_1} + ' ' + ${dice_2} + ' ' + ${dice_3} + ' ' + ${dice_4}" />
+            <p th:text="${dice0} + ' ' + ${dice1} + ' ' + ${dice2} + ' ' + ${dice3} + ' ' + ${dice4}" />
             <form th:action="@{/turn/roll}" method="post">
                 <input type="submit" value="Roll"/>
             </form>
@@ -39,7 +39,7 @@
         <!-- Keepers section -->
         <div class="keepers">
             <h3>Keepers</h3>
-           <form th:action="@{/turn/roll/keep(values=${dice_0})}" method="post">
+           <form th:action="@{/turn/roll/keep(values=${dice0})}" method="post">
                <input type="submit" value="Lock Keepers"/>
            </form>
             <p th:text="${keepers_msg}"/>
@@ -54,6 +54,36 @@
         <!-- All Scores -->
         <div class="all-scores">
             <h3>All Scores Table</h3>
+            <table>
+                <tr>
+                    <th th:scope="col">Player X</th>
+                    <th th:scope="col">Score</th>
+                <tr>
+                <tr th:if="${playerList.size() > 0}" >
+                    <td style="text-align:center" th:text="'Player 1'"></td>
+                    <td style="text-align:center" th:text="${scoreList[0]}"></td>
+                </tr>
+                <tr th:if="${playerList.size() > 1}" >
+                    <td style="text-align:center" th:text="'Player 2'"></td>
+                    <td style="text-align:center" th:text="${scoreList[1]}"></td>
+                </tr>
+                <tr th:if="${playerList.size() > 2}" >
+                    <td style="text-align:center" th:text="'Player 3'"></td>
+                    <td style="text-align:center" th:text="${scoreList[2]}"></td>
+                </tr>
+                <tr th:if="${playerList.size() > 3}" >
+                    <td style="text-align:center" th:text="'Player 4'"></td>
+                    <td style="text-align:center" th:text="${scoreList[3]}"></td>
+                </tr>
+                <tr th:if="${playerList.size() > 4}" >
+                    <td style="text-align:center" th:text="'Player 5'"></td>
+                    <td style="text-align:center" th:text="${scoreList[4]}"></td>
+                </tr>
+                <tr th:if="${playerList.size() > 5}" >
+                    <td style="text-align:center" th:text="'Player 6'"></td>
+                    <td style="text-align:center" th:text="${scoreList[5]}"></td>
+                </tr>
+            </table>
         </div>
 
         <!-- Chat -->

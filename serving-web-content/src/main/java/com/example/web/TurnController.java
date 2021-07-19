@@ -35,13 +35,17 @@ public class TurnController {
    */
   @PostMapping("/roll")
   public String rollDice(Model model) {
+    Game game = ctx.getBean(Game.class);
     Roll roll = new Roll();
     ArrayList<Integer> rollReturned = roll.rollDice();
-    model.addAttribute("dice_0", rollReturned.get(0).toString());
-    model.addAttribute("dice_1", rollReturned.get(1).toString());
-    model.addAttribute("dice_2", rollReturned.get(2).toString());
-    model.addAttribute("dice_3", rollReturned.get(3).toString());
-    model.addAttribute("dice_4", rollReturned.get(4).toString());
+    model.addAttribute("dice0", rollReturned.get(0).toString());
+    model.addAttribute("dice1", rollReturned.get(1).toString());
+    model.addAttribute("dice2", rollReturned.get(2).toString());
+    model.addAttribute("dice3", rollReturned.get(3).toString());
+    model.addAttribute("dice4", rollReturned.get(4).toString());
+
+    model.addAttribute("playerList", game.getPlayerList());
+    model.addAttribute("scoreList", game.getScoreList());
     return "index";
   }
 
@@ -65,7 +69,8 @@ public class TurnController {
   @PostMapping("/finish")
   public String finishTurn(Model model) {
     Game game = ctx.getBean(Game.class);
-    model.addAttribute("lastPlayerScore", game.getCurrentActivePlayer().getTotalScore());
+    model.addAttribute("playerList", game.getPlayerList());
+    model.addAttribute("scoreList", game.getScoreList());
     game.assignActivePlayer();
     return "index";
   }

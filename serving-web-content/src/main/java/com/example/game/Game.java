@@ -1,6 +1,7 @@
 package com.example.game;
 
 import java.util.ArrayList;
+import java.util.Map;
 
 import com.example.player.Player;
 
@@ -10,6 +11,7 @@ import com.example.player.Player;
 public class Game {
 
   private ArrayList<Player> playerList;
+  private ArrayList<Integer> scoreList;
   private int playerListIndex;
   private Player currentActivePlayer, system;
   private Chat chat;
@@ -24,11 +26,13 @@ public class Game {
     this.currentActivePlayer = null; // placeholder for assignActivePlayer functionality
     this.system = new Player(-1); // a representation of the system for Chat purposes
     this.chat = new Chat();
+    this.scoreList = new ArrayList<Integer>();
   }
 
   public Player createPlayer() {
       Player newPlayer = new Player(this.playerList.size());
       this.playerList.add(newPlayer);
+      this.scoreList.add(newPlayer.getPlayerId(), 0);
       if (playerList.size() == 1) {
           this.currentActivePlayer = newPlayer;
           newPlayer.takeTurn();
@@ -40,8 +44,16 @@ public class Game {
       return this.playerList.size();
   }
 
+  public ArrayList<Integer> getScoreList() {
+      return this.scoreList;
+  }
+
   public Player getCurrentActivePlayer() {
       return this.currentActivePlayer;
+  }
+
+  public ArrayList<Player> getPlayerList() {
+      return this.playerList;
   }
 
   /**
