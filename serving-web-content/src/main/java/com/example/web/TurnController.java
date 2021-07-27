@@ -11,7 +11,9 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.servlet.ModelAndView;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -26,6 +28,13 @@ public class TurnController {
 
   @Autowired
   ApplicationContext ctx;
+
+  @RequestMapping(value = "/turn", method = RequestMethod.GET)
+  public ModelAndView renderCPassPage(@ModelAttribute("changepassword")Password password, BindingResult result) {
+        ModelAndView mv = new ModelAndView("changePassword");
+        mv.addObject("password" password);
+        return mv;
+     }
 
   /**
    * Generate a new {@link Roll}
