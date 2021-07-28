@@ -52,11 +52,10 @@ public class TurnController {
    * @param values a list of the values to keep
    */
   @MessageMapping("/roll/keep")
-  @SendTo("/topic/game")
-  public Model setKeepers(@RequestParam(name = "values", required = false) List<Integer> values,
-                         Model model) {
-    model.addAttribute("keepers_msg", "Successfully kept: " + values.toString());
-    return model;
+  @SendTo("/topic/keepers")
+  public ArrayList<String> setKeepers(ArrayList<String> values) {
+    System.out.println("SET KEEPERS: " + values);
+    return values;
   }
 
   /**

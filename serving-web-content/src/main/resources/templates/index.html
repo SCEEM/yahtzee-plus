@@ -41,13 +41,26 @@
             <h2>Current Roll</h2>
 
             <form>
-                <fieldset>
-                    <div id="dice0" hidden><input type="checkbox" name="dice" value="Dice0"></div><br>
-                    <div id="dice1" hidden><input type="checkbox" name="dice" value="Dice1"></div><br>
-                    <div id="dice2" hidden><input type="checkbox" name="dice" value="Dice2"></div><br>
-                    <div id="dice3" hidden><input type="checkbox" name="dice" value="Dice3"></div><br>
-                    <div id="dice4" hidden><input type="checkbox" name="dice" value="Dice4"></div><br>
+                <fieldset id="rollSet" class="row">
+                    <div id="dice0" class="column" hidden>
+                        <input type="checkbox" class="dice" name="dice" value="Dice0">
+                    </div>
+                    <div id="dice1" class="column" hidden>
+                        <input type="checkbox" class="dice" name="dice" value="Dice1">
+                    </div>
+                    <div id="dice2" class="column" hidden>
+                        <input type="checkbox" class="dice" name="dice" value="Dice2">
+                    </div>
+                    <div id="dice3" class="column" hidden>
+                        <input type="checkbox" class="dice" name="dice" value="Dice3">
+                    </div>
+                    <div id="dice4" class="column" hidden>
+                        <input type="checkbox" class="dice" name="dice" value="Dice4">
+                    </div>
                     <br>
+                    <div>
+                        <button id="setKeepers" class="btn btn-default" type="submit">Add Keepers</button>
+                    </div>
                 </fieldset>
             </form>
             <form>
@@ -63,10 +76,21 @@
         <!-- Keepers section -->
         <div class="keepers">
             <h3>Keepers</h3>
-           <form th:action="@{/turn/roll/keep(values=${dice0})}" method="post">
-               <input type="submit" value="Lock Keepers"/>
-           </form>
-            <p th:text="${keepers_msg}"/>
+            <form>
+                <fieldset id="keeperSet" class="row">
+                    <div id="keeper0" class="column" hidden>
+                    </div>
+                    <div id="keeper1" class="column" hidden>
+                    </div>
+                    <div id="keeper2" class="column" hidden>
+                    </div>
+                    <div id="keeper3" class="column" hidden>
+                    </div>
+                    <div id="keeper4" class="column" hidden>
+                    </div>
+                    <br>
+                </fieldset>
+            </form>
         </div>
 
         <div class="buttons">
@@ -113,6 +137,11 @@
         <!-- Chat -->
         <div class="chat">
             <h3>Chat</h3>
+            <div id="chatDisplay"></div>
+            <form>
+                <input type="text" id="chatMsg" name="chatMsg" />
+                <button id="sendChat" class="btn btn-default" type="submit">Send</button>
+            </form>
         </div>
     </div>
 </body>
