@@ -4,11 +4,9 @@ import java.util.ArrayList;
 import java.util.Random;
 
 /**
- * A roll is taken as part of a {@link Turn}
+ * A roll is taken as part of a {@link Turn}.
  */
 public class Roll {
-
-  public int numDice;
 
   /**
    * Constructor
@@ -18,46 +16,56 @@ public class Roll {
   }
 
   /**
-   * Get random values for 5 dice.
-   * TODO: update to roll 1-5 dice
+   * Get random values for the given number of dice.
    *
+   * @param numToRoll number [1,5] of dice to roll
    * @return a list of dice values
    */
-  public ArrayList<Integer> rollDice() {
+  public ArrayList<Die> rollDice(int numToRoll) {
     Random random = new Random();
     int min = 1; // min is inclusive
     int max = 7; // max is exclusive
 
-    ArrayList<Integer> dice = new ArrayList<>();
+    ArrayList<Die> dice = new ArrayList<>();
     for (int i = 0; i < 5; i++) {
-      dice.add(random.nextInt(max - min) + min);
+      dice.add(new Die(i));
     }
 
     return dice; // TODO: use Dice
   }
 
-  private void selectKeepers() {
+  /**
+   * Generate new values for the dice that are not kept.
+   *
+   * @param dice
+   * @return
+   */
+  public ArrayList<Die> roll(ArrayList<Die> dice) {
+    for (Die die : dice) {
+      if (die.status != Die.Status.KEPT) {
+        die.roll();
+      }
+    }
 
+    return dice;
+  }
+
+  public Dice rollDice(Dice dice) {
+    for (Die die : dice.getDice()) {
+      if (die.status != Die.Status.KEPT) {
+        die.roll();
+      }
+    }
+
+    return dice;
   }
 
 
   /**
-   * Inner class representing the 1-5 dice as part of a Roll.
+   * Set the selected dice as keepers
    */
-  class Dice {
+  public void setKeepers() {
 
-    /*
-     * call dice methods from here
-     */
-    private void roll() {
-      // Dice.rollDice();
-    }
-
-    /*
-     * get random roll results from here
-     */
-    private int rollDice() {
-      return 0;
-    }
   }
+
 }

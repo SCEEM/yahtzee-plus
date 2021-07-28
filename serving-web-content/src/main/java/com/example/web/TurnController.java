@@ -2,16 +2,14 @@ package com.example.web;
 
 import com.example.game.Game;
 import com.example.player.Player;
+import com.example.turn.Dice;
+import com.example.turn.Die;
 import com.example.turn.Roll;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
-import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -29,21 +27,16 @@ public class TurnController {
 
   /**
    * Generate a new {@link Roll}
-   *
-   * @param model the Model
-   * @return an array of dice values TODO: update
    */
   @PostMapping("/roll")
   public String rollDice(Model model) {
     Game game = ctx.getBean(Game.class);
     Roll roll = new Roll();
-    ArrayList<Integer> rollReturned = roll.rollDice();
-    model.addAttribute("dice0", rollReturned.get(0).toString());
-    model.addAttribute("dice1", rollReturned.get(1).toString());
-    model.addAttribute("dice2", rollReturned.get(2).toString());
-    model.addAttribute("dice3", rollReturned.get(3).toString());
-    model.addAttribute("dice4", rollReturned.get(4).toString());
+    Dice newDice = new Dice(); // TODO: get dice from Turn
+    ArrayList<Die> dice = roll.roll(newDice.getDice()); // TODO: use Dice class or ArrayList?
 
+    dice.get(0).setStatus(Die.Status.KEPT); // TODO remove
+    model.addAttribute("dice", dice);
     model.addAttribute("playerList", game.getPlayerList());
     model.addAttribute("scoreList", game.getScoreList());
     return "index";
@@ -51,13 +44,17 @@ public class TurnController {
 
   /**
    * Keep the specified dice.
-   *
-   * @param values a list of the values to keep
+   * TODO
    */
   @PostMapping("/roll/keep")
-  public String setKeepers(@RequestParam(name = "values", required = false) List<Integer> values,
-                         Model model) {
-    model.addAttribute("keepers_msg", "Successfully kept: " + values.toString());
+  public String setKeepers(//@RequestParam String dice,
+      @ModelAttribute(value="dice") ArrayList<Die> dice,
+                           Model model) {
+
+    System.out.println(dice);
+    // TODO: change state of selected dice to KEPT
+
+    model.addAttribute("dice", dice);
     return "index";
   }
 
