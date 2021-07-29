@@ -9,12 +9,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.messaging.handler.annotation.MessageMapping;
 import org.springframework.messaging.handler.annotation.SendTo;
-
 import java.util.ArrayList;
-import java.util.List;
 
 /**
  * This class contains the endpoints needed to perform
@@ -55,11 +52,10 @@ public class TurnController {
    * TODO
    */
   @MessageMapping("/roll/keep")
-  @SendTo("/topic/game")
-  public Model setKeepers(@RequestParam(name = "values", required = false) List<Integer> values,
-                         Model model) {
-    model.addAttribute("keepers_msg", "Successfully kept: " + values.toString());
-    return model;
+  @SendTo("/topic/keepers")
+  public ArrayList<String> setKeepers(ArrayList<String> values) {
+    System.out.println("SET KEEPERS: " + values);
+    return values;
   }
 
   /**
