@@ -4,8 +4,12 @@
     <title>Yahtzee++</title>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
     <link th:href="@{/styles/css/main.css}" rel="stylesheet" />
+    <script src="/webjars/jquery/jquery.min.js"></script>
+    <script src="/webjars/sockjs-client/sockjs.min.js"></script>
+    <script src="/webjars/stomp-websocket/stomp.min.js"></script>
+    <script th:src="@{/styles/js/app.js}"></script>
 </head>
-<body>
+<body onload="connect()">
     <p th:text="'Hello, player number: ' + ${playerId} + '!'" />
     <div class="wrapper">
         <scorecard>
@@ -20,14 +24,34 @@
             </div>
         </scorecard>
 
-        <header >SCEEM logo</header>
+        <header >SCEEM logo
+<!--            <div>-->
+<!--                <form class="form-inline">-->
+<!--                    <div class="form-group">-->
+<!--                        <button id="connect" class="btn btn-default" type="submit">Join Game</button>-->
+<!--                        <button id="disconnect" class="btn btn-default" type="submit" disabled="disabled">Leave Game-->
+<!--                        </button>-->
+<!--                    </div>-->
+<!--                </form>-->
+<!--            </div>-->
+        </header>
 
         <!-- Current Roll section -->
         <div class="current-roll">
             <h2>Current Roll</h2>
-            <p th:text="${dice0} + ' ' + ${dice1} + ' ' + ${dice2} + ' ' + ${dice3} + ' ' + ${dice4}" />
-            <form th:action="@{/turn/roll}" method="post">
-                <input type="submit" value="Roll"/>
+
+            <form>
+                <fieldset>
+                    <div id="dice0" hidden><input type="checkbox" name="dice" value="Dice0"></div><br>
+                    <div id="dice1" hidden><input type="checkbox" name="dice" value="Dice1"></div><br>
+                    <div id="dice2" hidden><input type="checkbox" name="dice" value="Dice2"></div><br>
+                    <div id="dice3" hidden><input type="checkbox" name="dice" value="Dice3"></div><br>
+                    <div id="dice4" hidden><input type="checkbox" name="dice" value="Dice4"></div><br>
+                    <br>
+                </fieldset>
+            </form>
+            <form>
+                <button id="rollDice" class="btn btn-default" type="submit">Roll Dice</button>
             </form>
         </div>
 

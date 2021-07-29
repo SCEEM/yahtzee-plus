@@ -13,7 +13,10 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.servlet.ModelAndView;
+import org.springframework.messaging.handler.annotation.MessageMapping;
+import org.springframework.messaging.handler.annotation.SendTo;
+import org.springframework.stereotype.Controller;
+import org.springframework.web.util.HtmlUtils;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -23,39 +26,25 @@ import java.util.List;
  * actions as part of a {@link com.example.turn.Turn}
  */
 @Controller
-@RequestMapping("/turn")
+@MessageMapping("/turn")
 public class TurnController {
 
   @Autowired
   ApplicationContext ctx;
 
-  @RequestMapping(value = "/turn", method = RequestMethod.GET)
-  public ModelAndView renderCPassPage(@ModelAttribute("changepassword")Password password, BindingResult result) {
-        ModelAndView mv = new ModelAndView("changePassword");
-        mv.addObject("password" password);
-        return mv;
-     }
 
   /**
    * Generate a new {@link Roll}
    *
-   * @param model the Model
    * @return an array of dice values TODO: update
    */
-  @PostMapping("/roll")
-  public String rollDice(Model model) {
+  @MessageMapping("/roll")
+  @SendTo("/topic/roll")
+  public ArrayList<Integer> rollDice() {
     Game game = ctx.getBean(Game.class);
     Roll roll = new Roll();
     ArrayList<Integer> rollReturned = roll.rollDice();
-    model.addAttribute("dice0", rollReturned.get(0).toString());
-    model.addAttribute("dice1", rollReturned.get(1).toString());
-    model.addAttribute("dice2", rollReturned.get(2).toString());
-    model.addAttribute("dice3", rollReturned.get(3).toString());
-    model.addAttribute("dice4", rollReturned.get(4).toString());
-
-    model.addAttribute("playerList", game.getPlayerList());
-    model.addAttribute("scoreList", game.getScoreList());
-    return "index";
+    return rollReturned;
   }
 
   /**
@@ -63,11 +52,12 @@ public class TurnController {
    *
    * @param values a list of the values to keep
    */
-  @PostMapping("/roll/keep")
-  public String setKeepers(@RequestParam(name = "values", required = false) List<Integer> values,
+  @MessageMapping("/roll/keep")
+  @SendTo("/topic/game")
+  public Model setKeepers(@RequestParam(name = "values", required = false) List<Integer> values,
                          Model model) {
     model.addAttribute("keepers_msg", "Successfully kept: " + values.toString());
-    return "index";
+    return model;
   }
 
   /**
@@ -75,7 +65,7 @@ public class TurnController {
    *
    *
    */
-  @PostMapping("/finish")
+  @MessageMapping("/finish")
   public String finishTurn(Model model) {
     Game game = ctx.getBean(Game.class);
     model.addAttribute("playerList", game.getPlayerList());
