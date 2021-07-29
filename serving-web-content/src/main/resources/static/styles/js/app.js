@@ -21,6 +21,7 @@ function connect() {
         setConnected(true);
         console.log('Connected: ' + frame);
         stompClient.subscribe('/topic/roll', function (dice) {
+            console.log(dice);
             showDice(JSON.parse(dice.body));
         });
         stompClient.subscribe('/topic/keepers', function (keepers) {
@@ -43,20 +44,18 @@ function disconnect() {
 }
 
 function showDice (dice) {
-    var dieElements = document.getElementsByName("dice"),
-        dieDiv = document.querySelectorAll('div[id^=dice]');
+    var dieDiv = document.querySelectorAll('div[id^=die]');
     currentDice = dice;
 
     $('#rollSet img[id^=diceImg]').remove();
     $(dieDiv).hide();
     $('[type=checkbox]').prop("checked", false);
 
-    dice.forEach(function (dieVal, index) {
+    dice.forEach(function (die, index) {
         var diceImg = new Image(50, 50);
-        diceImg.id = 'diceImg' + dieVal;
-        dieElements[index].value = dieVal;
-        dieDiv[index].appendChild(diceImg);
-        $(dieDiv[index]).show();
+        diceImg.id = 'diceImg' + die.value;
+        $('#' + die.id).append(diceImg);
+        $('#' + die.id).show();
     })
 }
 
@@ -64,11 +63,12 @@ function showKeepers (keepers) {
     var keeperDiv = document.querySelectorAll('div[id^=keeper]');
     currentKeepers = keepers;
     $('#keeperSet img[id^=diceImg]').remove();
-    keepers.forEach(function (keeperVal, index) {
+    $(keeperDiv).hide();
+    keepers.forEach(function (keeper, index) {
         var diceImg = new Image(50, 50);
         diceImg.id = 'diceImg' + keeperVal;
-        keeperDiv[index].appendChild(diceImg);
-        keeperDiv[index].removeAttribute("hidden")
+        $('#' + keeper.id).append(diceImg);
+        $('#' + keeper.id).show();
     })
 }
 
@@ -88,8 +88,13 @@ function joinGame (player) {
 function setKeepers () {
     let remainingDice = currentDice;
     $('.dice:checkbox:checked').each(function (index, checkElement) {
-        currentKeepers.push(checkElement.value);
-        remainingDice.splice(remainingDice.indexOf(parseInt(checkElement.value)), 1)
+        var keeperId = $(this).parent().attr('id');
+        currentKeepers = currentDice.filter(function( die, index ) {
+            if (die.id === keeperId) {
+                remainingDice.splice(index, 1);
+                currentKeepers.push(die)
+            }
+        });
     });
     showDice(remainingDice);
     stompClient.send("/app/turn/roll/keep", {}, JSON.stringify(currentKeepers));

@@ -11,6 +11,8 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.messaging.handler.annotation.MessageMapping;
 import org.springframework.messaging.handler.annotation.SendTo;
+import org.springframework.web.bind.annotation.RequestBody;
+
 import java.util.ArrayList;
 
 /**
@@ -53,9 +55,9 @@ public class TurnController {
    */
   @MessageMapping("/roll/keep")
   @SendTo("/topic/keepers")
-  public ArrayList<String> setKeepers(ArrayList<String> values) {
-    System.out.println("SET KEEPERS: " + values);
-    return values;
+  public ArrayList<Die> setKeepers(@RequestBody ArrayList<Die> keepers) {
+    System.out.println("SET KEEPERS: " + keepers);
+    return keepers;
   }
 
   /**

@@ -20,6 +20,13 @@ public class Die {
   /**
    * Create a new Die.
    */
+  public Die() {
+    super();
+  }
+
+  /**
+   * Create a new Die.
+   */
   public Die(int id) {
     this.id = "die" + id;
     this.status = Status.NEW;
