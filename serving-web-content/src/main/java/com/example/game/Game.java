@@ -59,27 +59,81 @@ public class Game {
   /**
    * Assigns a player as the current active player
    */
-  public void assignActivePlayer() {
+  public void assignNextActivePlayer() {
     // the player list index will continue to increment
     // the modulus ensures the index will remain within the bounds of the array
     currentActivePlayer = playerList.get(playerListIndex % playerList.size());
     ++playerListIndex;
-
-    currentActivePlayer.takeTurn();
   }
 
-  public void addPlayerMessage(String msg) {
-    this.chat.addMessage(this.currentActivePlayer, msg);
+  /**
+   * send the player message to the chat object for storage and to update the list of messages
+   * @param player - the player sending in a message
+   * @param msg - the String messgae
+   */
+  public void addPlayerMessage(Player player, String msg) {
+    this.chat.addMessage(player, msg);
   }
 
-
+  /**
+   * send a message from the system to the chat
+   * @param msg - String message from the system to be seen by all players
+   */
   public void addSystemMessage(String msg) {
     this.chat.addMessage(system, msg);
   }
 
+  /**
+   * retrieves all of the messages in the chat object
+   * @return - an array list containing all of the messages in the chat
+   */
   public ArrayList<String> getAllMessages() {
     return this.chat.getAllMessages();
   }
 
+  /**
+   * retrieves the current player's ID
+   * @return - int: the current player's ID
+   */
+  public int getCurrentPlayersID(){
+    return this.currentActivePlayer.getPlayerId();
+  }
 
+  /**
+   * creates the turn object for the current player
+   */
+  public void currentPlayerBeginsTurn(){
+    this.currentActivePlayer.takeTurn();
+  }
+
+  /**
+   * allows the current active player to roll their dice, not including
+   * any keepers the player may have previously selected
+   */
+  public void currentPlayerRollsDice(){
+
+  }
+
+  /**
+   * allows the current active player to select which dice they want to keep from their current roll
+   * only possible during the current turn for the currentActivePlayer
+   */
+  public void currentPlayerSelectsKeepers(){
+
+  }
+
+  /**
+   * allows the current active player to enter in a score from a set of pre-calculated choices in their scorecard.
+   * The score choices are dependent on their current roll + any keepers they have previously selected
+   */
+  public void currentPlayerUpdatesScoreCard(){
+
+  }
+
+  /**
+   * ends the turn for the current active player once they select the "Finish Turn" button
+   */
+  public void currentPlayerEndsTurn(){
+
+  }
 }
