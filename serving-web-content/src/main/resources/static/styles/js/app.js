@@ -89,10 +89,10 @@ function setKeepers () {
     let remainingDice = currentDice;
     $('.dice:checkbox:checked').each(function (index, checkElement) {
         var keeperId = $(this).parent().attr('id');
-        currentKeepers = currentDice.filter(function( die, index ) {
+        remainingDice.forEach(function( die, index ) {
             if (die.id === keeperId) {
                 remainingDice.splice(index, 1);
-                currentKeepers.push(die)
+                currentKeepers.push(die);
             }
         });
     });
