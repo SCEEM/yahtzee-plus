@@ -66,9 +66,9 @@ function showKeepers (keepers) {
     $(keeperDiv).hide();
     keepers.forEach(function (keeper, index) {
         var diceImg = new Image(50, 50);
-        diceImg.id = 'diceImg' + keeperVal;
-        $('#' + keeper.id).append(diceImg);
-        $('#' + keeper.id).show();
+        diceImg.id = 'diceImg' + keeper.value;
+        $('#keeper' + index).append(diceImg);
+        $('#keeper' + index).show();
     })
 }
 
