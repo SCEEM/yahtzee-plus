@@ -38,15 +38,6 @@ public class TurnController {
     Dice newDice = new Dice(); // TODO: get dice from Turn
     ArrayList<Die> dice = roll.roll(newDice.getDice()); // TODO: use Dice class or ArrayList?
     return dice;
-
-//    dice.get(0).setStatus(Die.Status.KEPT); // TODO remove
-//    model.addAttribute("dice", dice);
-//    model.addAttribute("playerList", game.getPlayerList());
-//    model.addAttribute("scoreList", game.getScoreList());
-//    return "index";
-
-//    ArrayList<Integer> rollReturned = roll.rollDice();
-//    return rollReturned;
   }
 
   /**
@@ -64,11 +55,31 @@ public class TurnController {
    * Complete the given {@link Player}'s turn.
    *
    */
+  @MessageMapping("/stopRoll")
+  @SendTo("/topic/loadScorecard")
+  public String stopRoll() {
+    System.out.println("GET SCORECARD: ");
+    return "SCORECARD";
+  }
+
+  /**
+   * Complete the given {@link Player}'s turn.
+   *
+   */
+  @MessageMapping("/submitScore")
+  @SendTo("/topic/updateScorecard")
+  public String submitScore() {
+    System.out.println("GET SCORECARD: ");
+    return "SCORE SUBMITTED";
+  }
+
+  /**
+   * Complete the given {@link Player}'s turn.
+   *
+   */
   @MessageMapping("/finish")
-  public String finishTurn(Model model) {
+  public String finishTurn() {
     Game game = ctx.getBean(Game.class);
-    model.addAttribute("playerList", game.getPlayerList());
-    model.addAttribute("scoreList", game.getScoreList());
     game.assignActivePlayer();
     return "index";
   }

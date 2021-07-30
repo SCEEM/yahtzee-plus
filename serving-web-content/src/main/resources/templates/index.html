@@ -15,9 +15,9 @@
     <scorecard>
         <div class="user-scorecard">
             <h3>Your Scorecard</h3>
-            <!--                <form th:action="@{/submitScorecard}" method="post">-->
-            <!--                    <input type="submit" value="Submit Score" />-->
-            <!--                </form>-->
+            <form>
+                <button id="submitScore" class="btn btn-default" type="submit">Submit</button>
+            </form>
         </div>
         <div class="active-scorecard">
             <h3>Active Scorecard</h3>
@@ -38,7 +38,7 @@
 
     <!-- Current Roll section -->
     <div class="current-roll">
-        <h2>Current Roll</h2>
+        <h3>Current Roll</h3>
         <form>
             <fieldset id="rollSet" class="row">
                 <div id="die0" class="column" hidden>
@@ -57,25 +57,13 @@
                     <input type="checkbox" class="dice" name="dice" value="Dice4">
                 </div>
                 <br>
-                <div>
-                    <button id="setKeepers" class="btn btn-default" type="submit">Add Keepers</button>
-                </div>
             </fieldset>
         </form>
         <form>
             <button id="rollDice" class="btn btn-default" type="submit">Roll Dice</button>
+            <button id="setKeepers" class="btn btn-default" type="submit">Add Keepers</button>
         </form>
     </div>
-
-    <!--        <form th:action="@{/turn/roll/keep}" method="post">-->
-    <!--            <input type="checkbox" name="dice"-->
-    <!--                   th:each="die : ${dice}"-->
-    <!--                   th:text="${die.value}"-->
-    <!--                   th:value="${die.value}"-->
-    <!--                   th:id="${die.id}"-->
-    <!--                   th:readonly="${die.status == 'KEPT'}"/>-->
-    <!--            <input type="submit" value="Keep Selected"/>-->
-    <!--        </form>-->
 
     <!-- Roll History section -->
     <div class="roll-history">
@@ -99,12 +87,13 @@
                 </div>
                 <br>
             </fieldset>
+            <button id="stopRolling" class="btn btn-default" type="submit">Stop Rolling</button>
         </form>
     </div>
 
     <div class="buttons">
         <form th:action="@{/turn/finish}" method="post">
-            <input type="submit" value="Finish Turn"/>
+            <button id="finishTurn" class="btn btn-default" type="submit">Finish Turn</button>
         </form>
     </div>
 
@@ -116,30 +105,6 @@
                 <th th:scope="col">Player X</th>
                 <th th:scope="col">Score</th>
             <tr>
-                <!--            <tr th:if="${playerList.size() > 0}">-->
-                <!--                <td style="text-align:center" th:text="'Player 1'"></td>-->
-                <!--                <td style="text-align:center" th:text="${scoreList[0]}"></td>-->
-                <!--            </tr>-->
-                <!--            <tr th:if="${playerList.size() > 1}">-->
-                <!--                <td style="text-align:center" th:text="'Player 2'"></td>-->
-                <!--                <td style="text-align:center" th:text="${scoreList[1]}"></td>-->
-                <!--            </tr>-->
-                <!--            <tr th:if="${playerList.size() > 2}">-->
-                <!--                <td style="text-align:center" th:text="'Player 3'"></td>-->
-                <!--                <td style="text-align:center" th:text="${scoreList[2]}"></td>-->
-                <!--            </tr>-->
-                <!--            <tr th:if="${playerList.size() > 3}">-->
-                <!--                <td style="text-align:center" th:text="'Player 4'"></td>-->
-                <!--                <td style="text-align:center" th:text="${scoreList[3]}"></td>-->
-                <!--            </tr>-->
-                <!--            <tr th:if="${playerList.size() > 4}">-->
-                <!--                <td style="text-align:center" th:text="'Player 5'"></td>-->
-                <!--                <td style="text-align:center" th:text="${scoreList[4]}"></td>-->
-                <!--            </tr>-->
-                <!--            <tr th:if="${playerList.size() > 5}">-->
-                <!--                <td style="text-align:center" th:text="'Player 6'"></td>-->
-                <!--                <td style="text-align:center" th:text="${scoreList[5]}"></td>-->
-                <!--            </tr>-->
         </table>
     </div>
 

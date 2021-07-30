@@ -149,6 +149,13 @@ fieldset {
     border-radius: 5px;
 }
 
+#rollDice {
+    float: left;
+}
+#setKeepers {
+    float: right;
+}
+
 .column {
     float: left;
     width: 17%;

@@ -31,6 +31,12 @@ function connect() {
             console.log(chat);
             showChat(JSON.parse(chat.body));
         });
+        stompClient.subscribe('/topic/loadScorecard', function (scorecard) {
+            showScoreOptions(scorecard.body);
+        });
+        stompClient.subscribe('/topic/updateScorecard', function (scorecard) {
+            updateScorecard(scorecard.body);
+        });
     });
     console.log("Connected");
 }
@@ -42,6 +48,8 @@ function disconnect() {
     setConnected(false);
     console.log("Disconnected");
 }
+
+//___________________________Receivers_________________________________
 
 function showDice (dice) {
     var dieDiv = document.querySelectorAll('div[id^=die]');
@@ -76,6 +84,23 @@ function showChat (chat) {
     console.log("RETURNED: " + chat);
 }
 
+function showScoreOptions (scorecard) {
+    $( '#rollDice' ).prop('disabled', true );
+    $( '#setKeepers' ).prop('disabled', true );
+    $( '#stopRolling' ).prop('disabled', true );
+
+    $('#submitScore').removeAttr('disabled');
+    console.log("RETURNED: " + scorecard);
+}
+
+function updateScorecard (scorecard) {
+    $( '#submitScore' ).prop('disabled', true );
+    $('#finishTurn').removeAttr('disabled');
+    console.log("FINISH TURN");
+}
+
+//___________________________Senders_________________________________
+
 function rollDice() {
     $(document.querySelectorAll('[id^=diceImg]')).remove();
     stompClient.send("/app/turn/roll");
@@ -104,7 +129,24 @@ function setKeepers () {
 function sendChat (chatMsg) {
     console.log(chatMsg);
     stompClient.send("/app/chat", {}, JSON.stringify(chatMsg));
+}
 
+function stopRolling () {
+    stompClient.send("/app/turn/stopRoll", {}, JSON.stringify());
+}
+
+function submitScore () {
+    stompClient.send("/app/turn/submitScore", {}, JSON.stringify());
+}
+
+function finishTurn () {
+    $( "#rollDice" ).hide();
+    $( "#setKeepers" ).hide();
+    $( "#stopRolling" ).hide();
+    $( "#submitScore" ).hide();
+    $( "#finishTurn" ).hide();
+
+    stompClient.send("/app/turn/finish", {}, JSON.stringify());
 }
 
 $(function () {
@@ -115,5 +157,8 @@ $(function () {
     $( "#disconnect" ).click(function() { disconnect(); });
     $( "#rollDice" ).click(function() { rollDice(); });
     $( "#setKeepers" ).click(function() { setKeepers(); });
+    $( "#stopRolling" ).click(function() { stopRolling(); });
+    $( "#submitScore" ).click(function() { submitScore(); });
+    $( "#finishTurn" ).click(function() { finishTurn(); });
     $( "#sendChat" ).click(function() { sendChat($('#chatMsg').val()); });
 });
