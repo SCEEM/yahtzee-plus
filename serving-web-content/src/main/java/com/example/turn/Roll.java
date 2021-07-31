@@ -1,63 +1,46 @@
 package com.example.turn;
 
 import java.util.ArrayList;
-import java.util.Random;
 
 /**
- * A roll is taken as part of a {@link Turn}
+ * A roll is taken as part of a {@link Turn}.
  */
 public class Roll {
 
-  public int numDice;
+  ArrayList<Die> dice;  // the dice for this Roll
 
   /**
-   * Constructor
+   * Constructor.
    */
   public Roll() {
-
+    dice = new ArrayList<>();
   }
 
   /**
-   * Get random values for 5 dice.
-   * TODO: update to roll 1-5 dice
+   * Generate new values for the dice that are not kept.
    *
-   * @return a list of dice values
+   * @param dice an ArrayList<Die>
+   * @return the roll as an ArrayList<Die>
    */
-  public ArrayList<Integer> rollDice() {
-    Random random = new Random();
-    int min = 1; // min is inclusive
-    int max = 7; // max is exclusive
-
-    ArrayList<Integer> dice = new ArrayList<>();
-    for (int i = 0; i < 5; i++) {
-      dice.add(random.nextInt(max - min) + min);
+  public ArrayList<Die> rollDice(ArrayList<Die> dice) {
+    for (Die die : dice) {
+      if (die.status != Die.Status.KEPT) {
+        die.roll();
+      }
     }
 
-    return dice; // TODO: use Dice
+    setDice(dice);
+
+    return dice;
   }
-
-  private void selectKeepers() {
-
-  }
-
 
   /**
-   * Inner class representing the 1-5 dice as part of a Roll.
+   * Hold onto the current dice for the Roll.
+   *
+   * @param dice an ArrayList<Die>
    */
-  class Dice {
-
-    /*
-     * call dice methods from here
-     */
-    private void roll() {
-      // Dice.rollDice();
-    }
-
-    /*
-     * get random roll results from here
-     */
-    private int rollDice() {
-      return 0;
-    }
+  public void setDice(ArrayList<Die> dice) {
+    this.dice = dice;
   }
+
 }
