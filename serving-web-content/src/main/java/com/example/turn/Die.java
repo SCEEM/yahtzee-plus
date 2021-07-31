@@ -13,12 +13,11 @@ public class Die {
 
   public enum Status {
     ACTIVE,
-    KEPT,
-    NEW
+    KEPT
   }
 
   /**
-   * Create a new Die.
+   * Empty constructor.
    */
   public Die() {
     super();
@@ -29,7 +28,7 @@ public class Die {
    */
   public Die(int id) {
     this.id = "die" + id;
-    this.status = Status.NEW;
+    this.status = Status.ACTIVE;
   }
 
   /**
@@ -68,6 +67,20 @@ public class Die {
    */
   public Status getStatus() {
     return this.status;
+  }
+
+  /**
+   * Get this die's id.
+   *
+   * @return the id
+   */
+  public String getId() {
+    return this.id;
+  }
+
+  @Override
+  public String toString() {
+    return "id: " + this.getId() + ", value: " + this.getValue() + ", status: " + this.getStatus();
   }
 
 }
