@@ -24,11 +24,11 @@ p {
     grid-template-columns: repeat(10, 1fr);
     grid-template-rows: repeat(5, 1fr);
     grid-template-areas:
-            "sc sc sc   hd   hd   hd   hd   as   as   as  "
-            "sc sc sc   cr   cr   cr   cr   as   as   as  "
-            "sc sc sc   rh   rh   rh   rh   chat chat chat"
-            "sc sc sc   ke   ke   ke   ke   chat chat chat"
-            "sc sc sc   bu   bu   bu   bu   chat chat chat"
+        "sc sc sc   hd   hd   hd   hd   as   as   as  "
+        "sc sc sc   cr   cr   cr   cr   as   as   as  "
+        "sc sc sc   rh   rh   rh   rh   chat chat chat"
+        "sc sc sc   ke   ke   ke   ke   chat chat chat"
+        "sc sc sc   bu   bu   bu   bu   chat chat chat"
 }
 
 scorecard {
@@ -89,4 +89,68 @@ header {
 main {
     background-color: #ED7D31;
     grid-area: main;
+}
+
+fieldset {
+    text-align: center;
+}
+
+#diceImg1 {
+    background-image: url(../images/dice1.png);
+    background-size: 50px;
+    background-repeat: no-repeat;
+    display:inline;
+    background-color: #FFFFFF;
+    border-radius: 5px;
+}
+
+#diceImg2 {
+    background-image: url(../images/dice2.png);
+    background-size: 50px;
+    background-repeat: no-repeat;
+    display:inline;
+    background-color: #FFFFFF;
+    border-radius: 5px;
+}
+
+#diceImg3 {
+    background-image: url(../images/dice3.png);
+    background-size: 50px;
+    background-repeat: no-repeat;
+    display:inline;
+    background-color: #FFFFFF;
+    border-radius: 5px;
+}
+
+#diceImg4 {
+    background-image: url(../images/dice4.png);
+    background-size: 50px;
+    background-repeat: no-repeat;
+    display:inline;
+    background-color: #FFFFFF;
+    border-radius: 5px;
+}
+
+#diceImg5 {
+    background-image: url(../images/dice5.png);
+    background-size: 50px;
+    background-repeat: no-repeat;
+    display:inline;
+    background-color: #FFFFFF;
+    border-radius: 5px;
+}
+
+#diceImg6 {
+    background-image: url(../images/dice6.png);
+    background-size: 50px;
+    background-repeat: no-repeat;
+    display:inline;
+    background-color: #FFFFFF;
+    border-radius: 5px;
+}
+
+.column {
+    float: left;
+    width: 17%;
+    padding: 5px;
 }
