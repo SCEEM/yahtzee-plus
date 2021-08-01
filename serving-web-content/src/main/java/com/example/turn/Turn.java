@@ -1,28 +1,82 @@
 package com.example.turn;
 
+import java.util.ArrayList;
+
 /**
  * This class represents a turn taken by a {@link com.example.player.Player}
  */
 public class Turn {
 
-  int numRollsTaken;
-  Dice dice;
+  static final int MAX_ROLLS = 3;
+  ArrayList<Die> dice;
+  ArrayList<Roll> rolls;
+  Roll currentRoll;
+
+  /**
+   * Constructor.
+   */
+  public Turn() {
+    dice = createDice(); // initialize dice
+    rolls = new ArrayList<>();
+  }
 
 
   /**
-   * Constructor
+   * Initialize the 5 {@link Die} objects for use in the Turn.
+   *
+   * @return dice as an ArrayList<Die>
    */
-  public Turn() {
-    numRollsTaken = 0; // no rolls taken yet for a new Turn
-    dice = new Dice(); // initialize dice
+  private ArrayList<Die> createDice() {
+    ArrayList<Die> dice = new ArrayList<>();
+
+    for (int i = 0; i < 5; i++) {
+      dice.add(new Die(i));
+    }
+
+    return dice;
   }
 
-  public void createTurn() {
 
-  }
-
-  public Dice getDice() {
+  /**
+   * Get the dice used for this Turn.
+   *
+   * @return the dice as an ArrayList<Die>
+   */
+  public ArrayList<Die> getDice() {
     return this.dice;
+  }
+
+
+  /**
+   * Hold onto a reference to the latest Roll.
+   *
+   * @param currentRoll the current roll
+   */
+  public void setCurrentRoll(Roll currentRoll) {
+    this.currentRoll = currentRoll;
+  }
+
+
+  /**
+   * Check if a roll can be taken.
+   *
+   * @return true if allowed, false if not
+   */
+  public boolean canRoll() {
+    return rolls.size() < MAX_ROLLS;
+  }
+
+
+  /**
+   * Create a new {@link Roll} for this Turn.
+   *
+   * @return the new {@link Roll}
+   */
+  public Roll newRoll() {
+    Roll roll = new Roll();
+    rolls.add(roll);  // add to list of rolls
+    this.setCurrentRoll(roll);
+    return roll;
   }
 
 }
