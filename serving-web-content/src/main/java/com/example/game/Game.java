@@ -66,31 +66,7 @@ public class Game {
     ++playerListIndex;
   }
 
-  /**
-   * send the player message to the chat object for storage and to update the list of messages
-   * @param player - the player sending in a message
-   * @param msg - the String messgae
-   */
-  public void addPlayerMessage(Player player, String msg) {
-    this.chat.addMessage(player, msg);
-  }
-
-  /**
-   * send a message from the system to the chat
-   * @param msg - String message from the system to be seen by all players
-   */
-  public void addSystemMessage(String msg) {
-    this.chat.addMessage(system, msg);
-  }
-
-  /**
-   * retrieves all of the messages in the chat object
-   * @return - an array list containing all of the messages in the chat
-   */
-  public ArrayList<String> getAllMessages() {
-    return this.chat.getAllMessages();
-  }
-
+  
   /**
    * retrieves the current player's ID
    * @return - int: the current player's ID
@@ -99,19 +75,30 @@ public class Game {
     return this.currentActivePlayer.getPlayerId();
   }
 
+  
   /**
    * creates the turn object for the current player
    */
-  public void currentPlayerBeginsTurn(){
-    this.currentActivePlayer.takeTurn();
+  public void currentActivePlayerBeginsTurn(){
+    this.currentActivePlayer.startTurn();
   }
+
+  public void currentActivePlayerEndsTurn(){
+    this.currentActivePlayer.endTurn();
+  }
+
+  public boolean isActivePlayer(Player player){
+    return player.isCurrentlyTakingTurn();
+  }
+  
+
 
   /**
    * allows the current active player to roll their dice, not including
    * any keepers the player may have previously selected
    */
   public void currentPlayerRollsDice(){
-
+    
   }
 
   /**
@@ -136,4 +123,37 @@ public class Game {
   public void currentPlayerEndsTurn(){
 
   }
+
+
+
+
+/**
+   * send the player message to the chat object for storage and to update the list of messages
+   * @param player - the player sending in a message
+   * @param msg - the String messgae
+   */
+  public void addPlayerMessage(Player player, String msg) {
+    // this.chat.addMessage(player, msg);
+  }
+
+  /**
+   * send a message from the system to the chat
+   * @param msg - String message from the system to be seen by all players
+   */
+  public void addSystemMessage(String msg) {
+    // this.chat.addMessage(system, msg);
+  }
+
+  /**
+   * retrieves all of the messages in the chat object
+   * @return - an array list containing all of the messages in the chat
+   */
+  public ArrayList<String> getAllMessages() {
+    // return thiss.chat.getAllMessages();
+  }
+
+
+
+
+
 }
