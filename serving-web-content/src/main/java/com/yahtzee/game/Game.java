@@ -1,9 +1,9 @@
-package com.example.game;
+package com.yahtzee.game;
 
 import java.util.ArrayList;
 import java.util.Map;
 
-import com.example.player.Player;
+import com.yahtzee.player.Player;
 
 /**
  * This class represents the game state for all players.
@@ -14,7 +14,8 @@ public class Game {
   private ArrayList<Integer> scoreList;
   private int playerListIndex;
   private Player currentActivePlayer, system;
-  private Chat chat;
+  private static final int MAX_PLAYERS = 6;
+  // private Chat chat;
 
 
   /**
@@ -25,19 +26,24 @@ public class Game {
     this.playerListIndex = 0;
     this.currentActivePlayer = null; // placeholder for assignActivePlayer functionality
     this.system = new Player(-1); // a representation of the system for Chat purposes
-    this.chat = new Chat();
+    // this.chat = new Chat();
     this.scoreList = new ArrayList<Integer>();
   }
 
   public Player createPlayer() {
+    if (this.playerList.size() < MAX_PLAYERS){
       Player newPlayer = new Player(this.playerList.size());
       this.playerList.add(newPlayer);
       this.scoreList.add(newPlayer.getPlayerId(), 0);
       if (playerList.size() == 1) {
           this.currentActivePlayer = newPlayer;
-          newPlayer.takeTurn();
+          // newPlayer.takeTurn();
       }
       return newPlayer;
+    } else {
+      //TODO: return error message 
+      return null;
+    }
   }
 
   public int getPlayerListSize() {
@@ -83,6 +89,9 @@ public class Game {
     this.currentActivePlayer.startTurn();
   }
 
+  /**
+   * ends the turn for the current active player once they select the "Finish Turn" button
+   */
   public void currentActivePlayerEndsTurn(){
     this.currentActivePlayer.endTurn();
   }
@@ -117,15 +126,6 @@ public class Game {
 
   }
 
-  /**
-   * ends the turn for the current active player once they select the "Finish Turn" button
-   */
-  public void currentPlayerEndsTurn(){
-
-  }
-
-
-
 
 /**
    * send the player message to the chat object for storage and to update the list of messages
@@ -149,7 +149,8 @@ public class Game {
    * @return - an array list containing all of the messages in the chat
    */
   public ArrayList<String> getAllMessages() {
-    // return thiss.chat.getAllMessages();
+    return null; //TODO
+    // return thissc.chat.getAllMessages();
   }
 
 

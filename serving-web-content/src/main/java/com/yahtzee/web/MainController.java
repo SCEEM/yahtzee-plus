@@ -1,7 +1,7 @@
-package com.example.web;
+package com.yahtzee.web;
 
-import com.example.game.Game;
-import com.example.player.Player;
+import com.yahtzee.game.Game;
+import com.yahtzee.player.Player;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
 import org.springframework.messaging.handler.annotation.MessageMapping;
@@ -10,7 +10,6 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
-
 import java.util.ArrayList;
 
 /**

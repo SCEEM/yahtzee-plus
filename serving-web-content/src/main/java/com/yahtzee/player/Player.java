@@ -1,6 +1,6 @@
-package com.example.player;
+package com.yahtzee.player;
 
-import com.example.turn.Turn;
+import com.yahtzee.turn.Turn;
 
 /**
  * This class represents a player in a {@link com.example.game.Game}

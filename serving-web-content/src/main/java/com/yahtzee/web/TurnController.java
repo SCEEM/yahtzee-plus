@@ -1,10 +1,10 @@
-package com.example.web;
+package com.yahtzee.web;
 
-import com.example.game.Game;
-import com.example.player.Player;
-import com.example.turn.Die;
-import com.example.turn.Roll;
-import com.example.turn.Turn;
+import com.yahtzee.game.Game;
+import com.yahtzee.player.Player;
+import com.yahtzee.turn.Die;
+import com.yahtzee.turn.Roll;
+import com.yahtzee.turn.Turn;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
 import org.springframework.stereotype.Controller;
@@ -80,7 +80,7 @@ public class TurnController {
     Game game = ctx.getBean(Game.class);
     model.addAttribute("playerList", game.getPlayerList());
     model.addAttribute("scoreList", game.getScoreList());
-    game.assignActivePlayer();
+    game.assignNextActivePlayer();
     return "index";
   }
 
