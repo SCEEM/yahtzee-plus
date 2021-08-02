@@ -1,6 +1,6 @@
-package com.example;
+package com.yahtzee;
 
-import com.example.game.Game;
+import com.yahtzee.game.Game;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.ApplicationContext;

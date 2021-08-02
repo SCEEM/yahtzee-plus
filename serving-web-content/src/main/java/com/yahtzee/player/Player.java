@@ -1,6 +1,6 @@
-package com.example.player;
+package com.yahtzee.player;
 
-import com.example.turn.Turn;
+import com.yahtzee.turn.Turn;
 
 /**
  * This class represents a player in a {@link com.example.game.Game}
@@ -12,6 +12,7 @@ public class Player {
   private int playerId;
   private String playerName;
   private ScoreCard scoreCard;
+  private Turn myTurn;
 
   /**
    * Constructor
@@ -22,11 +23,31 @@ public class Player {
     this.playerName = playerName;
     this.isHost = isHost;
     this.scoreCard = new ScoreCard();
+    myTurn = null;
   }
 
-    public void takeTurn() {
-        this.currentTurn = true;
-        Turn newTurn = new Turn();
+ 
+    public void startTurn(){
+      this.currentTurn = true;
+        this.myTurn = new Turn();
+    } 
+    public void endTurn(){
+      this.currentTurn = false;
+      this.myTurn = null;
+    }
+    public boolean isCurrentlyTakingTurn(){
+      return this.currentTurn;
+    }
+    public boolean canRollDice(){
+      return this.currentTurn && this.myTurn.canRoll();
+    }
+    public void rollDice(){
+      if (canRollDice()){
+        //TODO: NEED to create a method in turn to model dice role action
+      }
+    }
+    public void keepDice(){
+      //TODO: Need to create a method to select keeper Dice in turn object
     }
 
     public int getPlayerId() {

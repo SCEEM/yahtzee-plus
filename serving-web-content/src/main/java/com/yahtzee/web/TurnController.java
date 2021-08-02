@@ -1,14 +1,19 @@
-package com.example.web;
+package com.yahtzee.web;
 
-import com.example.game.Game;
-import com.example.player.Player;
-import com.example.turn.Die;
-import com.example.turn.Roll;
-import com.example.turn.Turn;
+import com.yahtzee.game.Game;
+import com.yahtzee.player.Player;
+import com.yahtzee.turn.Die;
+import com.yahtzee.turn.Roll;
+import com.yahtzee.turn.Turn;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.messaging.handler.annotation.MessageMapping;
 import org.springframework.messaging.handler.annotation.SendTo;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -95,7 +100,9 @@ public class TurnController {
   @MessageMapping("/finish")
   public String finishTurn() {
     Game game = ctx.getBean(Game.class);
-    game.assignActivePlayer();
+    model.addAttribute("playerList", game.getPlayerList());
+    model.addAttribute("scoreList", game.getScoreList());
+    game.assignNextActivePlayer();
     return "index";
   }
 
