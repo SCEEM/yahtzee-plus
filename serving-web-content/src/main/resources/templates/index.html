@@ -8,8 +8,18 @@
     <script src="/webjars/sockjs-client/sockjs.min.js"></script>
     <script src="/webjars/stomp-websocket/stomp.min.js"></script>
     <script th:src="@{/styles/js/app.js}"></script>
+
+
+	<!-- <link rel="stylesheet" href="../static/styles/css/chat_style.css" /> -->
+    <link href="//netdna.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
+    <script src="//netdna.bootstrapcdn.com/bootstrap/3.0.0/js/bootstrap.min.js"></script>
 </head>
 <body onload="connect()">
+    <script
+		src="https://cdnjs.cloudflare.com/ajax/libs/sockjs-client/1.1.4/sockjs.min.js"></script>
+	<script
+		src="https://cdnjs.cloudflare.com/ajax/libs/stomp.js/2.3.3/stomp.min.js"></script>
+	<!-- <script src="../static/styles/js/ChatScript.js"></script> -->
 <p th:text="'Hello, player number: ' + ${playerId} + '!'"/>
 <div class="wrapper">
     <scorecard>
@@ -146,11 +156,28 @@
     <!-- Chat -->
     <div class="chat">
         <h3>Chat</h3>
-        <div id="chatDisplay"></div>
-        <form>
-            <input type="text" id="chatMsg" name="chatMsg"/>
-            <button id="sendChat" class="btn btn-default" type="submit">Send</button>
-        </form>
+        <div id="dialogue-page" class="hidden">
+            <div class="dialogue-container">
+                <div class="dialogue-header">
+                    <h2>Yahtzee++Chat Window</h2>
+                </div>
+                <ul id="messageList">
+    
+                </ul>
+                <form id="dialogueForm" name="dialogueForm" nameForm="dialogueForm">
+                    <div class="form-group">
+                        <div class="input-group clearfix">
+                            <input type="text" 
+                                   id="chatMessage"
+                                   placeholder="Enter a message...." 
+                                   autocomplete="off"
+                                   class="form-control" />
+                            <button type="submit" class="glyphicon glyphicon-share-alt">Send</button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
     </div>
 </div>
 </div>
