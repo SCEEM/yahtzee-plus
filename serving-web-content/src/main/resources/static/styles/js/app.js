@@ -20,6 +20,11 @@ function setConnected(connected) {
 function connect() {
     var socket = new SockJS('/gs-guide-websocket');
     stompClient = Stomp.over(socket);
+
+    var bannerImg = new Image();
+    bannerImg.id = 'bannerImg';
+    $('#banner').append(bannerImg);
+
     stompClient.connect({}, function (frame) {
         setConnected(true);
         console.log('Connected: ' + frame);
@@ -33,7 +38,6 @@ function connect() {
             showKeepers(JSON.parse(keepers.body));
         });
         stompClient.subscribe('/topic/chat', function (chat) {
-            console.log(chat);
             showChat(JSON.parse(chat.body));
         });
         stompClient.subscribe('/topic/loadScorecard', function (scorecard) {

@@ -68,7 +68,6 @@ public class Game {
   public int assignNextActivePlayer() {
     // the player list index will continue to increment
     // the modulus ensures the index will remain within the bounds of the array
-    System.out.println(playerList);
     ++playerListIndex;
     currentActivePlayer = playerList.get(playerListIndex % playerList.size());
     return currentActivePlayer.getPlayerId();
