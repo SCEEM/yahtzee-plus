@@ -21,7 +21,7 @@ import java.util.ArrayList;
 
 /**
  * This class contains the endpoints needed to perform
- * actions as part of a {@link com.example.turn.Turn}
+ * actions as part of a {@link com.yahtzee.turn.Turn}
  */
 @Controller
 @MessageMapping("/turn")
@@ -30,14 +30,15 @@ public class TurnController {
   @Autowired
   ApplicationContext ctx;
 
+  @Autowired
+  Game game;
+
   /**
    * Generate a new {@link Roll}
    */
   @MessageMapping("/roll")
   @SendTo("/topic/roll")
   public ArrayList<Die> rollDice() {
-    Game game = ctx.getBean(Game.class);
-
     // TODO: get Turn from Player or Game?
     Turn turn = new Turn();
 
@@ -98,12 +99,9 @@ public class TurnController {
    *
    */
   @MessageMapping("/finish")
-  public String finishTurn() {
-    Game game = ctx.getBean(Game.class);
-    model.addAttribute("playerList", game.getPlayerList());
-    model.addAttribute("scoreList", game.getScoreList());
-    game.assignNextActivePlayer();
-    return "index";
+  @SendTo("/topic/activePlayerId")
+  public int finishTurn() {
+    return game.assignNextActivePlayer();
   }
 
 }

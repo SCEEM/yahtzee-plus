@@ -10,7 +10,8 @@
     <script th:src="@{/styles/js/app.js}"></script>
 </head>
 <body onload="connect()">
-<p th:text="'Hello, player number: ' + ${playerId} + '!'"/>
+<p id="playerId" th:text="${playerId}" hidden></p>
+<p id="activePlayerId" th:text="${activePlayerId}" hidden></p>
 <div class="wrapper">
     <scorecard>
         <div class="user-scorecard">
@@ -24,7 +25,8 @@
         </div>
     </scorecard>
 
-    <header>SCEEM logo
+    <header>
+        <img id="banner">
         <!--            <div>-->
         <!--                <form class="form-inline">-->
         <!--                    <div class="form-group">-->

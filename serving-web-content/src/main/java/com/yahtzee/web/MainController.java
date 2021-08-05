@@ -22,6 +22,9 @@ public class MainController {
     @Autowired
     ApplicationContext ctx;
 
+    @Autowired
+    Game game;
+
   /**
    * @param name
    * @param model
@@ -31,11 +34,11 @@ public class MainController {
   public String greeting(@RequestParam(name = "name",
       required = false,
       defaultValue = "World") String name, Model model) {
-      Game game = ctx.getBean(Game.class);
       Player newPlayer = game.createPlayer();
       model.addAttribute("playerId", newPlayer.getPlayerId());
       model.addAttribute("playerList", game.getPlayerList());
       model.addAttribute("scoreList", game.getScoreList());
+      model.addAttribute("activePlayerId", game.getCurrentActivePlayer().getPlayerId());
     return "index";
   }
 
@@ -50,5 +53,4 @@ public class MainController {
         System.out.println("SET KEEPERS: " + chatMessage);
         return chatMessage;
     }
-
 }

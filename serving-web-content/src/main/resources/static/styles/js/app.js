@@ -1,6 +1,9 @@
 let stompClient = null,
     currentKeepers = [],
-    currentDice = [];
+    currentDice = [],
+    activePlayerId,
+    playerId,
+    isActivePlayer = false;
 
 function setConnected(connected) {
     $("#connect").prop("disabled", connected);
@@ -20,8 +23,10 @@ function connect() {
     stompClient.connect({}, function (frame) {
         setConnected(true);
         console.log('Connected: ' + frame);
+        stompClient.subscribe('/topic/activePlayerId', function (playerId) {
+            setActivePlayerId(JSON.parse(playerId.body));
+        });
         stompClient.subscribe('/topic/roll', function (dice) {
-            console.log(dice);
             showDice(JSON.parse(dice.body));
         });
         stompClient.subscribe('/topic/keepers', function (keepers) {
@@ -38,6 +43,7 @@ function connect() {
             updateScorecard(scorecard.body);
         });
     });
+    setActivePlayerId($('#activePlayerId').text());
     console.log("Connected");
 }
 
@@ -51,6 +57,21 @@ function disconnect() {
 
 //___________________________Receivers_________________________________
 
+function setActivePlayerId (activePlayerId) {
+    isActivePlayer = activePlayerId.toString() === $('#playerId').text();
+
+    $( "#rollDice" ).hide();
+    $('[type=checkbox]').hide();
+    $( "#setKeepers" ).hide();
+    $( "#submitScore" ).hide();
+    $( "#finishTurn" ).hide();
+    $( '#stopRolling' ).hide();
+
+    if (isActivePlayer) {
+        $( "#rollDice" ).prop('disabled', false ).show();
+        $( "[type=checkbox]" ).show();
+    }
+}
 function showDice (dice) {
     var dieDiv = document.querySelectorAll('div[id^=die]');
     currentDice = dice;
@@ -59,12 +80,16 @@ function showDice (dice) {
     $(dieDiv).hide();
     $('[type=checkbox]').prop("checked", false);
 
+    if (isActivePlayer) {
+        $( "#setKeepers" ).show();
+        $( "#stopRolling" ).show();
+    }
+
     dice.forEach(function (die, index) {
         var diceImg = new Image(50, 50);
         diceImg.id = 'diceImg' + die.value;
-        $('#' + die.id).append(diceImg);
-        $('#' + die.id).show();
-    })
+        $('#' + die.id).append(diceImg).show();
+    });
 }
 
 function showKeepers (keepers) {
@@ -75,9 +100,8 @@ function showKeepers (keepers) {
     keepers.forEach(function (keeper, index) {
         var diceImg = new Image(50, 50);
         diceImg.id = 'diceImg' + keeper.value;
-        $('#keeper' + index).append(diceImg);
-        $('#keeper' + index).show();
-    })
+        $('#keeper' + index).append(diceImg).show();
+    });
 }
 
 function showChat (chat) {
@@ -89,13 +113,17 @@ function showScoreOptions (scorecard) {
     $( '#setKeepers' ).prop('disabled', true );
     $( '#stopRolling' ).prop('disabled', true );
 
-    $('#submitScore').removeAttr('disabled');
+    if (isActivePlayer) {
+        $('#submitScore').removeAttr('disabled').show();
+    }
     console.log("RETURNED: " + scorecard);
 }
 
 function updateScorecard (scorecard) {
-    $( '#submitScore' ).prop('disabled', true );
-    $('#finishTurn').removeAttr('disabled');
+    if (isActivePlayer) {
+        $( '#submitScore' ).prop('disabled', true );
+        $( '#finishTurn' ).removeAttr('disabled').show();
+    }
     console.log("FINISH TURN");
 }
 
@@ -123,7 +151,6 @@ function setKeepers () {
     });
     showDice(remainingDice);
     stompClient.send("/app/turn/roll/keep", {}, JSON.stringify(currentKeepers));
-
 }
 
 function sendChat (chatMsg) {
@@ -132,7 +159,7 @@ function sendChat (chatMsg) {
 }
 
 function stopRolling () {
-    stompClient.send("/app/turn/stopRoll", {}, JSON.stringify());
+    stompClient.send("/app/turn/stopRoll");
 }
 
 function submitScore () {
@@ -146,7 +173,7 @@ function finishTurn () {
     $( "#submitScore" ).hide();
     $( "#finishTurn" ).hide();
 
-    stompClient.send("/app/turn/finish", {}, JSON.stringify());
+    stompClient.send("/app/turn/finish");
 }
 
 $(function () {

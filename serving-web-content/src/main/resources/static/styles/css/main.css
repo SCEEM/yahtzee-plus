@@ -149,6 +149,10 @@ fieldset {
     border-radius: 5px;
 }
 
+#banner {
+    background-image: url(../images/banner.png);
+}
+
 #rollDice {
     float: left;
 }

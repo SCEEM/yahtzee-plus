@@ -3,7 +3,7 @@ package com.yahtzee.player;
 import com.yahtzee.turn.Turn;
 
 /**
- * This class represents a player in a {@link com.example.game.Game}
+ * This class represents a player in a {@link com.yahtzee.game.Game}
  */
 public class Player {
 
