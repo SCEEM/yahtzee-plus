@@ -1,4 +1,4 @@
-package com.example.turn;
+package com.yahtzee.turn;
 
 import java.util.ArrayList;
 

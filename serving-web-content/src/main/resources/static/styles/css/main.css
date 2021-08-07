@@ -70,12 +70,14 @@ scorecard {
 .all-scores {
     background-color: #EA4235;
     grid-area: as;
-    margin: 5px 20px 5px 20px;
+    margin-bottom: 5px;
+    margin-right: 5px;
 }
 .chat {
     background-color: #FFFFFF;
     grid-area: chat;
-    margin: 10px 20px 5px 20px;
+    margin-top: 5px;
+    margin-right: 5px;
 }
 
 body {
@@ -84,6 +86,18 @@ body {
 
 header {
     grid-area: hd;
+}
+
+#banner {
+    height: 100%;
+    width: 100%;
+}
+
+#bannerImg {
+    background: url(../images/banner.png) no-repeat center;
+    background-size: contain;
+    height: 100%;
+    width: 100%;
 }
 
 main {
@@ -147,6 +161,13 @@ fieldset {
     display:inline;
     background-color: #FFFFFF;
     border-radius: 5px;
+}
+
+#rollDice {
+    float: left;
+}
+#setKeepers {
+    float: right;
 }
 
 .column {

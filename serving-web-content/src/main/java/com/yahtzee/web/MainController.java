@@ -1,7 +1,7 @@
-package com.example.web;
+package com.yahtzee.web;
 
-import com.example.game.Game;
-import com.example.player.Player;
+import com.yahtzee.game.Game;
+import com.yahtzee.player.Player;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
 import org.springframework.messaging.handler.annotation.MessageMapping;
@@ -10,7 +10,6 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
-
 import java.util.ArrayList;
 
 /**
@@ -23,6 +22,9 @@ public class MainController {
     @Autowired
     ApplicationContext ctx;
 
+    @Autowired
+    Game game;
+
   /**
    * @param name
    * @param model
@@ -32,11 +34,11 @@ public class MainController {
   public String greeting(@RequestParam(name = "name",
       required = false,
       defaultValue = "World") String name, Model model) {
-      Game game = ctx.getBean(Game.class);
       Player newPlayer = game.createPlayer();
       model.addAttribute("playerId", newPlayer.getPlayerId());
       model.addAttribute("playerList", game.getPlayerList());
       model.addAttribute("scoreList", game.getScoreList());
+      model.addAttribute("activePlayerId", game.getCurrentActivePlayer().getPlayerId());
     return "index";
   }
 
@@ -51,5 +53,4 @@ public class MainController {
         System.out.println("SET KEEPERS: " + chatMessage);
         return chatMessage;
     }
-
 }

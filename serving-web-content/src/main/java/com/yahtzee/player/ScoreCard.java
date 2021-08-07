@@ -1,4 +1,4 @@
-package com.example.player;
+package com.yahtzee.player;
 
 /**
  * This class represents a Yahtzee scorecard.
