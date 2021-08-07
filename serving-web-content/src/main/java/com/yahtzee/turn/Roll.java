@@ -20,7 +20,7 @@ public class Roll {
    * Generate new values for the dice that are not kept.
    *
    * @param dice an ArrayList<Die>
-   * @return the roll as an ArrayList<Die>
+   * @return dice values as an ArrayList<Die>
    */
   public ArrayList<Die> rollDice(ArrayList<Die> dice) {
     for (Die die : dice) {
@@ -32,6 +32,15 @@ public class Roll {
     setDice(dice);
 
     return dice;
+  }
+
+  /**
+   * Get the dice as part of this Roll.
+   *
+   * @return the dice as an ArrayList<Die>
+   */
+  public ArrayList<Die> getDice() {
+    return this.dice;
   }
 
   /**

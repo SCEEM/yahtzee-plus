@@ -3,7 +3,7 @@ package com.yahtzee.turn;
 import java.util.Random;
 
 /**
- * Represents a single die in the Dice.
+ * Represents a single die in the dice.
  */
 public class Die {
 
