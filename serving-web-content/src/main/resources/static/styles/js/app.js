@@ -135,7 +135,7 @@ function sendMessage() {
 		};
 
 		stompClient.send("/app/chat.sendMessage", {}, JSON.stringify(chatMessage));
-		$('#chatMessage').html("");
+		$('#chatMessage').val(''); //reser input
 	}
 }
 
