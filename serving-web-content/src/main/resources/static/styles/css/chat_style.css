@@ -1,4 +1,4 @@
-{
+/* {
 	-webkit-box-sizing: border-box;
 	-moz-box-sizing: border-box;
 	box-sizing: border-box;
@@ -7,9 +7,9 @@
 html, body {
 	height: 100%;
 	overflow: hidden;
-}
+} */
 
-body {
+/* body {
 	margin: 0;
 	padding: 0;
 	font-weight: 400;
@@ -19,7 +19,7 @@ body {
 	color: #333;
 	background-color: #f4f4f4;
 	height: 100%;
-}
+} */
 
 .clearfix:after {
 	display: block;
@@ -76,7 +76,6 @@ button.primary {
 	color: #fff;
 }
 
-}
 button.accent {
 	background-color: #ff4743;
 	box-shadow: 0 2px 2px 0 rgba(0, 0, 0, 0.12);

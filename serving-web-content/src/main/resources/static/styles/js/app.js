@@ -1,6 +1,11 @@
-let stompClient = null,
+'use strict';//ADDED
+
+var stompClient = null,
     currentKeepers = [],
-    currentDice = [];
+    currentDice = [], 
+    name = null;
+
+
 
 function setConnected(connected) {
     $("#connect").prop("disabled", connected);
@@ -11,7 +16,7 @@ function setConnected(connected) {
     else {
         $("#conversation").hide();
     }
-    $("#greetings").html("");
+    $("#messageList").html("");
 }
 
 function connect() {
@@ -27,11 +32,12 @@ function connect() {
         stompClient.subscribe('/topic/keepers', function (keepers) {
             showKeepers(JSON.parse(keepers.body));
         });
-        stompClient.subscribe('/topic/chat', function (chat) {
-            console.log(chat);
-            showChat(JSON.parse(chat.body));
+        stompClient.subscribe('/topic/chat', function (msg){
+            onMessageReceived(msg)
         });
+        
     });
+
     console.log("Connected");
 }
 
@@ -72,9 +78,9 @@ function showKeepers (keepers) {
     })
 }
 
-function showChat (chat) {
-    console.log("RETURNED: " + chat);
-}
+// function showChat (chat) {
+//     console.log("RETURNED: " + chat);
+// }
 
 function rollDice() {
     $(document.querySelectorAll('[id^=diceImg]')).remove();
@@ -101,11 +107,11 @@ function setKeepers () {
 
 }
 
-function sendChat (chatMsg) {
-    console.log(chatMsg);
-    stompClient.send("/app/chat", {}, JSON.stringify(chatMsg));
+// function sendChat (chatMsg) {
+//     console.log(chatMsg);
+//     stompClient.send("/app/chat", {}, JSON.stringify(chatMsg));
 
-}
+// }
 
 $(function () {
     $("form").on('submit', function (e) {
@@ -115,5 +121,59 @@ $(function () {
     $( "#disconnect" ).click(function() { disconnect(); });
     $( "#rollDice" ).click(function() { rollDice(); });
     $( "#setKeepers" ).click(function() { setKeepers(); });
-    $( "#sendChat" ).click(function() { sendChat($('#chatMsg').val()); });
+    $( "#sendChat" ).click(function() { sendMessage(); });//ADDED
+    // $( "#sendChat" ).click(function() { sendChat($('#chatMsg').val()); }); //ADDED
 });
+
+function sendMessage() {
+    var messageContent = $("#chatMessage").val();
+    console.log(messageContent);
+	if (messageContent && stompClient) {
+		var chatMessage = {
+			content : messageContent,
+			type : 'CHAT'
+		};
+
+		stompClient.send("/app/chat.sendMessage", {}, JSON.stringify(chatMessage));
+		$('#chatMessage').html("");
+	}
+}
+
+
+function onMessageReceived(payload) {
+    console.log(payload);
+	var message = JSON.parse(payload.body);
+    console.log(message);
+	var messageElement = document.createElement('li');
+
+	// if (message.type === 'newUser') {
+	// 	messageElement.classList.add('event-data');
+	// 	message.content = message.sender + 'has joined the chat';
+	// } else if (message.type === 'Leave') {
+	// 	messageElement.classList.add('event-data');
+	// 	message.content = message.sender + 'has left the chat';
+	// } else {
+	// 	messageElement.classList.add('message-data');
+
+	// 	var element = document.createElement('i');
+	// 	var text = document.createTextNode(message.sender[0]);
+	// 	element.appendChild(text);
+
+	// 	messageElement.appendChild(element);
+
+	// 	var usernameElement = document.createElement('span');
+	// 	var usernameText = document.createTextNode(message.sender);
+	// 	usernameElement.appendChild(usernameText);
+	// 	messageElement.appendChild(usernameElement);
+	// }
+
+	var textElement = document.createElement('p');
+	var messageText = document.createTextNode(message.content);
+	textElement.append(messageText);
+
+	messageElement.append(textElement);
+
+	$("#messageList").append(messageElement);
+	$("#messageList").scrollTop = $("#messageList").scrollHeight;
+
+}

@@ -14,6 +14,8 @@ public class Main {
 	 *
 	 * @param args an array of command line arguments
 	 */
+
+	 
 	public static void main(String[] args) {
 		ApplicationContext ctx = new AnnotationConfigApplicationContext(GameConfiguration.class);
 		Game game = ctx.getBean(Game.class);

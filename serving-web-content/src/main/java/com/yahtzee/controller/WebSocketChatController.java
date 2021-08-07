@@ -17,12 +17,12 @@ public class WebSocketChatController {
 		return webSocketChatMessage;
 	}
 
-	@MessageMapping("/chat.newUser")
-	@SendTo("/topic/chat")
-	public WebSocketChatMessage newUser(@Payload WebSocketChatMessage webSocketChatMessage,
-			SimpMessageHeaderAccessor headerAccessor) {
-		headerAccessor.getSessionAttributes().put("username", webSocketChatMessage.getSender());
-		return webSocketChatMessage;
-	}
+	// @MessageMapping("/chat.newUser")
+	// @SendTo("/topic/chat")
+	// public WebSocketChatMessage newUser(@Payload WebSocketChatMessage webSocketChatMessage,
+	// 		SimpMessageHeaderAccessor headerAccessor) {
+	// 	headerAccessor.getSessionAttributes().put("username", webSocketChatMessage.getSender());
+	// 	return webSocketChatMessage;
+	// }
 
 }
