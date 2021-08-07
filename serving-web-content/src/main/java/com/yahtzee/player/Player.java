@@ -10,7 +10,7 @@ public class Player {
   private boolean currentTurn;
   private boolean isHost;
   private int playerId;
-  private String playerName;
+  private String name;
   private ScoreCard scoreCard;
   private Turn myTurn;
 
@@ -20,7 +20,7 @@ public class Player {
   public Player(int playerId) {
     this.currentTurn = false; //active player not assigned yet
     this.playerId = playerId;
-    this.playerName = playerName;
+    this.name = "test player"; //TODO
     this.isHost = isHost;
     this.scoreCard = new ScoreCard();
     myTurn = null;
@@ -63,5 +63,12 @@ public class Player {
     //ScoreCard.editMode = true;
   }
 
-
+  //TODO
+  public void setName(String name){
+    this.name = name;
+  }
+  public String getName(){
+    return this.name;
+  }
+  //TODO
 }
