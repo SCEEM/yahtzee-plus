@@ -13,7 +13,7 @@ public class Die {
 
   public enum Status {
     ACTIVE,
-    KEPT
+    KEEPER
   }
 
   /**

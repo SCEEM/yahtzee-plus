@@ -84,7 +84,7 @@ public class Game {
    * retrieves the current player's ID
    * @return - int: the current player's ID
    */
-  public int getCurrentPlayersID(){
+  public int getCurrentPlayersID() {
     return this.currentActivePlayer.getPlayerId();
   }
 
@@ -92,21 +92,20 @@ public class Game {
   /**
    * creates the turn object for the current player
    */
-  public void currentActivePlayerBeginsTurn(){
+  public void currentActivePlayerBeginsTurn() {
     this.currentActivePlayer.startTurn();
   }
 
   /**
    * ends the turn for the current active player once they select the "Finish Turn" button
    */
-  public void currentActivePlayerEndsTurn(){
+  public void currentActivePlayerEndsTurn() {
     this.currentActivePlayer.endTurn();
   }
 
-  public boolean isActivePlayer(Player player){
+  public boolean isActivePlayer(Player player) {
     return player.isCurrentlyTakingTurn();
   }
-  
 
 
   /**

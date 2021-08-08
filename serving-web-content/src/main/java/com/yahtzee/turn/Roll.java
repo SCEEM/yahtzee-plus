@@ -24,7 +24,7 @@ public class Roll {
    */
   public ArrayList<Die> rollDice(ArrayList<Die> dice) {
     for (Die die : dice) {
-      if (die.status != Die.Status.KEPT) {
+      if (die.status != Die.Status.KEEPER) {
         die.roll();
       }
     }

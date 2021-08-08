@@ -75,7 +75,7 @@ public class TurnController {
     // update die status
     for (Die die : latestDice) {
       if (dieIdsToKeep.contains(die.getId())) {
-        die.setStatus(Die.Status.KEPT);
+        die.setStatus(Die.Status.KEEPER);
       }
     }
 
@@ -93,7 +93,7 @@ public class TurnController {
 
 
   /**
-   * Complete the given {@link Player}'s turn.
+   * Finish the current {@link Player}'s turn.
    *
    */
   @MessageMapping("/stopRoll")
@@ -115,13 +115,15 @@ public class TurnController {
   }
 
   /**
-   * Complete the given {@link Player}'s turn.
+   * Complete the current {@link Player}'s turn, and assign
+   * the next active player in the {@link Game}.
    *
    * @return
    */
   @MessageMapping("/finish")
   @SendTo("/topic/activePlayerId")
   public int finishTurn() {
+    game.currentActivePlayerEndsTurn();
     return game.assignNextActivePlayer();
   }
 
