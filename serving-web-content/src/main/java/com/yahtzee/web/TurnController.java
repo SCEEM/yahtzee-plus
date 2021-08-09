@@ -1,4 +1,4 @@
-package com.yahtzee.controller;
+package com.yahtzee.web;
 
 import com.yahtzee.game.Game;
 import com.yahtzee.player.Player;
