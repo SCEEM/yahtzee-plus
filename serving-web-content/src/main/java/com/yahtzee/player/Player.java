@@ -3,6 +3,9 @@ package com.yahtzee.player;
 import com.yahtzee.turn.Turn;
 
 import java.util.ArrayList;
+import org.json.simple.JSONObject;
+import org.json.simple.JSONArray;
+
 
 /**
  * This class represents a player in a {@link com.yahtzee.game.Game}
@@ -45,10 +48,18 @@ public class Player {
     return this.isCurrentTurn;
   }
 
-  public int[] getScorecard() {
+  public JSONArray getScorecard() {
     System.out.println("GETTING SCORECARD");
     ArrayList<Integer> diceValues = (this.currentTurn).getDiceValues();
-    int[] retVal = this.scoreCard.getPossibleScores(diceValues);
+
+    JSONArray retVal = new JSONArray();
+      for(int i = 0; i < 20; i++) {
+          JSONObject scorecardRow = new JSONObject();
+          scorecardRow.put("score", this.scoreCard.getPossibleScores(diceValues)[i]);
+          scorecardRow.put("availability", this.scoreCard.getSectionAvailabilty(i));
+          retVal.add(scorecardRow);
+      }
+
     this.score = this.scoreCard.getTotalScore();
     System.out.println(this.score);
     return retVal;
