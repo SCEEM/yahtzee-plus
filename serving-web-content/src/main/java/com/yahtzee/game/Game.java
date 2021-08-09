@@ -1,7 +1,6 @@
 package com.yahtzee.game;
 
 import java.util.ArrayList;
-import java.util.Map;
 
 import com.yahtzee.player.Player;
 
@@ -125,36 +124,4 @@ public class Game {
   public void currentPlayerUpdatesScoreCard(){
 
   }
-
-
-/**
-   * send the player message to the chat object for storage and to update the list of messages
-   * @param player - the player sending in a message
-   * @param msg - the String messgae
-   */
-  public void addPlayerMessage(Player player, String msg) {
-    // this.chat.addMessage(player, msg);
-  }
-
-  /**
-   * send a message from the system to the chat
-   * @param msg - String message from the system to be seen by all players
-   */
-  public void addSystemMessage(String msg) {
-    // this.chat.addMessage(system, msg);
-  }
-
-  /**
-   * retrieves all of the messages in the chat object
-   * @return - an array list containing all of the messages in the chat
-   */
-  public ArrayList<String> getAllMessages() {
-    return null; //TODO
-    // return thissc.chat.getAllMessages();
-  }
-
-
-
-
-
 }

@@ -1,11 +1,9 @@
-'use strict';//ADDED
+'use strict';
 
 var stompClient = null,
     currentKeepers = [],
     currentDice = [], 
     name = null;
-
-
 
 function setConnected(connected) {
     $("#connect").prop("disabled", connected);
@@ -78,10 +76,6 @@ function showKeepers (keepers) {
     })
 }
 
-// function showChat (chat) {
-//     console.log("RETURNED: " + chat);
-// }
-
 function rollDice() {
     $(document.querySelectorAll('[id^=diceImg]')).remove();
     stompClient.send("/app/turn/roll");
@@ -107,12 +101,6 @@ function setKeepers () {
 
 }
 
-// function sendChat (chatMsg) {
-//     console.log(chatMsg);
-//     stompClient.send("/app/chat", {}, JSON.stringify(chatMsg));
-
-// }
-
 $(function () {
     $("form").on('submit', function (e) {
         e.preventDefault();
@@ -121,8 +109,7 @@ $(function () {
     $( "#disconnect" ).click(function() { disconnect(); });
     $( "#rollDice" ).click(function() { rollDice(); });
     $( "#setKeepers" ).click(function() { setKeepers(); });
-    $( "#sendChat" ).click(function() { sendMessage(); });//ADDED
-    // $( "#sendChat" ).click(function() { sendChat($('#chatMsg').val()); }); //ADDED
+    $( "#sendChat" ).click(function() { sendMessage(); });
 });
 
 function sendMessage() {
@@ -145,27 +132,6 @@ function onMessageReceived(payload) {
 	var message = JSON.parse(payload.body);
     console.log(message);
 	var messageElement = document.createElement('li');
-
-	// if (message.type === 'newUser') {
-	// 	messageElement.classList.add('event-data');
-	// 	message.content = message.sender + 'has joined the chat';
-	// } else if (message.type === 'Leave') {
-	// 	messageElement.classList.add('event-data');
-	// 	message.content = message.sender + 'has left the chat';
-	// } else {
-	// 	messageElement.classList.add('message-data');
-
-	// 	var element = document.createElement('i');
-	// 	var text = document.createTextNode(message.sender[0]);
-	// 	element.appendChild(text);
-
-	// 	messageElement.appendChild(element);
-
-	// 	var usernameElement = document.createElement('span');
-	// 	var usernameText = document.createTextNode(message.sender);
-	// 	usernameElement.appendChild(usernameText);
-	// 	messageElement.appendChild(usernameElement);
-	// }
 
 	var textElement = document.createElement('p');
 	var messageText = document.createTextNode(message.content);
