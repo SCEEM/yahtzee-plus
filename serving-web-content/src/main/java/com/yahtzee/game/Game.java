@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.Map;
 
 import com.yahtzee.player.Player;
+import com.yahtzee.web.TurnController;
 
 /**
  * This class represents the game state for all players.
@@ -36,7 +37,8 @@ public class Game {
       this.playerList.add(newPlayer);
       this.scoreList.add(newPlayer.getPlayerId(), 0);
       if (playerList.size() == 1) {
-          this.currentActivePlayer = newPlayer;
+        this.currentActivePlayer = newPlayer;
+        this.currentActivePlayerBeginsTurn();
           // newPlayer.takeTurn();
       }
       return newPlayer;
@@ -55,7 +57,8 @@ public class Game {
   }
 
   public Player getCurrentActivePlayer() {
-      return this.currentActivePlayer;
+    System.out.println("Current Player: " + this.currentActivePlayer.getPlayerId());
+    return this.currentActivePlayer;
   }
 
   public ArrayList<Player> getPlayerList() {

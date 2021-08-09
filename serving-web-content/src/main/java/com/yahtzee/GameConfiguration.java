@@ -1,10 +1,10 @@
 package com.yahtzee;
 
 import com.yahtzee.game.Game;
+import org.springframework.boot.SpringBootConfiguration;
 import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.Configuration;
 
-@Configuration
+@SpringBootConfiguration
 public class GameConfiguration {
     @Bean
     public Game game() {

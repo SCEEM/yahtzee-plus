@@ -3,6 +3,8 @@ let stompClient = null,
     currentDice = [],
     activePlayerId,
     playerId,
+    scoreList,
+    playerList,
     isActivePlayer = false;
 
 function setConnected(connected) {
@@ -25,6 +27,10 @@ function connect() {
     bannerImg.id = 'bannerImg';
     $('#banner').append(bannerImg);
 
+    playerList = $("#playerList").data("playerlist");
+    scoreList = $("#scoreList").data("scorelist");
+    updatePlayerList(playerList);
+
     stompClient.connect({}, function (frame) {
         setConnected(true);
         console.log('Connected: ' + frame);
@@ -41,11 +47,17 @@ function connect() {
             showChat(JSON.parse(chat.body));
         });
         stompClient.subscribe('/topic/loadScorecard', function (scorecard) {
-            showScoreOptions(scorecard.body);
+            showScoreOptions(JSON.parse(scorecard.body));
         });
         stompClient.subscribe('/topic/updateScorecard', function (scorecard) {
             updateScorecard(scorecard.body);
         });
+        stompClient.subscribe('/topic/updatePlayerList', function (playerList) {
+            console.log("HERE: " + playerList);
+            updatePlayerList(JSON.parse(playerList.body));
+        });
+
+        stompClient.send("/app/getPlayerList");
     });
     setActivePlayerId($('#activePlayerId').text());
     console.log("Connected");
@@ -70,6 +82,7 @@ function setActivePlayerId (activePlayerId) {
     $( "#submitScore" ).hide();
     $( "#finishTurn" ).hide();
     $( '#stopRolling' ).hide();
+    $('[class=scoreCheckboxes]').hide();
 
     if (isActivePlayer) {
         $( "#rollDice" ).prop('disabled', false ).show();
@@ -119,7 +132,19 @@ function showScoreOptions (scorecard) {
 
     if (isActivePlayer) {
         $('#submitScore').removeAttr('disabled').show();
+    } else {
+        $('[class=scoreCheckboxes]').hide();
     }
+    scorecard.forEach((value, index) => {
+        let scoreLabel = "#scoreVal" + index;
+        if (value !== -1) {
+            if (isActivePlayer) {
+                $(scoreLabel + "> .scoreCheckboxes").show();
+            }
+            $(scoreLabel+"> .scoreValue").text(value)
+        }
+
+    });
     console.log("RETURNED: " + scorecard);
 }
 
@@ -128,6 +153,24 @@ function updateScorecard (scorecard) {
         $( '#submitScore' ).prop('disabled', true );
         $( '#finishTurn' ).removeAttr('disabled').show();
     }
+    console.log(scorecard);
+}
+
+function updatePlayerList (playerList) {
+    console.log(playerList);
+    tableBody = $("table tbody");
+    playerList.forEach(player => {
+        let playerId = player.playerId,
+            score = player.score,
+            playerRow = document.getElementById("playerRow" + playerId);
+        if (playerRow !== null) {
+            $("#playerRow" + playerId + "> .score").text(score)
+        } else {
+            markup = "<tr id='playerRow"+ playerId +"'><td>" + playerId + "</td><td class='score'>"
+                + score +"</td></tr>";
+            tableBody.append(markup);
+        }
+    });
     console.log("FINISH TURN");
 }
 
@@ -167,7 +210,15 @@ function stopRolling () {
 }
 
 function submitScore () {
-    stompClient.send("/app/turn/submitScore", {}, JSON.stringify());
+    let ele = document.getElementsByName('scoreCheckboxes'),
+        selectedVal;
+
+    for(i = 0; i < ele.length; i++) {
+        if(ele[i].checked)
+            selectedVal = ele[i].value;
+    }
+
+    stompClient.send("/app/turn/submitScore", {}, JSON.stringify(selectedVal));
 }
 
 function finishTurn () {
@@ -189,7 +240,7 @@ $(function () {
     $( "#rollDice" ).click(function() { rollDice(); });
     $( "#setKeepers" ).click(function() { setKeepers(); });
     $( "#stopRolling" ).click(function() { stopRolling(); });
-    $( "#submitScore" ).click(function() { submitScore(); });
+    $( "#submitScore" ).click(function() { submitScore($); });
     $( "#finishTurn" ).click(function() { finishTurn(); });
     $( "#sendChat" ).click(function() { sendChat($('#chatMsg').val()); });
 });

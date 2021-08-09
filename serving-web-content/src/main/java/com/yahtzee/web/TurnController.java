@@ -78,9 +78,10 @@ public class TurnController {
    */
   @MessageMapping("/stopRoll")
   @SendTo("/topic/loadScorecard")
-  public String stopRoll() {
-    System.out.println("GET SCORECARD: ");
-    return "SCORECARD";
+  public int[] stopRoll() {
+    System.out.println("LOAD SCORECARD: ");
+    Player activePlayer = game.getCurrentActivePlayer();
+    return activePlayer.getScorecard();
   }
 
   /**
@@ -89,9 +90,9 @@ public class TurnController {
    */
   @MessageMapping("/submitScore")
   @SendTo("/topic/updateScorecard")
-  public String submitScore() {
-    System.out.println("GET SCORECARD: ");
-    return "SCORE SUBMITTED";
+  public int[] submitScore(int rowNumber) {
+    System.out.println("ROW SELECTED: " + rowNumber);
+    return game.getCurrentActivePlayer().getScorecard();
   }
 
   /**

@@ -24,11 +24,11 @@ p {
     grid-template-columns: repeat(10, 1fr);
     grid-template-rows: repeat(5, 1fr);
     grid-template-areas:
-        "sc sc sc   hd   hd   hd   hd   as   as   as  "
-        "sc sc sc   cr   cr   cr   cr   as   as   as  "
-        "sc sc sc   rh   rh   rh   rh   chat chat chat"
-        "sc sc sc   ke   ke   ke   ke   chat chat chat"
-        "sc sc sc   bu   bu   bu   bu   chat chat chat"
+        "sc sc sc sc hd   hd   hd   hd   as   as  "
+        "sc sc sc sc cr   cr   cr   cr   as   as  "
+        "sc sc sc sc rh   rh   rh   rh   chat chat"
+        "sc sc sc sc ke   ke   ke   ke   chat chat"
+        "sc sc sc sc bu   bu   bu   bu   chat chat"
 }
 
 scorecard {
@@ -174,4 +174,40 @@ fieldset {
     float: left;
     width: 17%;
     padding: 5px;
+}
+
+.scoreLabel {
+    float: left;
+    text-align: left;
+    width: 75%;
+}
+
+.scoreValue {
+    float: left;
+    width: 40%;
+}
+
+.scoreCheckboxes {
+    float: right;
+    width: 40%;
+}
+
+#scorecard input {
+    display: block;
+    background-color: #EA4235;
+    text-align: center;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+}
+
+#scorecard input[type="radio"] {
+    opacity: 0.01;
+    z-index: 100;
+}
+
+#scorecard input[type="radio"]:checked+label,
+.Checked+label {
+    background-color: #EA4235;
 }

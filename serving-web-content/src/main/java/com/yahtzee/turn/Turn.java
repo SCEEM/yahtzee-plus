@@ -3,7 +3,7 @@ package com.yahtzee.turn;
 import java.util.ArrayList;
 
 /**
- * This class represents a turn taken by a {@link com.example.player.Player}
+ * This class represents a turn taken by a {@link com.yahtzee.player.Player}
  */
 public class Turn {
 
@@ -44,6 +44,19 @@ public class Turn {
    */
   public ArrayList<Die> getDice() {
     return this.dice;
+  }
+
+
+  /**
+   * Get the dice used for this Turn.
+   *
+   * @return the dice as an ArrayList<Integer>
+   */
+  public ArrayList<Integer> getDiceValues() {
+    System.out.println("GETTING DICE VALUES: " + this.dice);
+    ArrayList<Integer> diceValues = new ArrayList<Integer>();
+    (this.dice).forEach(die -> diceValues.add(die.value));
+    return diceValues;
   }
 
 
