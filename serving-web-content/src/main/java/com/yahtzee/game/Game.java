@@ -1,7 +1,6 @@
 package com.yahtzee.game;
 
 import java.util.ArrayList;
-import java.util.Map;
 
 import com.yahtzee.player.Player;
 
@@ -22,7 +21,7 @@ public class Game {
    * Constructor
    */
   public Game() {
-    this.playerList = new ArrayList<Player>();
+    this.playerList = new ArrayList<>();
     this.playerListIndex = 0;
     this.currentActivePlayer = null; // placeholder for assignActivePlayer functionality
     this.system = new Player(-1); // a representation of the system for Chat purposes
@@ -30,15 +29,22 @@ public class Game {
     this.scoreList = new ArrayList<Integer>();
   }
 
+  /**
+   *
+   * @return a new {@link Player}
+   */
   public Player createPlayer() {
-    if (this.playerList.size() < MAX_PLAYERS){
+    if (this.playerList.size() < MAX_PLAYERS) {
       Player newPlayer = new Player(this.playerList.size());
       this.playerList.add(newPlayer);
-      this.scoreList.add(newPlayer.getPlayerId(), 0);
+      this.scoreList.add(newPlayer.getPlayerId());
+
+      // if first player to join, make them active player
       if (playerList.size() == 1) {
           this.currentActivePlayer = newPlayer;
           // newPlayer.takeTurn();
       }
+      System.out.println("created player " + newPlayer.getPlayerId());
       return newPlayer;
     } else {
       //TODO: return error message 
@@ -78,7 +84,7 @@ public class Game {
    * retrieves the current player's ID
    * @return - int: the current player's ID
    */
-  public int getCurrentPlayersID(){
+  public int getCurrentPlayersID() {
     return this.currentActivePlayer.getPlayerId();
   }
 
@@ -86,28 +92,27 @@ public class Game {
   /**
    * creates the turn object for the current player
    */
-  public void currentActivePlayerBeginsTurn(){
+  public void currentActivePlayerBeginsTurn() {
     this.currentActivePlayer.startTurn();
   }
 
   /**
    * ends the turn for the current active player once they select the "Finish Turn" button
    */
-  public void currentActivePlayerEndsTurn(){
+  public void currentActivePlayerEndsTurn() {
     this.currentActivePlayer.endTurn();
   }
 
-  public boolean isActivePlayer(Player player){
+  public boolean isActivePlayer(Player player) {
     return player.isCurrentlyTakingTurn();
   }
-  
 
 
   /**
    * allows the current active player to roll their dice, not including
    * any keepers the player may have previously selected
    */
-  public void currentPlayerRollsDice(){
+  public void currentPlayerRollsDice() {
     
   }
 
@@ -115,7 +120,7 @@ public class Game {
    * allows the current active player to select which dice they want to keep from their current roll
    * only possible during the current turn for the currentActivePlayer
    */
-  public void currentPlayerSelectsKeepers(){
+  public void currentPlayerSelectsKeepers() {
 
   }
 
@@ -123,7 +128,7 @@ public class Game {
    * allows the current active player to enter in a score from a set of pre-calculated choices in their scorecard.
    * The score choices are dependent on their current roll + any keepers they have previously selected
    */
-  public void currentPlayerUpdatesScoreCard(){
+  public void currentPlayerUpdatesScoreCard() {
 
   }
 
@@ -153,9 +158,5 @@ public class Game {
     return null; //TODO
     // return thissc.chat.getAllMessages();
   }
-
-
-
-
 
 }
