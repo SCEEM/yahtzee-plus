@@ -8,16 +8,12 @@ import com.yahtzee.turn.Turn;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.messaging.handler.annotation.MessageMapping;
 import org.springframework.messaging.handler.annotation.SendTo;
-import org.springframework.web.bind.annotation.RequestBody;
 import java.util.ArrayList;
+import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * This class contains the endpoints needed to perform
@@ -34,16 +30,25 @@ public class TurnController {
   Game game;
 
   /**
-   * Generate a new {@link Roll}
+   * Generate a new {@link Roll} as part of the current {@link Turn}
    */
   @MessageMapping("/roll")
   @SendTo("/topic/roll")
   public ArrayList<Die> rollDice() {
-    // TODO: get Turn from Player or Game?
-    Turn turn = new Turn();
+    Player currentPlayer = game.getCurrentActivePlayer();
+    ArrayList<Die> dice;
 
-    Roll roll = turn.newRoll();
-    ArrayList<Die> dice = roll.rollDice(turn.getDice());
+    // TODO: get Turn from Player or Game
+    //if (currentPlayer.canRollDice()) {
+    currentPlayer.startTurn(); // TODO: shouldn't have to do this here
+    Turn currentTurn = currentPlayer.getMyTurn();
+
+    Roll roll = currentTurn.newRoll();
+    dice = roll.rollDice(currentTurn.getDice());
+
+//    Turn turn = new Turn();
+//    Roll roll = turn.newRoll();
+//    ArrayList<Die> dice = roll.rollDice(turn.getDice());
 
     return dice;
   }
@@ -58,22 +63,37 @@ public class TurnController {
   @MessageMapping("/roll/keep")
   @SendTo("/topic/keepers")
   public ArrayList<Die> setKeepers(@RequestBody ArrayList<Die> keepers) {
-    // TODO: get current dice from current Turn
+    List<String> dieIdsToKeep = keepers.stream().map(k -> k.getId()).collect(Collectors.toList());
 
-    // change selected die status to KEPT
-    for (Die d : keepers) {
-      d.setStatus(Die.Status.KEPT);
-      System.out.println(d.getValue()); // TODO: remove
+    // get current dice from current Turn
+    Turn currentTurn = game.getCurrentActivePlayer().getMyTurn();
+
+    // get latest roll as part of the Turn
+    Roll latestRoll = currentTurn.getCurrentRoll();
+    ArrayList<Die> latestDice = latestRoll.getDice();
+
+    // update die status
+    for (Die die : latestDice) {
+      if (dieIdsToKeep.contains(die.getId())) {
+        die.setStatus(Die.Status.KEEPER);
+      }
     }
 
-    // TODO: update the Turn's current dice, and save the dice to the Roll
+    // save dice status to the Roll
+    currentTurn.finishRoll(latestDice);
+
+    // TODO: remove
+    System.out.println("Final status of dice in roll:");
+    for (Die die : latestRoll.getDice()) {
+      System.out.println(die.toString());
+    }
 
     return keepers;
   }
 
 
   /**
-   * Complete the given {@link Player}'s turn.
+   * Finish the current {@link Player}'s turn.
    *
    */
   @MessageMapping("/stopRoll")
@@ -85,7 +105,7 @@ public class TurnController {
   }
 
   /**
-   * Complete the given {@link Player}'s turn.
+   *
    *
    */
   @MessageMapping("/submitScore")
@@ -96,12 +116,15 @@ public class TurnController {
   }
 
   /**
-   * Complete the given {@link Player}'s turn.
+   * Complete the current {@link Player}'s turn, and assign
+   * the next active player in the {@link Game}.
    *
+   * @return
    */
   @MessageMapping("/finish")
   @SendTo("/topic/activePlayerId")
   public int finishTurn() {
+    game.currentActivePlayerEndsTurn();
     return game.assignNextActivePlayer();
   }
 

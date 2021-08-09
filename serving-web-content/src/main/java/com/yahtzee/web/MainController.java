@@ -22,11 +22,11 @@ import org.json.simple.JSONArray;
 @MessageMapping("/")
 public class MainController {
 
-    @Autowired
-    ApplicationContext ctx;
+  @Autowired
+  ApplicationContext ctx;
 
-    @Autowired
-    Game game;
+  @Autowired
+  Game game;
 
   /**
    * @param name

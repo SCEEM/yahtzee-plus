@@ -12,45 +12,52 @@ import org.json.simple.JSONArray;
  */
 public class Player {
 
-  private boolean isCurrentTurn;
+  private boolean currentTurn;
   private boolean isHost;
   private int playerId;
   private int score;
   private String playerName;
   private ScoreCard scoreCard;
-  private Turn currentTurn;
+  public Turn myTurn;
 
   /**
    * Constructor
    */
   public Player(int playerId) {
-    this.isCurrentTurn = false; //active player not assigned yet
+    this.currentTurn = false; //active player not assigned yet
     this.playerId = playerId;
     this.playerName = playerName;
     this.isHost = isHost;
     this.score = 0;
     this.scoreCard = new ScoreCard();
-    this.currentTurn = null;
+    this.myTurn = null;
   }
 
- 
-  public void startTurn(){
-    this.isCurrentTurn = true;
-    this.currentTurn = new Turn();
+  public void startTurn() {
+    this.currentTurn = true;
+    this.myTurn = new Turn();
   }
 
-  public void endTurn(){
-    this.isCurrentTurn = false;
-    this.currentTurn = null;
+  public void endTurn() {
+    this.currentTurn = false;
+    this.myTurn = null;
   }
 
-  public boolean isCurrentlyTakingTurn(){
-    return this.isCurrentTurn;
+  public Turn getMyTurn() {
+    return this.myTurn;
   }
 
+  public boolean isCurrentlyTakingTurn() {
+    return this.currentTurn;
+  }
+
+  public boolean canRollDice() {
+    return this.currentTurn && this.myTurn.canRoll();
+  }
+  
   public JSONArray getScorecard() {
     System.out.println("GETTING SCORECARD");
-    ArrayList<Integer> diceValues = (this.currentTurn).getDiceValues();
+    ArrayList<Integer> diceValues = (this.myTurn).getDiceValues();
 
     JSONArray retVal = new JSONArray();
       for(int i = 0; i < 20; i++) {
@@ -65,16 +72,13 @@ public class Player {
     return retVal;
   }
 
-  public boolean canRollDice(){
-    return this.isCurrentTurn && this.currentTurn.canRoll();
-  }
-
-  public void rollDice(){
-    if (canRollDice()){
+  public void rollDice() {
+    if (canRollDice()) {
       //TODO: NEED to create a method in turn to model dice role action
     }
   }
-  public void keepDice(){
+
+  public void keepDice() {
     //TODO: Need to create a method to select keeper Dice in turn object
   }
 
@@ -83,13 +87,17 @@ public class Player {
   }
 
   public int getTotalScore() {
-      return scoreCard.getTotalScore();
+    return scoreCard.getTotalScore();
   }
 
-    /* May be moved to inside the takeTurn() method */
+  /* May be moved to inside the takeTurn() method */
   public void fillInScoreCard() {
     //ScoreCard.editMode = true;
   }
 
+  @Override
+  public String toString() {
+    return "Player: id = " + playerId + ", name = " + playerName + ", currentTurn = " + currentTurn;
+  }
 
 }
