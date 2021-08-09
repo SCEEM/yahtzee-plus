@@ -17,8 +17,11 @@ import org.springframework.web.bind.annotation.RequestParam;
 @MessageMapping("/") 
 public class MainController {
 
-    @Autowired
-    ApplicationContext ctx;
+  @Autowired
+  ApplicationContext ctx;
+
+  @Autowired
+  Game game;
 
   /**
    * @param name
@@ -29,11 +32,11 @@ public class MainController {
   public String greeting(@RequestParam(name = "name",
       required = false,
       defaultValue = "World") String name, Model model) {
-        Game game = ctx.getBean(Game.class);
-        Player newPlayer = game.createPlayer();
-        model.addAttribute("playerId", newPlayer.getPlayerId());
-        model.addAttribute("playerList", game.getPlayerList());
-        model.addAttribute("scoreList", game.getScoreList());
+    Player newPlayer = game.createPlayer();
+    model.addAttribute("playerId", newPlayer.getPlayerId());
+    model.addAttribute("playerList", game.getPlayerList());
+    model.addAttribute("scoreList", game.getScoreList());
+    model.addAttribute("activePlayerId", game.getCurrentActivePlayer().getPlayerId());
     return "index";
   }
 }

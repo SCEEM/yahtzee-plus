@@ -1,4 +1,4 @@
-package com.example;
+package com.yahtzee.game;
 
 public class GameTest {
 

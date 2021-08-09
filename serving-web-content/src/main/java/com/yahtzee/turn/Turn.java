@@ -3,7 +3,7 @@ package com.yahtzee.turn;
 import java.util.ArrayList;
 
 /**
- * This class represents a turn taken by a {@link com.example.player.Player}
+ * This class represents a turn taken by a {@link com.yahtzee.player.Player}
  */
 public class Turn {
 
@@ -58,6 +58,25 @@ public class Turn {
 
 
   /**
+   * Get the current {@link Roll} as part of this Turn.
+   *
+   * @return the current Roll
+   */
+  public Roll getCurrentRoll() {
+    return this.currentRoll;
+  }
+
+  /**
+   * Save the latest dice status to the Roll.
+   *
+   * @param dice the final dice
+   */
+  public void finishRoll(ArrayList<Die> dice) {
+    this.currentRoll.setDice(dice);
+  }
+
+
+  /**
    * Check if a roll can be taken.
    *
    * @return true if allowed, false if not
@@ -75,7 +94,7 @@ public class Turn {
   public Roll newRoll() {
     Roll roll = new Roll();
     rolls.add(roll);  // add to list of rolls
-    this.setCurrentRoll(roll);
+    this.setCurrentRoll(roll); // this is now the currentRoll
     return roll;
   }
 
