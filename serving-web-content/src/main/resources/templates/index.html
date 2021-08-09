@@ -113,11 +113,20 @@
     <!-- Chat -->
     <div class="chat">
         <h3>Chat</h3>
-        <div id="chatDisplay"></div>
-        <form>
-            <input type="text" id="chatMsg" name="chatMsg"/>
-            <button id="sendChat" class="btn btn-default" type="submit">Send</button>
-        </form>
+        <div id="dialogue-page" class="hidden">
+            <div class="dialogue-container" style="overflow:scroll">
+                <ul id="messageList">
+                </ul>
+                <form id="dialogueForm" name="dialogueForm" nameForm="dialogueForm">
+                    <div class="form-group">
+                        <div class="input-group clearfix">
+                            <input type="text" id="chatMessage" placeholder="Enter a message...." autocomplete="off" class="form-control" />
+                            <button id="sendChat" type="submit" class="glyphicon glyphicon-share-alt">Send</button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
     </div>
 </div>
 </div>

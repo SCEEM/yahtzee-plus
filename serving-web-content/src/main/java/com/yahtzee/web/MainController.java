@@ -5,18 +5,16 @@ import com.yahtzee.player.Player;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
 import org.springframework.messaging.handler.annotation.MessageMapping;
-import org.springframework.messaging.handler.annotation.SendTo;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
-
 /**
  * The main controller class for the application.
  */
 @Controller
-@MessageMapping("/")
+@MessageMapping("/") 
 public class MainController {
 
   @Autowired
@@ -40,15 +38,5 @@ public class MainController {
     model.addAttribute("scoreList", game.getScoreList());
     model.addAttribute("activePlayerId", game.getCurrentActivePlayer().getPlayerId());
     return "index";
-  }
-
-  /**
-   * @param chatMessage a list of the values to keep
-   */
-  @MessageMapping("/chat")
-  @SendTo("/topic/chat")
-  public String setKeepers(String chatMessage) {
-    System.out.println("SET KEEPERS: " + chatMessage);
-    return chatMessage;
   }
 }

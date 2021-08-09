@@ -1,9 +1,12 @@
-let stompClient = null,
+'use strict';
+
+var stompClient = null,
     currentKeepers = [],
     currentDice = [],
     activePlayerId,
     playerId,
     isActivePlayer = false;
+
 
 function setConnected(connected) {
     $("#connect").prop("disabled", connected);
@@ -14,7 +17,7 @@ function setConnected(connected) {
     else {
         $("#conversation").hide();
     }
-    $("#greetings").html("");
+    $("#messageList").html("");
 }
 
 function connect() {
@@ -37,8 +40,8 @@ function connect() {
         stompClient.subscribe('/topic/keepers', function (keepers) {
             showKeepers(JSON.parse(keepers.body));
         });
-        stompClient.subscribe('/topic/chat', function (chat) {
-            showChat(JSON.parse(chat.body));
+        stompClient.subscribe('/topic/chat', function (msg){
+            onMessageReceived(msg)
         });
         stompClient.subscribe('/topic/loadScorecard', function (scorecard) {
             showScoreOptions(scorecard.body);
@@ -48,6 +51,7 @@ function connect() {
         });
     });
     setActivePlayerId($('#activePlayerId').text());
+
     console.log("Connected");
 }
 
@@ -108,10 +112,6 @@ function showKeepers (keepers) {
     });
 }
 
-function showChat (chat) {
-    console.log("RETURNED: " + chat);
-}
-
 function showScoreOptions (scorecard) {
     $( '#rollDice' ).prop('disabled', true );
     $( '#setKeepers' ).prop('disabled', true );
@@ -132,7 +132,6 @@ function updateScorecard (scorecard) {
 }
 
 //___________________________Senders_________________________________
-
 function rollDice() {
     $(document.querySelectorAll('[id^=diceImg]')).remove();
     stompClient.send("/app/turn/roll");
@@ -157,11 +156,6 @@ function setKeepers () {
     stompClient.send("/app/turn/roll/keep", {}, JSON.stringify(currentKeepers));
 }
 
-function sendChat (chatMsg) {
-    console.log(chatMsg);
-    stompClient.send("/app/chat", {}, JSON.stringify(chatMsg));
-}
-
 function stopRolling () {
     stompClient.send("/app/turn/stopRoll");
 }
@@ -176,9 +170,9 @@ function finishTurn () {
     $( "#stopRolling" ).hide();
     $( "#submitScore" ).hide();
     $( "#finishTurn" ).hide();
-
     stompClient.send("/app/turn/finish");
 }
+
 
 $(function () {
     $("form").on('submit', function (e) {
@@ -188,8 +182,40 @@ $(function () {
     $( "#disconnect" ).click(function() { disconnect(); });
     $( "#rollDice" ).click(function() { rollDice(); });
     $( "#setKeepers" ).click(function() { setKeepers(); });
+    $( "#sendChat" ).click(function() { sendMessage(); });
     $( "#stopRolling" ).click(function() { stopRolling(); });
     $( "#submitScore" ).click(function() { submitScore(); });
     $( "#finishTurn" ).click(function() { finishTurn(); });
-    $( "#sendChat" ).click(function() { sendChat($('#chatMsg').val()); });
 });
+
+function sendMessage() {
+    var messageContent = $("#chatMessage").val();
+    console.log(messageContent);
+	if (messageContent && stompClient) {
+		var chatMessage = {
+			content : messageContent,
+			type : 'CHAT'
+		};
+
+		stompClient.send("/app/chat.sendMessage", {}, JSON.stringify(chatMessage));
+		$('#chatMessage').val(''); //reser input
+	}
+}
+
+
+function onMessageReceived(payload) {
+    console.log(payload);
+	var message = JSON.parse(payload.body);
+    console.log(message);
+	var messageElement = document.createElement('li');
+
+	var textElement = document.createElement('p');
+	var messageText = document.createTextNode(message.content);
+	textElement.append(messageText);
+
+	messageElement.append(textElement);
+
+	$("#messageList").append(messageElement);
+	$("#messageList").scrollTop = $("#messageList").scrollHeight;
+
+}
