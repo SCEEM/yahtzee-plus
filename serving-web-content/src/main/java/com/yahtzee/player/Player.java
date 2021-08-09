@@ -20,7 +20,6 @@ public class Player {
     this.currentTurn = false; //active player not assigned yet
     this.playerId = playerId;
     this.name = "test player"; //TODO
-    this.isHost = isHost;
     this.scoreCard = new ScoreCard();
     myTurn = null;
   }
