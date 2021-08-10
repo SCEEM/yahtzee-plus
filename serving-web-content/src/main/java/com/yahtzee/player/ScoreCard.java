@@ -44,11 +44,6 @@ public class ScoreCard {
       this.scores[15] = this.scores[16] == 0 ? this.scores[17] : this.scores[17] - 35;
       this.scores[18] = getLowerScore();
       this.scores[19] = this.scores[17] + this.scores[18];
-      System.out.println("SET SCORES");
-      // Print the name from the list....
-      for (int i = 0; i < this.scores.length; i++) {
-        System.out.println(i + " " + this.scores[i]);
-      }
     }
   }
 
@@ -86,12 +81,6 @@ public class ScoreCard {
   }  
 
   public int[] getScores() {
-    System.out.println("GET SCORES");
-    // Print the name from the list....
-    for (int i = 0; i < this.scores.length; i++) {
-      System.out.println(i + " " + this.scores[i]);
-    }
-
     return this.scores;
   }
 

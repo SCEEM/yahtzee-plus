@@ -1,8 +1,13 @@
 package com.yahtzee.player;
 
+import com.yahtzee.turn.Die;
+import com.yahtzee.turn.Roll;
 import com.yahtzee.turn.Turn;
 
 import java.util.ArrayList;
+import java.util.List;
+import java.util.stream.Collectors;
+
 import org.json.simple.JSONObject;
 import org.json.simple.JSONArray;
 
@@ -72,14 +77,33 @@ public class Player {
     return this.scoreCard.getScores();
   };
 
-  public void rollDice() {
+  public ArrayList<Die> rollDice() {
     if (canRollDice()) {
-      //TODO: NEED to create a method in turn to model dice role action
+      Roll roll = myTurn.newRoll();
+      return roll.rollDice(myTurn.getDice());
+    } else {
+      return null; //TODO: return error
     }
-  }
+  };
 
-  public void keepDice() {
-    //TODO: Need to create a method to select keeper Dice in turn object
+  public ArrayList<Die> keepDice(ArrayList<Die> keepers) {
+    List<String> dieIdsToKeep = keepers.stream().map(k -> k.getId()).collect(Collectors.toList());
+    // get latest roll as part of the Turn
+    Roll latestRoll = myTurn.getCurrentRoll();
+    ArrayList<Die> latestDice = latestRoll.getDice();
+    // update die status
+    for (Die die : latestDice) {
+      if (dieIdsToKeep.contains(die.getId())) {
+        die.setStatus(Die.Status.KEEPER);
+      }
+    }
+    // save dice status to the Roll
+    myTurn.finishRoll(latestDice);
+    System.out.println("Final status of dice in roll:");
+    for (Die die : latestRoll.getDice()) {
+      System.out.println(die.toString());
+    }
+    return keepers;
   }
 
   public int getPlayerId() {

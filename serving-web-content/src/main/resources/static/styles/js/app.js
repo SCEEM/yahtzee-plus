@@ -18,12 +18,7 @@ function connect() {
     bannerImg.id = 'bannerImg';
     $('#banner').append(bannerImg);
 
-    playerList = $("#playerList").data("playerlist");
-    scoreList = $("#scoreList").data("scorelist");
-    updatePlayerList(playerList);
-
     stompClient.connect({}, function (frame) {
-        setConnected(true);
         console.log('Connected: ' + frame);
         stompClient.subscribe('/topic/activePlayer', function (player) {
             setActivePlayer(JSON.parse(player.body));
@@ -58,7 +53,6 @@ function disconnect() {
     if (stompClient !== null) {
         stompClient.disconnect();
     }
-    setConnected(false);
     console.log("Disconnected");
 }
 
@@ -180,11 +174,12 @@ function updateScorecard (scorecard) {
 
 function updatePlayerList (playerList) {
     console.log(playerList);
-    tableBody = $("table tbody");
+    let tableBody = $("table tbody");
     playerList.forEach(player => {
         let playerId = player.playerId,
             score = player.score,
-            playerRow = document.getElementById("playerRow" + playerId);
+            playerRow = document.getElementById("playerRow" + playerId),
+            markup;
         if (playerRow !== null) {
             $("#playerRow" + playerId + "> .score").text(score)
         } else {
@@ -225,7 +220,8 @@ function stopRolling () {
 
 function submitScore () {
     let ele = document.getElementsByName('scoreCheckboxes'),
-        selectedVal = -1;
+        selectedVal = -1,
+        i;
     for(i = 0; i < ele.length; i++) {
         if(ele[i].checked)
             selectedVal = ele[i].value;

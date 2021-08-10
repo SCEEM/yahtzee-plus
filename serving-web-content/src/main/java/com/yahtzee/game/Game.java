@@ -78,6 +78,7 @@ public class Game {
     // the modulus ensures the index will remain within the bounds of the array
     ++playerListIndex;
     currentActivePlayer = playerList.get(playerListIndex % playerList.size());
+    currentActivePlayer.startTurn();
   }
 
   
@@ -108,28 +109,4 @@ public class Game {
     return player.isCurrentlyTakingTurn();
   }
 
-
-  /**
-   * allows the current active player to roll their dice, not including
-   * any keepers the player may have previously selected
-   */
-  public void currentPlayerRollsDice() {
-    
-  }
-
-  /**
-   * allows the current active player to select which dice they want to keep from their current roll
-   * only possible during the current turn for the currentActivePlayer
-   */
-  public void currentPlayerSelectsKeepers() {
-
-  }
-
-  /**
-   * allows the current active player to enter in a score from a set of pre-calculated choices in their scorecard.
-   * The score choices are dependent on their current roll + any keepers they have previously selected
-   */
-  public void currentPlayerUpdatesScoreCard() {
-
-  }
 }

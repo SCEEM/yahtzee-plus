@@ -180,7 +180,18 @@ fieldset {
 	font-style: normal;
     float: left;
     text-align: left;
-    width: calc(100% - 40px);
+    width: calc(100% - 50px);
+    margin: 5px 0 5px 5px;
+}
+
+.scoreLabel label  {
+    font-style: normal;
+}
+
+.scoreLabel {
+    float: left;
+    text-align: left;
+    width: calc(100% - 50px);
     margin: 5px 0 5px 5px;
 }
 
@@ -196,8 +207,9 @@ fieldset {
     width: 0;
 }
 
-.scoreValueEnabled {
+.scoreValueEnabled > label {
     background-color: #EA4235;
+    border-radius: 50%;
 }
 
 .scoreValueEnabled input[type="radio"] {
@@ -212,17 +224,20 @@ fieldset {
 .scoreValueEnabled input[type="radio"] {
     opacity: 0.01;
     z-index: 100;
+    background-color: #F7C830;
 }
 
 .scoreValueEnabled input[type="radio"]:checked+label,
 .Checked+label {
     background-color: #F4A62D;
     outline-color: #ED7D31;
+    border-radius: 50%;
 }
 
 .scoreValueEnabled input[type="radio"]:hover+label,
 .hover+label {
     background-color: #F4A62D;
+    border-radius: 50%;
 }
 
 .scoreValueDisabled,
@@ -233,7 +248,6 @@ fieldset {
 .scoreDiv {
     float: right;
     margin: 5px 5px 5px 0;
-	border-radius: 50%;
 }
 
 /* Chat Dialog window style */
