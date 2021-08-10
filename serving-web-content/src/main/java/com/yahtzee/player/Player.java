@@ -13,10 +13,9 @@ import org.json.simple.JSONArray;
 public class Player {
 
   private boolean currentTurn;
-  private boolean isHost;
   private int playerId;
   private int score;
-  private String playerName;
+  private String name;
   private ScoreCard scoreCard;
   public Turn myTurn;
 
@@ -26,9 +25,8 @@ public class Player {
   public Player(int playerId) {
     this.currentTurn = false; //active player not assigned yet
     this.playerId = playerId;
-    this.playerName = playerName;
-    this.isHost = isHost;
     this.score = 0;
+    this.name = "test player"; //TODO
     this.scoreCard = new ScoreCard();
     this.myTurn = null;
   }
@@ -98,10 +96,16 @@ public class Player {
       this.scoreCard.setScore(rowNumber);
     }
   }
-
+  
+  public void setName(String name){
+    this.name = name;
+  }
+  public String getName(){
+    return this.name;
+  }
+  
   @Override
   public String toString() {
-    return "Player: id = " + playerId + ", name = " + playerName + ", currentTurn = " + currentTurn;
+    return "Player: id = " + playerId + ", name = " + name + ", currentTurn = " + currentTurn;
   }
-
 }
