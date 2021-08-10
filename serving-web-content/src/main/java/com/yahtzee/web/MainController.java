@@ -38,17 +38,8 @@ public class MainController {
       required = false,
       defaultValue = "World") String name, Model model) {
       Player newPlayer = game.createPlayer();
-      ArrayList<Player> playerList = game.getPlayerList();
+      JSONArray playerListJson = makePlayerListJSON(game.getPlayerList());
 
-      JSONArray playerListJson = new JSONArray();
-      for(Player player : playerList) {
-          JSONObject playerJson = new JSONObject();
-          playerJson.put("playerId", player.getPlayerId());
-          playerJson.put("score", player.getTotalScore());
-          playerListJson.add(playerJson);
-      }
-
-//      updatePlayerList(playerListJson);
       model.addAttribute("playerId", newPlayer.getPlayerId());
       model.addAttribute("playerList", playerListJson);
       model.addAttribute("scoreList", game.getScoreList());
@@ -64,16 +55,7 @@ public class MainController {
     @SendTo("/topic/updatePlayerList")
     public JSONArray updatePlayerList() {
         ArrayList<Player> playerList = game.getPlayerList();
-
-        JSONArray playerListJson = new JSONArray();
-        for(Player player : playerList) {
-            JSONObject playerJson = new JSONObject();
-            playerJson.put("playerId", player.getPlayerId());
-            playerJson.put("score", player.getTotalScore());
-            playerListJson.add(playerJson);
-        }
-
-        return playerListJson;
+        return makePlayerListJSON(playerList);
     }
 
     /**
@@ -86,5 +68,16 @@ public class MainController {
     public String setKeepers(String chatMessage) {
         System.out.println("SET KEEPERS: " + chatMessage);
         return chatMessage;
+    }
+
+    private JSONArray makePlayerListJSON(ArrayList<Player> playerList) {
+        JSONArray playerListJson = new JSONArray();
+        for(Player player : playerList) {
+            JSONObject playerJson = new JSONObject();
+            playerJson.put("playerId", player.getPlayerId());
+            playerJson.put("score", player.getTotalScore());
+            playerListJson.add(playerJson);
+        }
+        return playerListJson;
     }
 }

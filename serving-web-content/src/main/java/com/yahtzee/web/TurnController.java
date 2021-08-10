@@ -5,6 +5,8 @@ import com.yahtzee.player.Player;
 import com.yahtzee.turn.Die;
 import com.yahtzee.turn.Roll;
 import com.yahtzee.turn.Turn;
+import org.json.simple.JSONArray;
+import org.json.simple.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
 import org.springframework.stereotype.Controller;
@@ -98,10 +100,9 @@ public class TurnController {
    */
   @MessageMapping("/stopRoll")
   @SendTo("/topic/loadScorecard")
-  public int[] stopRoll() {
-    System.out.println("LOAD SCORECARD: ");
+  public JSONArray stopRoll() {
     Player activePlayer = game.getCurrentActivePlayer();
-    return activePlayer.getScorecard();
+    return activePlayer.getPossibleScores();
   }
 
   /**
@@ -112,6 +113,7 @@ public class TurnController {
   @SendTo("/topic/updateScorecard")
   public int[] submitScore(int rowNumber) {
     System.out.println("ROW SELECTED: " + rowNumber);
+    game.getCurrentActivePlayer().setScore(rowNumber);
     return game.getCurrentActivePlayer().getScorecard();
   }
 
@@ -122,10 +124,29 @@ public class TurnController {
    * @return
    */
   @MessageMapping("/finish")
-  @SendTo("/topic/activePlayerId")
-  public int finishTurn() {
+  @SendTo("/topic/activePlayer")
+  public JSONObject finishTurn() {
     game.currentActivePlayerEndsTurn();
-    return game.assignNextActivePlayer();
+    game.assignNextActivePlayer();
+    return getActivePlayerJSON();
+  }
+
+  /**
+   * Complete the given {@link Player}'s turn.
+   *
+   */
+  @MessageMapping("/getActivePlayer")
+  @SendTo("/topic/activePlayer")
+  public JSONObject getActivePlayer() {
+    return getActivePlayerJSON();
+  }
+
+  private JSONObject getActivePlayerJSON() {
+    JSONObject playerJson = new JSONObject();
+    Player currentActivePlayer = game.getCurrentActivePlayer();
+    playerJson.put("playerId", currentActivePlayer.getPlayerId());
+    playerJson.put("scorecard", currentActivePlayer.getScorecard());
+    return playerJson;
   }
 
 }

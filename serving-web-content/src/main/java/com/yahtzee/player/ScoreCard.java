@@ -19,26 +19,44 @@ public class ScoreCard {
    * Constructor
    */
   public ScoreCard() {
-    this.upperScore = 0;
-    this.lowerScore = 0;
     this.editMode = false;
     this.numYahtzeeBonuses = 0;
 
     this.scores = new int[20];
     this.possibleScores = new int[20];
-    for (int i = 0; i < 20; i++) {
+    for (int i = 0; i < 13; i++) {
       this.scores[i] = -1;
       this.possibleScores[i] = -1;
+    }
+    for (int i = 13; i < 20; i++) {
+      this.scores[i] = 0;
+      this.possibleScores[i] = 0;
     }
   }
 
   /**
-   * @param ind
+   * @param rowNumber
    */
-  public void setScore(int ind) {
+  public void setScore(int rowNumber) {
     if (this.editMode) {
-      this.scores[ind] = this.possibleScores[ind];
+      this.scores[rowNumber] = this.possibleScores[rowNumber];
+      this.scores[17] = getUpperScore();
+      this.scores[15] = this.scores[16] == 0 ? this.scores[17] : this.scores[17] - 35;
+      this.scores[18] = getLowerScore();
+      this.scores[19] = this.scores[17] + this.scores[18];
+      System.out.println("SET SCORES");
+      // Print the name from the list....
+      for (int i = 0; i < this.scores.length; i++) {
+        System.out.println(i + " " + this.scores[i]);
+      }
     }
+  }
+
+  /**
+   *
+   */
+  public boolean getEditMode() {
+    return this.editMode;
   }
 
   /**
@@ -67,30 +85,31 @@ public class ScoreCard {
     return filled;
   }  
 
-  public int getScore(int ind) {
-    return this.scores[ind];
+  public int[] getScores() {
+    System.out.println("GET SCORES");
+    // Print the name from the list....
+    for (int i = 0; i < this.scores.length; i++) {
+      System.out.println(i + " " + this.scores[i]);
+    }
+
+    return this.scores;
   }
 
   private int getUpperScore() {
+    int upperScore = 0;
     for (int i = 0; i < 6; i++) {
       if (this.scores[i] != -1) {
-        this.upperScore = this.upperScore + this.scores[i];
+        upperScore = upperScore + this.scores[i];
       }
     }
-    this.scores[15] = this.upperScore;
-    this.possibleScores[15] = this.upperScore;
     // Bonus Score
-    if (this.upperScore >= 63) {
+    if (upperScore >= 63) {
       this.scores[16] = 1;
-      this.possibleScores[16] = 1;
-      this.upperScore = this.upperScore + 35;
+      upperScore = upperScore + 35;
     } else {
       this.scores[16] = 0;
-      this.possibleScores[16] = 0;
     }
-    this.scores[17] = this.upperScore;
-    this.possibleScores[17] = this.upperScore;
-    return this.upperScore;
+    return upperScore;
   }
 
   public int getNumYahtzeeBonuses(){ 
@@ -98,14 +117,13 @@ public class ScoreCard {
   }
 
   private int getLowerScore() {
-    for (int i = 7; i < 13; i++) {
+    int lowerScore = 0;
+    for (int i = 6; i < 13; i++) {
       if (this.scores[i] != -1) {
-        this.lowerScore = this.lowerScore + this.scores[i];
+        lowerScore = lowerScore + this.scores[i];
       }
     }
-    this.scores[18] = this.lowerScore;
-    this.possibleScores[18] = this.lowerScore;
-    return this.lowerScore;
+    return lowerScore;
   }
 
   /**
@@ -113,7 +131,6 @@ public class ScoreCard {
    */
   public int getTotalScore() {
     this.scores[19] = getUpperScore() + getLowerScore();
-    this.possibleScores[19] = getUpperScore() + getLowerScore();
     return this.scores[19];
   }
 
@@ -123,15 +140,13 @@ public class ScoreCard {
    * @return
   */
   public int[] getPossibleScores(ArrayList<Integer> diceValues) {
-
-    System.out.println("GETTING this.scores");
-
     int numOnes = Collections.frequency(diceValues, 1);
     int numTwos = Collections.frequency(diceValues, 2);
     int numThrees = Collections.frequency(diceValues, 3);
     int numFours = Collections.frequency(diceValues, 4);
     int numFives = Collections.frequency(diceValues, 5);
     int numSixes = Collections.frequency(diceValues, 6);
+    this.editMode = true;
 
     //Aces
     if (getSectionAvailabilty(0)){
@@ -230,9 +245,17 @@ public class ScoreCard {
     //Chance
     if (getSectionAvailabilty(12)) {
       this.possibleScores[12] = getSumDice(diceValues); 
-    } 
+    }
 
-    getTotalScore();
+    // Upper scorecard update
+    this.possibleScores[15] = this.scores[15];
+    this.possibleScores[17] = this.scores[17];
+    // Bonus Score
+    this.possibleScores[16] = this.scores[16];
+
+    // lower scorecard update
+    this.possibleScores[18] = this.scores[18];
+
     return this.possibleScores;
   }
 

@@ -24,27 +24,27 @@ p {
     grid-template-columns: repeat(10, 1fr);
     grid-template-rows: repeat(5, 1fr);
     grid-template-areas:
-        "sc sc sc sc hd   hd   hd   hd   as   as  "
-        "sc sc sc sc cr   cr   cr   cr   as   as  "
-        "sc sc sc sc rh   rh   rh   rh   chat chat"
-        "sc sc sc sc ke   ke   ke   ke   chat chat"
-        "sc sc sc sc bu   bu   bu   bu   chat chat"
+        "sc sc sc hd   hd   hd   hd   as   as   as  "
+        "sc sc sc cr   cr   cr   cr   as   as   as  "
+        "sc sc sc rh   rh   rh   rh   chat chat chat"
+        "sc sc sc ke   ke   ke   ke   chat chat chat"
+        "sc sc sc bu   bu   bu   bu   chat chat chat"
 }
 
 scorecard {
     grid-area: sc;
 }
 
-.user-scorecard {
-    background-color: #F4A62D;
-    float: left;
-    width: 50%;
-    height: 100%;
-}
+/*.user-scorecard {*/
+/*    background-color: #F4A62D;*/
+/*    float: left;*/
+/*    width: 50%;*/
+/*    height: 100%;*/
+/*}*/
 .active-scorecard {
     background-color: #F7C830;
     float: right;
-    width: 50%;
+    width: 100%;
     height: 100%;
 }
 .current-roll {
@@ -180,21 +180,26 @@ fieldset {
     float: left;
     text-align: left;
     width: 75%;
+    margin: 5px 0 5px 5px;
 }
 
 .scoreValue {
-    float: left;
-    width: 40%;
+    float: right;
+    width: 30px;
+    text-align: center;
 }
 
 .scoreCheckboxes {
-    float: right;
-    width: 40%;
+    float: left;
+    width: 0;
 }
 
-#scorecard input {
-    display: block;
+.scoreValueEnabled {
     background-color: #EA4235;
+}
+
+.scoreValueEnabled input[type="radio"] {
+    display: block;
     text-align: center;
     top: 0;
     left: 0;
@@ -202,12 +207,28 @@ fieldset {
     bottom: 0;
 }
 
-#scorecard input[type="radio"] {
+.scoreValueEnabled input[type="radio"] {
     opacity: 0.01;
     z-index: 100;
 }
 
-#scorecard input[type="radio"]:checked+label,
+.scoreValueEnabled input[type="radio"]:checked+label,
 .Checked+label {
-    background-color: #EA4235;
+    background-color: #F4A62D;
+    outline-color: #ED7D31;
+}
+
+.scoreValueEnabled input[type="radio"]:hover+label,
+.hover+label {
+    background-color: #F4A62D;
+}
+
+.scoreValueDisabled,
+.scoreValueDisabled:hover {
+    background-color: #F7C830;
+}
+
+.scoreDiv {
+    float: right;
+    margin: 5px 5px 5px 0;
 }

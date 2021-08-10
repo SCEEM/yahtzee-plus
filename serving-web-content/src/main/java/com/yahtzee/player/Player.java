@@ -55,22 +55,24 @@ public class Player {
     return this.currentTurn && this.myTurn.canRoll();
   }
   
-  public JSONArray getScorecard() {
-    System.out.println("GETTING SCORECARD");
+  public JSONArray getPossibleScores() {
     ArrayList<Integer> diceValues = (this.myTurn).getDiceValues();
+    int[] scorecard =  this.scoreCard.getPossibleScores(diceValues);
 
     JSONArray retVal = new JSONArray();
       for(int i = 0; i < 20; i++) {
           JSONObject scorecardRow = new JSONObject();
-          scorecardRow.put("score", this.scoreCard.getPossibleScores(diceValues)[i]);
+          scorecardRow.put("score",scorecard[i]);
           scorecardRow.put("availability", this.scoreCard.getSectionAvailabilty(i));
           retVal.add(scorecardRow);
       }
-
     this.score = this.scoreCard.getTotalScore();
-    System.out.println(this.score);
     return retVal;
   }
+
+  public int[] getScorecard() {
+    return this.scoreCard.getScores();
+  };
 
   public void rollDice() {
     if (canRollDice()) {
@@ -91,8 +93,10 @@ public class Player {
   }
 
   /* May be moved to inside the takeTurn() method */
-  public void fillInScoreCard() {
-    //ScoreCard.editMode = true;
+  public void setScore(int rowNumber) {
+    if (this.scoreCard.getEditMode()) {
+      this.scoreCard.setScore(rowNumber);
+    }
   }
 
   @Override
