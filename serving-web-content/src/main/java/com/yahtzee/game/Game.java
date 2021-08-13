@@ -3,6 +3,7 @@ package com.yahtzee.game;
 import java.util.ArrayList;
 
 import com.yahtzee.player.Player;
+import com.yahtzee.web.TurnController;
 
 /**
  * This class represents the game state for all players.
@@ -41,7 +42,8 @@ public class Game {
 
       // if first player to join, make them active player
       if (playerList.size() == 1) {
-          this.currentActivePlayer = newPlayer;
+        this.currentActivePlayer = newPlayer;
+        this.currentActivePlayerBeginsTurn();
           // newPlayer.takeTurn();
       }
       System.out.println("created player " + newPlayer.getPlayerId());
@@ -61,7 +63,7 @@ public class Game {
   }
 
   public Player getCurrentActivePlayer() {
-      return this.currentActivePlayer;
+    return this.currentActivePlayer;
   }
 
   public ArrayList<Player> getPlayerList() {
@@ -71,12 +73,12 @@ public class Game {
   /**
    * Assigns a player as the current active player
    */
-  public int assignNextActivePlayer() {
+  public void assignNextActivePlayer() {
     // the player list index will continue to increment
     // the modulus ensures the index will remain within the bounds of the array
     ++playerListIndex;
     currentActivePlayer = playerList.get(playerListIndex % playerList.size());
-    return currentActivePlayer.getPlayerId();
+    currentActivePlayer.startTurn();
   }
 
   
@@ -107,28 +109,4 @@ public class Game {
     return player.isCurrentlyTakingTurn();
   }
 
-
-  /**
-   * allows the current active player to roll their dice, not including
-   * any keepers the player may have previously selected
-   */
-  public void currentPlayerRollsDice() {
-    
-  }
-
-  /**
-   * allows the current active player to select which dice they want to keep from their current roll
-   * only possible during the current turn for the currentActivePlayer
-   */
-  public void currentPlayerSelectsKeepers() {
-
-  }
-
-  /**
-   * allows the current active player to enter in a score from a set of pre-calculated choices in their scorecard.
-   * The score choices are dependent on their current roll + any keepers they have previously selected
-   */
-  public void currentPlayerUpdatesScoreCard() {
-
-  }
 }

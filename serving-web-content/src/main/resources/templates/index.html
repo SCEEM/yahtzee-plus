@@ -12,16 +12,190 @@
 <body onload="connect()">
 <p id="playerId" th:text="${playerId}" hidden></p>
 <p id="activePlayerId" th:text="${activePlayerId}" hidden></p>
+<div id="playerList" th:attr="data-playerList=${playerList}" hidden></div>
+<div id="scoreList" th:attr="data-scoreList=${scoreList}" hidden></div>
 <div class="wrapper">
     <scorecard>
-        <div class="user-scorecard">
-            <h3>Your Scorecard</h3>
-            <form>
-                <button id="submitScore" class="btn btn-default" type="submit">Submit</button>
-            </form>
-        </div>
+<!--        <div class="user-scorecard">-->
+<!--            <h3>Your Scorecard</h3>-->
+<!--            <form>-->
+<!--            </form>-->
+<!--        </div>-->
         <div class="active-scorecard">
             <h3>Active Scorecard</h3>
+            <form>
+                <fieldset id="scorecard" class="row" style="text-align: left">
+                    <div id="score0">
+                        <label class="scoreLabel">Aces</label>
+                        <div id="scoreVal0" class="scoreDiv">
+                            <input id="scoreButton0" class="scoreCheckboxes" name="scoreCheckboxes" type="radio" value="0">
+                            <label class="scoreValue" for="scoreButton0"></label>
+                        </div>
+                    </div>
+                    <br>
+                    <div id="score1">
+                        <label class="scoreLabel">Twos</label>
+                        <div id="scoreVal1" class="scoreDiv">
+                            <input id="scoreButton1" class="scoreCheckboxes" name="scoreCheckboxes" type="radio" value="1">
+                            <label class="scoreValue" for="scoreButton1"></label>
+                        </div>
+                    </div>
+                    <br>
+                    <div id="score2">
+                        <label class="scoreLabel">Threes</label>
+                        <div id="scoreVal2" class="scoreDiv">
+                            <input id="scoreButton2" class="scoreCheckboxes" name="scoreCheckboxes" type="radio" value="2">
+                            <label class="scoreValue" for="scoreButton2"></label>
+                        </div>
+                    </div>
+                    <br>
+                    <div id="score3">
+                        <label class="scoreLabel">Fours</label>
+                        <div id="scoreVal3" class="scoreDiv">
+                            <input id="scoreButton3" class="scoreCheckboxes" name="scoreCheckboxes" type="radio" value="3">
+                            <label class="scoreValue" for="scoreButton3"></label>
+                        </div>
+                    </div>
+                    <br>
+                    <div id="score4">
+                        <label class="scoreLabel">Fives</label>
+                        <div id="scoreVal4" class="scoreDiv">
+                            <input id="scoreButton4" class="scoreCheckboxes" name="scoreCheckboxes" type="radio" value="4">
+                            <label class="scoreValue" for="scoreButton4"></label>
+                        </div>
+                    </div>
+                    <br>
+                    <div id="score5">
+                        <label class="scoreLabel">Sixes</label>
+                        <div id="scoreVal5" class="scoreDiv">
+                            <input id="scoreButton5" class="scoreCheckboxes" name="scoreCheckboxes" type="radio" value="5">
+                            <label class="scoreValue" for="scoreButton5"></label>
+                        </div>
+                    </div>
+                    <br>
+                    <div id="score15">
+                        <label class="scoreLabel">Total Score</label>
+                        <div id="scoreVal15" class="scoreDiv">
+                            <input id="scoreButton15" class="scoreCheckboxes" name="scoreCheckboxes" type="radio" value="5" disabled>
+                            <label for="scoreButton15" class="scoreValue"></label>
+                        </div>
+                    </div>
+                    <br>
+                    <div id="score16">
+                        <label class="scoreLabel">Bonus (if Total Score is >63)</label>
+                        <div id="scoreVal16" class="scoreDiv">
+                            <input id="scoreButton16" class="scoreCheckboxes" name="scoreCheckboxes" type="radio" value="5" disabled>
+                            <label for="scoreButton16" class="scoreValue"></label>
+                        </div>
+                    </div>
+                    <br>
+                    <div id="score17">
+                        <label class="scoreLabel">Total (of Upper Section)</label>
+                        <div id="scoreVal17" class="scoreDiv">
+                            <input id="scoreButton17" class="scoreCheckboxes" name="scoreCheckboxes" type="radio" value="5" disabled>
+                            <label for="scoreButton17" class="scoreValue"></label>
+                        </div>
+                    </div>
+                    <br>
+                    <div id="score6">
+                        <label class="scoreLabel">3 of a Kind</label>
+                        <div id="scoreVal6" class="scoreDiv">
+                            <input id="scoreButton6" class="scoreCheckboxes" name="scoreCheckboxes" type="radio" value="6">
+                            <label class="scoreValue" for="scoreButton6"></label>
+                        </div>
+                    </div>
+                    <br>
+                    <div id="score7">
+                        <label class="scoreLabel">4 of a Kind</label>
+                        <div id="scoreVal7" class="scoreDiv">
+                            <input id="scoreButton7" class="scoreCheckboxes" name="scoreCheckboxes" type="radio" value="7">
+                            <label class="scoreValue" for="scoreButton7"></label>
+                        </div>
+                    </div>
+                    <br>
+                    <div id="score8">
+                        <label class="scoreLabel">Full House</label>
+                        <div id="scoreVal8" class="scoreDiv">
+                            <input id="scoreButton8" class="scoreCheckboxes" name="scoreCheckboxes" type="radio" value="8">
+                            <label class="scoreValue" for="scoreButton8"></label>
+                        </div>
+                    </div>
+                    <br>
+                    <div id="score9">
+                        <label class="scoreLabel">Small Straight (Sequence of 4)</label>
+                        <div id="scoreVal9" class="scoreDiv">
+                            <input id="scoreButton9" class="scoreCheckboxes" name="scoreCheckboxes" type="radio" value="9">
+                            <label class="scoreValue" for="scoreButton9"></label>
+                        </div>
+                    </div>
+                    <br>
+                    <div id="score10">
+                        <label class="scoreLabel">Large Straight (Sequence of 5)</label>
+                        <div id="scoreVal10" class="scoreDiv">
+                            <input id="scoreButton10" class="scoreCheckboxes" name="scoreCheckboxes" type="radio" value="10">
+                            <label class="scoreValue" for="scoreButton10"></label>
+                        </div>
+                    </div>
+                    <br>
+                    <div id="score11">
+                        <label class="scoreLabel">Yahtzee (5 of a Kind)</label>
+                        <div id="scoreVal11" class="scoreDiv">
+                            <input id="scoreButton11" class="scoreCheckboxes" name="scoreCheckboxes" type="radio" value="11">
+                            <label class="scoreValue" for="scoreButton11"></label>
+                        </div>
+                    </div>
+                    <br>
+                    <div id="score12">
+                        <label class="scoreLabel">Chance</label>
+                        <div id="scoreVal12" class="scoreDiv">
+                            <input id="scoreButton12" class="scoreCheckboxes" name="scoreCheckboxes" type="radio" value="12">
+                            <label class="scoreValue" for="scoreButton12"></label>
+                        </div>
+                    </div>
+                    <br>
+                    <div id="score13">
+                        <label class="scoreLabel">Number of Yahtzee Bonuses</label>
+                        <div id="scoreVal13" class="scoreDiv">
+                            <input id="scoreButton13" class="scoreCheckboxes" name="scoreCheckboxes" type="radio" value="5" disabled>
+                            <label class="scoreValue"></label>
+                        </div>
+                    </div>
+                    <br>
+                    <div id="score14">
+                        <label class="scoreLabel">100 pts per Yahtzee Bonus</label>
+                        <div id="scoreVal14" class="scoreDiv">
+                            <input id="scoreButton14" class="scoreCheckboxes" name="scoreCheckboxes" type="radio" value="5" disabled>
+                            <label class="scoreValue"></label>
+                        </div>
+                    </div>
+                    <br>
+                    <div id="score17">
+                        <label class="scoreLabel">Total (of Upper Section)</label>
+                        <div id="scoreVal17" class="scoreDiv">
+                            <input id="scoreButton17" class="scoreCheckboxes" name="scoreCheckboxes" type="radio" value="5" disabled>
+                            <label class="scoreValue"></label>
+                        </div>
+                    </div>
+                    <br>
+                    <div id="score18">
+                        <label class="scoreLabel">Total (of Lower Section)</label>
+                        <div id="scoreVal18" class="scoreDiv">
+                            <input id="scoreButton18" class="scoreCheckboxes" name="scoreCheckboxes" type="radio" value="5" disabled>
+                            <label class="scoreValue"></label>
+                        </div>
+                    </div>
+                    <br>
+                    <div id="score19">
+                        <label class="scoreLabel">Grand Total</label>
+                        <div id="scoreVal19" class="scoreDiv">
+                            <input id="scoreButton19" class="scoreCheckboxes" name="scoreCheckboxes" type="radio" value="5" disabled>
+                            <label class="scoreValue"></label>
+                        </div>
+                    </div>
+                    <br>
+                </fieldset>
+                <button id="submitScore" class="glyphicon glyphicon-share-alt" type="submit">Submit</button>
+            </form>
         </div>
     </scorecard>
 
@@ -30,8 +204,8 @@
         <!--            <div>-->
         <!--                <form class="form-inline">-->
         <!--                    <div class="form-group">-->
-        <!--                        <button id="connect" class="btn btn-default" type="submit">Join Game</button>-->
-        <!--                        <button id="disconnect" class="btn btn-default" type="submit" disabled="disabled">Leave Game-->
+        <!--                        <button id="connect" class="glyphicon glyphicon-share-alt" type="submit">Join Game</button>-->
+        <!--                        <button id="disconnect" class="glyphicon glyphicon-share-alt" type="submit" disabled="disabled">Leave Game-->
         <!--                        </button>-->
         <!--                    </div>-->
         <!--                </form>-->
@@ -62,8 +236,8 @@
             </fieldset>
         </form>
         <form>
-            <button id="rollDice" class="btn btn-default" type="submit">Roll Dice</button>
-            <button id="setKeepers" class="btn btn-default" type="submit">Add Keepers</button>
+            <button id="rollDice" class="glyphicon glyphicon-share-alt" type="submit">Roll Dice</button>
+            <button id="setKeepers" class="glyphicon glyphicon-share-alt" type="submit">Add Keepers</button>
         </form>
     </div>
 
@@ -89,13 +263,13 @@
                 </div>
                 <br>
             </fieldset>
-            <button id="stopRolling" class="btn btn-default" type="submit">Stop Rolling</button>
+            <button id="stopRolling" class="glyphicon glyphicon-share-alt" type="submit">Stop Rolling</button>
         </form>
     </div>
 
     <div class="buttons">
         <form th:action="@{/turn/finish}" method="post">
-            <button id="finishTurn" class="btn btn-default" type="submit">Finish Turn</button>
+            <button id="finishTurn" class="glyphicon glyphicon-share-alt" type="submit">Finish Turn</button>
         </form>
     </div>
 
@@ -103,10 +277,13 @@
     <div class="all-scores">
         <h3>All Scores Table</h3>
         <table>
-            <tr>
-                <th th:scope="col">Player X</th>
-                <th th:scope="col">Score</th>
-            <tr>
+            <thead>
+                <tr>
+                    <th th:scope="col">Player</th>
+                    <th th:scope="col">Score</th>
+                <tr>
+            </thead>
+            <tbody></tbody>
         </table>
     </div>
 

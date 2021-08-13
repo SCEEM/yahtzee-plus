@@ -48,6 +48,19 @@ public class Turn {
 
 
   /**
+   * Get the dice used for this Turn.
+   *
+   * @return the dice as an ArrayList<Integer>
+   */
+  public ArrayList<Integer> getDiceValues() {
+    System.out.println("GETTING DICE VALUES: " + this.dice);
+    ArrayList<Integer> diceValues = new ArrayList<Integer>();
+    (this.dice).forEach(die -> diceValues.add(die.value));
+    return diceValues;
+  }
+
+
+  /**
    * Hold onto a reference to the latest Roll.
    *
    * @param currentRoll the current roll
