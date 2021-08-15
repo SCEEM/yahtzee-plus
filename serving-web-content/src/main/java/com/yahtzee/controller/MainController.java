@@ -1,4 +1,4 @@
-package com.yahtzee.web;
+package com.yahtzee.controller;
 
 import com.yahtzee.game.Game;
 import com.yahtzee.player.Player;
@@ -9,7 +9,6 @@ import org.springframework.messaging.handler.annotation.SendTo;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 import java.util.ArrayList;
 import org.json.simple.JSONObject;
 import org.json.simple.JSONArray;
@@ -28,14 +27,13 @@ public class MainController {
   Game game;
 
   /**
-   * @param name
-   * @param model
-   * @return
+   * Main entry point
+   *
+   * @param model the Model
+   * @return index
    */
   @GetMapping("/")
-  public String greeting(@RequestParam(name = "name",
-      required = false,
-      defaultValue = "World") String name, Model model) {
+  public String greeting(Model model) {
     Player newPlayer = game.createPlayer();
     JSONArray playerListJson = makePlayerListJSON(game.getPlayerList());
 
@@ -47,7 +45,6 @@ public class MainController {
   }
 
   /**
-   * Complete the given {@link Player}'s turn.
    *
    */
   @MessageMapping("/getPlayerList")
@@ -58,7 +55,6 @@ public class MainController {
   }
 
   /**
-   * Keep the specified dice.
    *
    * @param chatMessage a list of the values to keep
    */
