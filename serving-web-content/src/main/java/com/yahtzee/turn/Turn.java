@@ -56,7 +56,6 @@ public class Turn {
    * @return the dice as an ArrayList<Integer>
    */
   public ArrayList<Integer> getDiceValues() {
-    System.out.println("GETTING DICE VALUES: " + this.dice);
     ArrayList<Integer> diceValues = new ArrayList<>();
     (this.dice).forEach(die -> diceValues.add(die.value));
     return diceValues;
@@ -97,6 +96,7 @@ public class Turn {
   public boolean canRoll() {
     return rolls.size() < MAX_ROLLS;
   }
+
 
   /**
    * Create a new {@link Roll} for this Turn.

@@ -54,17 +54,6 @@ public class MainController {
     return makePlayerListJSON(playerList);
   }
 
-  /**
-   *
-   * @param chatMessage a list of the values to keep
-   */
-  @MessageMapping("/chat")
-  @SendTo("/topic/chat")
-  public String setKeepers(String chatMessage) {
-    System.out.println("SET KEEPERS: " + chatMessage);
-    return chatMessage;
-  }
-
   private JSONArray makePlayerListJSON(ArrayList<Player> playerList) {
     JSONArray playerListJson = new JSONArray();
     for(Player player : playerList) {

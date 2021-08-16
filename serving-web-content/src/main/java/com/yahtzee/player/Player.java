@@ -22,7 +22,7 @@ public class Player {
   private int score;
   private String name;
   private ScoreCard scoreCard;
-  public Turn myTurn;
+  private Turn myTurn;
 
   /**
    * Constructor.
@@ -138,7 +138,7 @@ public class Player {
     // save dice status to the Roll
     myTurn.finishRoll(latestDice);
 //    System.out.println("Dice status after setting keepers:" + latestRoll.getDice());
-    return keepers;
+    return latestDice;
   }
 
   public int getPlayerId() {
