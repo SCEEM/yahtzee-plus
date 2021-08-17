@@ -16,11 +16,6 @@
 <div id="scoreList" th:attr="data-scoreList=${scoreList}" hidden></div>
 <div class="wrapper">
     <scorecard>
-<!--        <div class="user-scorecard">-->
-<!--            <h3>Your Scorecard</h3>-->
-<!--            <form>-->
-<!--            </form>-->
-<!--        </div>-->
         <div class="active-scorecard">
             <h3>Active Scorecard</h3>
             <form>
@@ -235,10 +230,12 @@
                 <br>
             </fieldset>
         </form>
-        <form>
-            <button id="rollDice" class="glyphicon glyphicon-share-alt" type="submit">Roll Dice</button>
-            <button id="setKeepers" class="glyphicon glyphicon-share-alt" type="submit">Add Keepers</button>
-        </form>
+        <div id="rollButtons">
+            <form>
+                <button id="rollDice" class="glyphicon glyphicon-share-alt" type="submit">Roll Dice</button>
+                <button id="setKeepers" class="glyphicon glyphicon-share-alt" type="submit">Add Keepers</button>
+            </form>
+        </div>
     </div>
 
     <!-- Roll History section -->
@@ -263,8 +260,18 @@
                 </div>
                 <br>
             </fieldset>
-            <button id="stopRolling" class="glyphicon glyphicon-share-alt" type="submit">Stop Rolling</button>
         </form>
+        <div id="rollKeeperDiv">
+            <form>
+                <div id="rollKeeperButton">
+                    <input type="checkbox" id="rollKeepers" name="rollKeepers">
+                    <label for="rollKeepers">Re-Roll Keepers</label>
+                </div>
+                <div id="stopRollingDiv">
+                    <button id="stopRolling" class="glyphicon glyphicon-share-alt" type="submit">Stop Rolling</button>
+                </div>
+            </form>
+        </div>
     </div>
 
     <div class="buttons">

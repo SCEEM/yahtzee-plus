@@ -20,7 +20,7 @@ public class Roll {
    * Generate new values for the dice that are not kept.
    *
    * @param dice an ArrayList<Die>
-   * @return dice values as an ArrayList<Die>
+   * @return all dice values as an ArrayList<Die>
    */
   public ArrayList<Die> rollDice(ArrayList<Die> dice) {
     for (Die die : dice) {
