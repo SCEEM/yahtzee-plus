@@ -13,9 +13,9 @@ public class Game {
   private ArrayList<Player> playerList;
   private ArrayList<Integer> scoreList;
   private int playerListIndex;
-  private Player currentActivePlayer, system;
-  private static final int MAX_PLAYERS = 6;
-  // private Chat chat;
+  private Player currentActivePlayer;
+  private final int MAX_PLAYERS = 6;
+  private final int MAX_ROUNDS = 13;
 
 
   /**
@@ -25,8 +25,6 @@ public class Game {
     this.playerList = new ArrayList<>();
     this.playerListIndex = 0;
     this.currentActivePlayer = null; // placeholder for assignActivePlayer functionality
-    this.system = new Player(-1); // a representation of the system for Chat purposes
-    // this.chat = new Chat();
     this.scoreList = new ArrayList<Integer>();
   }
 
@@ -77,10 +75,20 @@ public class Game {
     // the player list index will continue to increment
     // the modulus ensures the index will remain within the bounds of the array
     ++playerListIndex;
-    currentActivePlayer = playerList.get(playerListIndex % playerList.size());
-    currentActivePlayer.startTurn();
+    if (gameHasRoundsLeft()){ // will not assign another player to be active if there are no more rounds to play
+      currentActivePlayer = playerList.get(playerListIndex % playerList.size());
+      currentActivePlayer.startTurn();
+    }
   }
 
+  /**
+   * will check if the game has exceeded 13 rounds of play
+   * @return True if the game is on it 13th or lesser round, false otherwise
+   */
+  private boolean gameHasRoundsLeft(){
+    int roundIdx = playerListIndex / MAX_PLAYERS; // returns a new, incremented whole number when the game returns back to the first player
+    return roundIdx < MAX_ROUNDS;
+  }
   
   /**
    * retrieves the current player's ID

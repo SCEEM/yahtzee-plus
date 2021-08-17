@@ -29,14 +29,14 @@
     </div>
     
     <!-- This div contains the game board -->
-    <div id="contentPage" class="hidden"> <!-- ADDED!!!!!!!!!!!!!!!!-->
+    <div id="contentPage" class="hidden"> <!-- ADDED TO SHOW/HIDE MAIN GAME BOARD-->
         <p id="playerId" th:text="${playerId}" hidden></p>
         <p id="activePlayerId" th:text="${activePlayerId}" hidden></p>
 
         <div id="playerList" th:attr="data-playerList=${playerList}" hidden></div>
         <div id="scoreList" th:attr="data-scoreList=${scoreList}" hidden></div>
         <div class="wrapper"> <!-- A div reference to the thymeleaf template container-->
-            <scorecard> <!-- The scorecard sectoin of the thymeleaf container -->
+            <scorecard> <!-- The scorecard section of the thymeleaf container -->
         <!--        <div class="user-scorecard">-->
         <!--            <h3>Your Scorecard</h3>-->
         <!--            <form>-->

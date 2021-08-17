@@ -209,25 +209,28 @@ function onMessageReceived(payload) {
     var messageElement = $('<li>').addClass('event-data');
 
 	if (message.type === 'NEW_USER') {
-		message.content = message.sender + ' has joined the chat';
+
+        message.content = message.sender + ' has joined the game';
 	} else if (message.type === 'SYSTEM') {
+
         var element = document.createElement('i');
-		var text = document.createTextNode("S");
-		element.append(text);
-		messageElement.append(element);
-		var usernameElement = document.createElement('span');
-		var usernameText = document.createTextNode("Game");
-		usernameElement.append(usernameText);
-		messageElement.append(usernameElement);
-	} else { // the message type is CHAT
+        var usernameElement = document.createElement('span');
+
+        var usernameText = document.createTextNode("Game"); // The user name is 'Game'
+        
+		usernameElement.append(usernameText); // adds message name to 'span' element
+        element.append(usernameElement); // adds 'span' element to 'i' element
+		messageElement.append(element); // add 'i' element to the mainMessage
+    } else { // the message type is CHAT
+        
 		var element = document.createElement('i');
-		var text = document.createTextNode(message.sender[0]);
-		element.append(text);
-		messageElement.append(element);
-		var usernameElement = document.createElement('span');
-		var usernameText = document.createTextNode(message.sender);
-		usernameElement.append(usernameText);
-		messageElement.append(usernameElement);
+        var usernameElement = document.createElement('span');
+
+        var usernameText = document.createTextNode(message.sender); // The user name is retreived from the message
+        
+		usernameElement.append(usernameText); // adds message name to 'span' element
+        element.append(usernameElement); // adds 'span' element to 'i' element
+		messageElement.append(element); // add 'i' element to the mainMessage
 	}
 
 	var textElement = document.createElement('p');
