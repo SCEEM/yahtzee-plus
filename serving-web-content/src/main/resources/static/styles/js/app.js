@@ -1,6 +1,7 @@
 'use strict';
 
 var stompClient = null,
+    playerName = null,
     currentKeepers = [],
     currentDice = [],
     activePlayerId,
@@ -10,9 +11,19 @@ var stompClient = null,
     isActivePlayer = false;
 
 
+//______________________Game Connect/Disconnect Functions_____________
+
+function joinGameAndCreateBoard(){
+    $('#welcome-page').hide();
+    $('#contentPage').show();
+    connect();
+}
+
 function connect() {
     var socket = new SockJS('/gs-guide-websocket');
     stompClient = Stomp.over(socket);
+    playerName = $("#playerName").val();
+    console.log("player name is " + name);
 
     var bannerImg = new Image();
     bannerImg.id = 'bannerImg';
@@ -45,6 +56,7 @@ function connect() {
         });
         stompClient.send("/app/getPlayerList");
         stompClient.send("/app/turn/getActivePlayer");
+        newUserMessage();
     });
     console.log("Connected");
 }
@@ -89,6 +101,7 @@ function setActivePlayer (activePlayer) {
         $(scoreLabel).removeClass('scoreValueEnabled').addClass('scoreValueDisabled');
     });
 }
+
 function showDice (dice) {
     var dieDiv = document.querySelectorAll('div[id^=die]');
     currentDice = dice;
@@ -190,6 +203,43 @@ function updatePlayerList (playerList) {
     });
 }
 
+function onMessageReceived(payload) {
+	var message = JSON.parse(payload.body);
+    console.log(message);
+    var messageElement = $('<li>').addClass('event-data');
+
+	if (message.type === 'NEW_USER') {
+		message.content = message.sender + ' has joined the chat';
+	} else if (message.type === 'SYSTEM') {
+        var element = document.createElement('i');
+		var text = document.createTextNode("S");
+		element.append(text);
+		messageElement.append(element);
+		var usernameElement = document.createElement('span');
+		var usernameText = document.createTextNode("Game");
+		usernameElement.append(usernameText);
+		messageElement.append(usernameElement);
+	} else { // the message type is CHAT
+		var element = document.createElement('i');
+		var text = document.createTextNode(message.sender[0]);
+		element.append(text);
+		messageElement.append(element);
+		var usernameElement = document.createElement('span');
+		var usernameText = document.createTextNode(message.sender);
+		usernameElement.append(usernameText);
+		messageElement.append(usernameElement);
+	}
+
+	var textElement = document.createElement('p');
+	var messageText = document.createTextNode(message.content);
+	textElement.append(messageText);
+
+	messageElement.append(textElement);
+
+	$("#messageList").append(messageElement);
+	$("#messageList").scrollTop = $("#messageList").scrollHeight;
+}
+
 //___________________________Senders_________________________________
 function rollDice() {
     $(document.querySelectorAll('[id^=diceImg]')).remove();
@@ -241,7 +291,43 @@ function finishTurn () {
     stompClient.send("/app/turn/finish");
 }
 
+function sendMessage() {
+    var messageContent = $("#chatMessage").val();
+    console.log(messageContent);
+	if (messageContent && stompClient) {
+		var chatMessage = {
+            sender : playerName,
+			content : messageContent,
+			type : 'CHAT'
+		};
+        stompClient.send("/app/chat.sendMessage", {}, JSON.stringify(chatMessage));
+		$('#chatMessage').val(''); //reset user input
+	}
+}
 
+// This function will alert the players that a new user has joined the game
+function newUserMessage(){
+    var msg = {
+        sender : playerName,
+        content : "new user",
+        type : 'NEW_USER'
+    };
+    stompClient.send("/app/chat.sendMessage", {}, JSON.stringify(msg));
+    console.log("Sent new user message");
+}
+
+// THis function will alert the players of a message from the game system
+function sendSystemMessage(msg) {
+    var sysMessage = {
+        sender : "Game",
+        content : msg,
+        type : 'SYSTEM'
+    };
+    stompClient.send("/app/chat.sendMessage", {}, JSON.stringify(sysMessage));
+    console.log("sent system message: " + msg);
+}
+
+// click activity functions that are initialized once the document is loaded
 $(function () {
     $("form").on('submit', function (e) {
         e.preventDefault();
@@ -254,36 +340,5 @@ $(function () {
     $( "#stopRolling" ).click(function() { stopRolling(); });
     $( "#submitScore" ).click(function() { submitScore(); });
     $( "#finishTurn" ).click(function() { finishTurn(); });
+    $( "#joinGame" ).click(function() { joinGameAndCreateBoard(); });
 });
-
-function sendMessage() {
-    var messageContent = $("#chatMessage").val();
-    console.log(messageContent);
-	if (messageContent && stompClient) {
-		var chatMessage = {
-			content : messageContent,
-			type : 'CHAT'
-		};
-
-		stompClient.send("/app/chat.sendMessage", {}, JSON.stringify(chatMessage));
-		$('#chatMessage').val(''); //reser input
-	}
-}
-
-
-function onMessageReceived(payload) {
-    console.log(payload);
-	var message = JSON.parse(payload.body);
-    console.log(message);
-	var messageElement = document.createElement('li');
-
-	var textElement = document.createElement('p');
-	var messageText = document.createTextNode(message.content);
-	textElement.append(messageText);
-
-	messageElement.append(textElement);
-
-	$("#messageList").append(messageElement);
-	$("#messageList").scrollTop = $("#messageList").scrollHeight;
-
-}

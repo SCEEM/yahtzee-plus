@@ -3,7 +3,7 @@ package com.yahtzee.game;
 import java.util.ArrayList;
 
 import com.yahtzee.player.Player;
-import com.yahtzee.web.TurnController;
+import com.yahtzee.controller.TurnController;
 
 /**
  * This class represents the game state for all players.
