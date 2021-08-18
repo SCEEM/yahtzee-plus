@@ -57,6 +57,7 @@ function connect() {
         stompClient.send("/app/getPlayerList");
         stompClient.send("/app/turn/getActivePlayer");
         newUserMessage();
+        // sendSystemMessage("It is " + playerName + "'s turn.");
     });
     console.log("Connected");
 }
@@ -211,17 +212,17 @@ function onMessageReceived(payload) {
 	if (message.type === 'NEW_USER') {
 
         message.content = message.sender + ' has joined the game';
-	} else if (message.type === 'SYSTEM') {
+	// } else if (message.type === 'SYSTEM') {
 
-        var element = document.createElement('i');
-        var usernameElement = document.createElement('span');
+        // var element = document.createElement('i');
+        // var usernameElement = document.createElement('span');
 
-        var usernameText = document.createTextNode("Game"); // The user name is 'Game'
+        // var usernameText = document.createTextNode("Game"); // The user name is 'Game'
         
-		usernameElement.append(usernameText); // adds message name to 'span' element
-        element.append(usernameElement); // adds 'span' element to 'i' element
-		messageElement.append(element); // add 'i' element to the mainMessage
-    } else { // the message type is CHAT
+		// usernameElement.append(usernameText); // adds message name to 'span' element
+        // element.append(usernameElement); // adds 'span' element to 'i' element
+		// messageElement.append(element); // add 'i' element to the mainMessage
+    } else if (message.type === 'CHAT') { // the message type is CHAT
         
 		var element = document.createElement('i');
         var usernameElement = document.createElement('span');
@@ -240,7 +241,7 @@ function onMessageReceived(payload) {
 	messageElement.append(textElement);
 
 	$("#messageList").append(messageElement);
-	$("#messageList").scrollTop = $("#messageList").scrollHeight;
+	$("#messageList").scrollTop($("#messageList")[0].scrollHeight);
 }
 
 //___________________________Senders_________________________________
@@ -265,10 +266,20 @@ function setKeepers () {
         });
     });
     stompClient.send("/app/turn/roll/keep", {}, JSON.stringify(currentKeepers));
+    var str = ""
+    currentKeepers.forEach(function(die, index){
+        if (index == currentKeepers/length - 1){
+            str += die.value + "";
+        } else {
+            str += die.value + ", ";
+        }
+    });
+    sendSystemMessage("These are " + playerName + "'s current keepers: " + str);
 }
 
 function stopRolling () {
     stompClient.send("/app/turn/stopRoll");
+    sendSystemMessage(playerName + " has finished rolling.");
 }
 
 function submitScore () {
@@ -280,6 +291,7 @@ function submitScore () {
             selectedVal = ele[i].value;
     }
     stompClient.send("/app/turn/submitScore", {}, JSON.stringify(selectedVal));
+    sendSystemMessage(playerName + " scored " + selectedVal + " this round.");
 }
 
 function finishTurn () {
@@ -292,6 +304,7 @@ function finishTurn () {
     $(dieDiv).hide();
 
     stompClient.send("/app/turn/finish");
+    sendSystemMessage(playerName + " finished their turn.");
 }
 
 function sendMessage() {
