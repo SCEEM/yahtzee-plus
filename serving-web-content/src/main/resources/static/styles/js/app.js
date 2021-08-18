@@ -1,12 +1,11 @@
 'use strict';
 
-var stompClient = null,
+let stompClient = null,
     currentDice = [],
     activePlayerId,
-    playerId,
-    scoreList,
-    playerList,
-    isActivePlayer = false;
+    rollCount = 0,
+    isActivePlayer = false,
+    scorecardMap = {};
 
 
 function connect() {
@@ -60,7 +59,8 @@ function disconnect() {
 function setActivePlayer (activePlayer) {
     isActivePlayer = (activePlayer.playerId).toString() === $('#playerId').text();
     activePlayerId = activePlayer.playerId;
-    currentDice = [];
+    currentDice = [],
+    rollCount = 0;
 
     $( "#rollDice" ).hide();
     $('.dice:checkbox').hide();
@@ -69,13 +69,24 @@ function setActivePlayer (activePlayer) {
     $( "#finishTurn" ).hide();
     $( '#stopRolling' ).hide();
     $('[class=scoreCheckboxes]').hide();
-    $('#rollKeeperButton').hide();
+    $('#rollKeepersDiv').hide();
+    $('.rollLabel').hide();
     $('#keeperSet img[id^=diceImg]').remove();
     $('#rollSet img[id^=diceImg]').remove();
+    $('img[id^=diceSmallImg]').remove();
+    $('#activePlayer').text('Player #' + activePlayerId);
 
     if (isActivePlayer) {
         $( "#rollDice" ).prop('disabled', false ).show();
         $( "#stopRolling" ).prop('disabled', false ).show();
+        $( ".currentScore" ).hide();
+        $( "#activePlayer" ).hide();
+        $('#you').css('float', 'right');
+        $('#isActivePlayer').show();
+    } else {
+        $('#you').css('float', 'left');
+        $( ".currentScore" ).show();
+        $( "#activePlayer" ).show();
     }
 
     (activePlayer.scorecard).forEach((value, index) => {
@@ -96,10 +107,11 @@ function showDice(rollInformation) {
     currentDice = dice;
 
     $('#rollSet img[id^=diceImg]').remove();
-    $('#rollKeeperButton').show();
     $(dieDiv).hide();
+    $('#rollLabel' + rollCount).show();
 
     if (isActivePlayer) {
+        $('#rollKeepersDiv').show();;
         $( "#setKeepers" ).show().prop('disabled', false );
         $( "#stopRolling" ).show();
         $('.dice:checkbox').prop("checked", false).show();
@@ -107,17 +119,16 @@ function showDice(rollInformation) {
 
     if (!canRoll) {
         $( "#rollDice" ).prop('disabled', true );
-        $('#rollKeeperButton').hide();
+        $('#rollKeepersDiv').hide();
     }
 
     dice.forEach(function (die, index){
         if (die.status !== "KEEPER") {
             showDie(die);
-
+            showSmallDie(die);
         }
     });
-
-
+    rollCount++;
 }
 function showDiceAndKeepers(rollInformation) {
     let dieDiv = document.querySelectorAll('div[id^=die]'),
@@ -141,9 +152,15 @@ function showDiceAndKeepers(rollInformation) {
 }
 
 function showDie (die) {
-    let diceImg = new Image(50, 50);
+    let diceImg = new Image(50,50);
     diceImg.id = 'diceImg' + die.value;
     $('#' + die.id).append(diceImg).show();
+}
+
+function showSmallDie (die) {
+    let diceImg = new Image(50,50);
+    diceImg.id = 'diceSmallImg' + die.value;
+    $('#rollSet'+ rollCount +' > .'+die.id).append(diceImg).show();
 }
 
 function showKeeper (keeper, index) {
@@ -180,12 +197,19 @@ function updateScorecard (scorecard) {
     if (isActivePlayer) {
         $( '#submitScore' ).prop('disabled', true );
         $( '#finishTurn' ).removeAttr('disabled').show();
+        $('#isActivePlayer').hide();
     }
 
+    scorecardMap[activePlayerId] = scorecard;
+
     (scorecard).forEach((value, index) => {
-        let scoreLabel = "#scoreVal" + index;
+        let scoreLabel = "#scoreVal" + index,
+            currentScore = "#currentScoreVal" + index;
         if (value !== -1) {
             $(scoreLabel+"> .scoreValue").text(value);
+            if (isActivePlayer) {
+                $(currentScore).text(value);
+            }
         } else {
             $(scoreLabel+"> .scoreValue").text("");
         }
