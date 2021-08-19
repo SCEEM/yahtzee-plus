@@ -212,16 +212,6 @@ function onMessageReceived(payload) {
 	if (message.type === 'NEW_USER') {
 
         message.content = message.sender + ' has joined the game';
-	// } else if (message.type === 'SYSTEM') {
-
-        // var element = document.createElement('i');
-        // var usernameElement = document.createElement('span');
-
-        // var usernameText = document.createTextNode("Game"); // The user name is 'Game'
-        
-		// usernameElement.append(usernameText); // adds message name to 'span' element
-        // element.append(usernameElement); // adds 'span' element to 'i' element
-		// messageElement.append(element); // add 'i' element to the mainMessage
     } else if (message.type === 'CHAT') { // the message type is CHAT
         
 		var element = document.createElement('i');
