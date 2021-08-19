@@ -22,33 +22,25 @@ public class Player {
   private int score;
   private String name;
   private ScoreCard scoreCard;
-  private Turn myTurn;
+  public Turn myTurn;
 
   /**
-   * Constructor.
-   *
-   * @param playerId an integer id
+   * Constructor
    */
   public Player(int playerId) {
-    this.currentTurn = false; // active player not assigned yet
+    this.currentTurn = false; //active player not assigned yet
     this.playerId = playerId;
     this.score = 0;
-    this.name = "test player"; // TODO
+    this.name = "test player"; //TODO
     this.scoreCard = new ScoreCard();
     this.myTurn = null;
   }
 
-  /**
-   * Begin the Player's turn.
-   */
   public void startTurn() {
     this.currentTurn = true;
     this.myTurn = new Turn();
   }
 
-  /**
-   * End the Player's turn.
-   */
   public void endTurn() {
     this.currentTurn = false;
     this.myTurn = null;
@@ -58,20 +50,14 @@ public class Player {
     return this.myTurn;
   }
 
-  /**
-   * Check if it's currently the Player's turn.
-   *
-   * @return true if it is their turn; false if not
-   */
   public boolean isCurrentlyTakingTurn() {
     return this.currentTurn;
   }
 
-  /**
-   * Calculate all possible scores for the given Turn.
-   *
-   * @return all possible scores
-   */
+  public boolean canRollDice() {
+    return this.currentTurn && this.myTurn.canRoll();
+  }
+  
   public JSONArray getPossibleScores() {
     ArrayList<Integer> diceValues = (this.myTurn).getDiceValues();
     int[] scorecard =  this.scoreCard.getPossibleScores(diceValues);
@@ -91,39 +77,15 @@ public class Player {
     return this.scoreCard.getScores();
   };
 
-  /**
-   * Roll the dice during the Player's Turn.
-   *
-   * @return the dice as an ArrayList<Die>
-   */
   public ArrayList<Die> rollDice() {
     if (canRollDice()) {
-      // get the last known dice for the Roll
-      ArrayList<Die> dice = myTurn.getCurrentDice();
-
-      // create a new Roll
       Roll roll = myTurn.newRoll();
-      return roll.rollDice(dice);
+      return roll.rollDice(myTurn.getDice());
     } else {
       return null; //TODO: return error
     }
-  }
+  };
 
-  /**
-   * Check if the Player can roll the dice.
-   *
-   * @return true if able to roll; false if not
-   */
-  public boolean canRollDice() {
-    return this.currentTurn && this.myTurn.canRoll();
-  }
-
-  /**
-   * Set the given dice as "keepers".
-   *
-   * @param keepers the dice to keep
-   * @return the keepers
-   */
   public ArrayList<Die> keepDice(ArrayList<Die> keepers) {
     List<String> dieIdsToKeep = keepers.stream().map(k -> k.getId()).collect(Collectors.toList());
     // get latest roll as part of the Turn
@@ -137,8 +99,11 @@ public class Player {
     }
     // save dice status to the Roll
     myTurn.finishRoll(latestDice);
-//    System.out.println("Dice status after setting keepers:" + latestRoll.getDice());
-    return latestDice;
+    System.out.println("Final status of dice in roll:");
+    for (Die die : latestRoll.getDice()) {
+      System.out.println(die.toString());
+    }
+    return keepers;
   }
 
   public int getPlayerId() {
@@ -156,11 +121,10 @@ public class Player {
     }
   }
   
-  public void setName(String name) {
+  public void setName(String name){
     this.name = name;
   }
-
-  public String getName() {
+  public String getName(){
     return this.name;
   }
   

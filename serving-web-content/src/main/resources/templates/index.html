@@ -9,6 +9,7 @@
     <script src="/webjars/stomp-websocket/stomp.min.js"></script>
     <script th:src="@{/styles/js/app.js}"></script>
 </head>
+<!-- <body onload="connect()"> -->
 <body>
     <!-- This div container contains the welcome page of Yahtzee+
          It will allow a user to submit their desired player name 
@@ -259,57 +260,6 @@
                     <button id="setKeepers" class="glyphicon glyphicon-share-alt" type="submit">Add Keepers</button>
                 </form>
             </div>
-                    </div>
-                    <br>
-                </fieldset>
-                <button id="submitScore" class="glyphicon glyphicon-share-alt" type="submit">Submit</button>
-            </form>
-        </div>
-    </scorecard>
-
-    <header>
-        <div id="banner"></div>
-        <!--            <div>-->
-        <!--                <form class="form-inline">-->
-        <!--                    <div class="form-group">-->
-        <!--                        <button id="connect" class="glyphicon glyphicon-share-alt" type="submit">Join Game</button>-->
-        <!--                        <button id="disconnect" class="glyphicon glyphicon-share-alt" type="submit" disabled="disabled">Leave Game-->
-        <!--                        </button>-->
-        <!--                    </div>-->
-        <!--                </form>-->
-        <!--            </div>-->
-    </header>
-
-    <!-- Current Roll section -->
-    <div class="current-roll">
-        <h3>Current Roll</h3>
-        <form>
-            <fieldset id="rollSet" class="row">
-                <div id="die0" class="column" hidden>
-                    <input type="checkbox" class="dice" name="dice" value="Dice0">
-                </div>
-                <div id="die1" class="column" hidden>
-                    <input type="checkbox" class="dice" name="dice" value="Dice1">
-                </div>
-                <div id="die2" class="column" hidden>
-                    <input type="checkbox" class="dice" name="dice" value="Dice2">
-                </div>
-                <div id="die3" class="column" hidden>
-                    <input type="checkbox" class="dice" name="dice" value="Dice3">
-                </div>
-                <div id="die4" class="column" hidden>
-                    <input type="checkbox" class="dice" name="dice" value="Dice4">
-                </div>
-                <br>
-            </fieldset>
-        </form>
-        <div id="rollButtons">
-            <form>
-                <button id="rollDice" class="glyphicon glyphicon-share-alt" type="submit">Roll Dice</button>
-                <button id="setKeepers" class="glyphicon glyphicon-share-alt" type="submit">Add Keepers</button>
-            </form>
-        </div>
-    </div>
 
             <!-- Roll History section -->
             <div class="roll-history">
@@ -328,20 +278,9 @@
                         <div id="keeper4" class="column" hidden></div>
                         <br>
                     </fieldset>
+                    <button id="stopRolling" class="glyphicon glyphicon-share-alt" type="submit">Stop Rolling</button>
                 </form>
             </div>
-        <div id="rollKeeperDiv">
-            <form>
-                <div id="rollKeeperButton">
-                    <input type="checkbox" id="rollKeepers" name="rollKeepers">
-                    <label for="rollKeepers">Re-Roll Keepers</label>
-                </div>
-                <div id="stopRollingDiv">
-                    <button id="stopRolling" class="glyphicon glyphicon-share-alt" type="submit">Stop Rolling</button>
-                </div>
-            </form>
-        </div>
-    </div>
 
             <div class="buttons">
                 <form th:action="@{/turn/finish}" method="post">

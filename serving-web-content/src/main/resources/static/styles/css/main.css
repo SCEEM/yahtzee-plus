@@ -1,52 +1,20 @@
+h2 {
+    font-family: sans-serif;
+    font-size: 1.5em;
+    text-transform: uppercase;
+}
+
 h3 {
-    padding: 0;
-    margin: 0;
-    text-align: center;
-}
-
-body {
-    background-color: #DC2A28;
-    font-family: Futura,Trebuchet MS,Arial,sans-serif;
-}
-
-header {
-    grid-area: hd;
-}
-
-button {
-    display: inline-block;
-    border: none;
-    padding: 5px;
-    margin: 5px;
-    text-decoration: none;
-    background: #DC2A28;
-    color: #F7C830;
-    font-family: Futura,Trebuchet MS,Arial,sans-serif;
-    -webkit-border-radius: 10px;
-    -moz-border-radius: 10px;
-    border-radius: 10px;
-    cursor: pointer;
-    text-align: center;
-    transition: background 250ms ease-in-out,
-    transform 150ms ease;
-    -webkit-appearance: none;
-    -moz-appearance: none;
-}
-button:hover,
-button:focus {
-    background: #EA4235;
-}
-button:hover,
-button:focus {
-    background: #F4A62D;
-}
-button:disabled {
-    background: #ED7D31;
+    font-family: sans-serif;
 }
 
 strong {
     font-weight: 700;
     background-color: yellow;
+}
+
+p {
+    font-family: sans-serif;
 }
 
 .wrapper {
@@ -65,57 +33,35 @@ strong {
 
 scorecard {
     grid-area: sc;
-    -webkit-border-radius: 5px;
-    -moz-border-radius: 5px;
-    border-radius: 5px;
+}
+
+/*.user-scorecard {*/
+/*    background-color: #F4A62D;*/
+/*    float: left;*/
+/*    width: 50%;*/
+/*    height: 100%;*/
+/*}*/
+.active-scorecard {
     background-color: #F7C830;
+    float: right;
+    width: 100%;
+    height: 100%;
 }
 .current-roll {
     background-color: #F4A62D;
     grid-area: cr;
     margin: 10px;
-    -webkit-border-radius: 5px;
-    -moz-border-radius: 5px;
-    border-radius: 5px;
-    position: relative;
 }
 .roll-history {
     background-color: #F7C830;
     grid-area: rh;
     margin: 10px;
-    -webkit-border-radius: 5px;
-    -moz-border-radius: 5px;
-    border-radius: 5px;
 }
 .keepers {
     background-color: #F4A62D;
     grid-area: ke;
     margin: 10px;
-    -webkit-border-radius: 5px;
-    -moz-border-radius: 5px;
-    border-radius: 5px;
-    position: relative;
 }
-.keepers > #rollKeeperDiv {
-    vertical-align: bottom;
-    position: absolute;
-    bottom: 0;
-    left: 0;
-    right: 0;
-}
-
-#rollKeeperButton {
-    width: calc(50% - 10px);
-    float: left;
-    padding-top: 5px;
-    padding-left: 10px;
-}
-
-#stopRollingDiv {
-    float: right;
-    width: 50%;
-}
-
 .buttons {
     background-color: #000000;
     grid-area: bu;
@@ -126,18 +72,20 @@ scorecard {
     grid-area: as;
     margin-bottom: 5px;
     margin-right: 5px;
-    -webkit-border-radius: 5px;
-    -moz-border-radius: 5px;
-    border-radius: 5px;
 }
 .chat {
     background-color: #FFFFFF;
     grid-area: chat;
     margin-top: 5px;
     margin-right: 5px;
-    -webkit-border-radius: 5px;
-    -moz-border-radius: 5px;
-    border-radius: 5px;
+}
+
+body {
+    background-color: #DC2A28;
+}
+
+header {
+    grid-area: hd;
 }
 
 #banner {
@@ -159,7 +107,6 @@ main {
 
 fieldset {
     text-align: center;
-    border: 0;
 }
 
 #diceImg1 {
@@ -215,12 +162,7 @@ fieldset {
     background-color: #FFFFFF;
     border-radius: 5px;
 }
-#rollButtons {
-    position: absolute;
-    bottom: 0;
-    left: 0;
-    right: 0;
-}
+
 #rollDice {
     float: left;
 }
@@ -256,7 +198,7 @@ fieldset {
 .scoreValue {
 	font-style: normal;
     float: right;
-    width: 20px;
+    width: 30px;
     text-align: center;
 }
 
