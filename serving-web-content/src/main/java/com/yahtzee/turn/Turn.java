@@ -8,7 +8,7 @@ import java.util.ArrayList;
 public class Turn {
 
   static final int MAX_ROLLS = 3;
-  ArrayList<Die> dice;
+  ArrayList<Die> dice;  // a reference to the latest dice
   ArrayList<Roll> rolls;
   Roll currentRoll;
 
@@ -19,7 +19,6 @@ public class Turn {
     dice = createDice(); // initialize dice
     rolls = new ArrayList<>();
   }
-
 
   /**
    * Initialize the 5 {@link Die} objects for use in the Turn.
@@ -36,16 +35,20 @@ public class Turn {
     return dice;
   }
 
-
   /**
    * Get the dice used for this Turn.
    *
    * @return the dice as an ArrayList<Die>
    */
-  public ArrayList<Die> getDice() {
-    return this.dice;
+  public ArrayList<Die> getCurrentDice() {
+    if (rolls.isEmpty()) {
+      // create new dice
+      return this.dice;
+    } else {
+      // get dice from latest roll
+      return currentRoll.getDice();
+    }
   }
-
 
   /**
    * Get the dice used for this Turn.
@@ -53,12 +56,10 @@ public class Turn {
    * @return the dice as an ArrayList<Integer>
    */
   public ArrayList<Integer> getDiceValues() {
-    System.out.println("GETTING DICE VALUES: " + this.dice);
-    ArrayList<Integer> diceValues = new ArrayList<Integer>();
+    ArrayList<Integer> diceValues = new ArrayList<>();
     (this.dice).forEach(die -> diceValues.add(die.value));
     return diceValues;
   }
-
 
   /**
    * Hold onto a reference to the latest Roll.
@@ -68,7 +69,6 @@ public class Turn {
   public void setCurrentRoll(Roll currentRoll) {
     this.currentRoll = currentRoll;
   }
-
 
   /**
    * Get the current {@link Roll} as part of this Turn.
@@ -87,7 +87,6 @@ public class Turn {
   public void finishRoll(ArrayList<Die> dice) {
     this.currentRoll.setDice(dice);
   }
-
 
   /**
    * Check if a roll can be taken.

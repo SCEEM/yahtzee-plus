@@ -34,9 +34,13 @@ public class TurnController {
    */
   @MessageMapping("/roll")
   @SendTo("/topic/roll")
-  public ArrayList<Die> rollDice() {
+  public JSONObject rollDice(@RequestBody boolean rollKeepers) {
+    System.out.println("rollKeepers? " + rollKeepers);
+    JSONObject rollObject = new JSONObject();
     Player currentPlayer = game.getCurrentActivePlayer();
-    return currentPlayer.rollDice();
+    rollObject.put("dice", currentPlayer.rollDice());
+    rollObject.put("canRoll", currentPlayer.canRollDice());
+    return rollObject;
   }
 
 
@@ -48,10 +52,13 @@ public class TurnController {
    */
   @MessageMapping("/roll/keep")
   @SendTo("/topic/keepers")
-  public ArrayList<Die> setKeepers(@RequestBody ArrayList<Die> keepers) {
-    // get current dice from current Turn
+  public JSONObject setKeepers(@RequestBody ArrayList<Die> keepers) {
+    JSONObject rollObject = new JSONObject();
     Player currentPlayer = game.getCurrentActivePlayer();
-    return currentPlayer.keepDice(keepers);
+    rollObject.put("dice", currentPlayer.keepDice(keepers));
+    rollObject.put("canRoll", currentPlayer.canRollDice());
+    // get current dice from current Turn
+    return rollObject;
   }
 
 
@@ -73,7 +80,6 @@ public class TurnController {
   @MessageMapping("/submitScore")
   @SendTo("/topic/updateScorecard")
   public int[] submitScore(int rowNumber) {
-    System.out.println("ROW SELECTED: " + rowNumber);
     game.getCurrentActivePlayer().setScore(rowNumber);
     return game.getCurrentActivePlayer().getScorecard();
   }

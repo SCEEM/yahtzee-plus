@@ -3,7 +3,6 @@ package com.yahtzee.game;
 import java.util.ArrayList;
 
 import com.yahtzee.player.Player;
-import com.yahtzee.controller.TurnController;
 
 /**
  * This class represents the game state for all players.
@@ -44,7 +43,7 @@ public class Game {
         this.currentActivePlayerBeginsTurn();
           // newPlayer.takeTurn();
       }
-      System.out.println("created player " + newPlayer.getPlayerId());
+
       return newPlayer;
     } else {
       //TODO: return error message 

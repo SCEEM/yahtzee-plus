@@ -32,10 +32,13 @@ public class MainController {
    * @param model
    * @return
    */
+   * Main entry point
+   *
+   * @param model the Model
+   * @return index
+   */
   @GetMapping("/")
-  public String greeting(@RequestParam(name = "name",
-      required = false,
-      defaultValue = "World") String name, Model model) {
+  public String greeting(Model model) {
     Player newPlayer = game.createPlayer();
     JSONArray playerListJson = makePlayerListJSON(game.getPlayerList());
 
@@ -47,7 +50,6 @@ public class MainController {
   }
 
   /**
-   * Complete the given {@link Player}'s turn.
    *
    */
   @MessageMapping("/getPlayerList")
@@ -57,17 +59,6 @@ public class MainController {
     return makePlayerListJSON(playerList);
   }
 
-  /**
-   * Keep the specified dice.
-   *
-   * @param chatMessage a list of the values to keep
-   */
-  @MessageMapping("/chat")
-  @SendTo("/topic/chat")
-  public String setKeepers(String chatMessage) {
-    System.out.println("SET KEEPERS: " + chatMessage);
-    return chatMessage;
-  }
 
   private JSONArray makePlayerListJSON(ArrayList<Player> playerList) {
     JSONArray playerListJson = new JSONArray();
