@@ -117,23 +117,12 @@ scorecard {
     border-radius: 5px;
     position: relative;
 }
-.keepers > #rollKeeperDiv {
-    vertical-align: bottom;
-    position: absolute;
-    bottom: 0;
-    left: 0;
-    right: 0;
-}
 
 #rollKeeperButton {
     width: calc(50% - 10px);
     float: left;
     padding-top: 5px;
     padding-left: 10px;
-}
-
-#stopRolling {
-    align-content: center;
 }
 
 .all-scores {
@@ -167,16 +156,27 @@ scorecard {
     width: 100%;
 }
 
-#isActivePlayer {
-    text-align: center;
-    height: 20px;
-    padding: 5px;
+#user-banner {
+    height: 30px;
     margin: 10px;
     background: #F7C830;
     color: #DC2A28;
     -webkit-border-radius: 5px;
     -moz-border-radius: 5px;
     border-radius: 5px;
+}
+#isActivePlayer {
+    float: left;
+    width: calc(33% - 5px);
+    margin: 5px;
+}
+#stopRollingDiv,
+#finishTurnDiv,
+#leaveGameDiv {
+    float: left;
+    width: calc(33% - 7px);
+    margin: 3px;
+    text-align: center;
 }
 
 main {

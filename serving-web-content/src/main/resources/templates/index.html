@@ -213,7 +213,7 @@
                     </div>
                      
                 </fieldset>
-                <button id="submitScore" class="glyphicon glyphicon-share-alt" type="submit">Submit</button>
+                <button id="submitScore" style="float: right;" type="submit">Submit</button>
             </form>
         </div>
     </scorecard>
@@ -222,8 +222,14 @@
         <div id="banner"></div>
         <div id="user-banner">
             <div id="isActivePlayer" hidden>It's your turn!</div>
-            <form style="text-align: center">
-                <button id="finishTurn" type="submit" style="background: #F7C830;color: #DC2A28;">Finish Turn</button>
+            <form id="stopRollingDiv">
+                <button id="stopRolling" type="submit" style="margin: 0;">Stop Rolling</button>
+            </form>
+            <form id="finishTurnDiv">
+                <button id="finishTurn" type="submit" style="margin: 0;">Finish Turn</button>
+            </form>
+            <form id="leaveGameDiv" style="float: right">
+                <button id="leaveGame" type="submit" style="margin: 0;">Leave Game</button>
             </form>
         </div>
     </header>
@@ -338,11 +344,6 @@
                 <br>
             </fieldset>
         </form>
-        <div id="rollKeeperDiv" style="text-align: center;">
-            <form>
-                <button id="stopRolling" class="glyphicon glyphicon-share-alt" type="submit">Stop Rolling</button>
-            </form>
-        </div>
     </div>
 
     <!-- All Scores -->
