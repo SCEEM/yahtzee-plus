@@ -1,4 +1,5 @@
-h3 {
+h3,
+h4{
     padding: 0;
     margin: 0;
     text-align: center;
@@ -9,6 +10,31 @@ body {
     font-family: Futura,Trebuchet MS,Arial,sans-serif;
 }
 
+@media screen and (min-height: 821px){
+    html  {
+        font-size: 1rem;
+    }
+    button  {
+        font-size: 1rem;
+    }
+}
+@media screen and (max-height: 820px) and (min-height: 781px){
+    html  {
+        font-size: .9rem;
+    }
+    button  {
+        font-size: .9rem;
+    }
+}
+@media screen and (max-height: 780px){
+    html  {
+        font-size: .8rem;
+    }
+    button  {
+        font-size: .8rem;
+    }
+}
+
 header {
     grid-area: hd;
 }
@@ -16,15 +42,15 @@ header {
 button {
     display: inline-block;
     border: none;
-    padding: 5px;
-    margin: 5px;
+    padding: .25rem;
+    margin: .25rem;
     text-decoration: none;
+    font-family: Futura,Trebuchet MS,Arial,sans-serif;
     background: #DC2A28;
     color: #F7C830;
-    font-family: Futura,Trebuchet MS,Arial,sans-serif;
-    -webkit-border-radius: 10px;
-    -moz-border-radius: 10px;
-    border-radius: 10px;
+    -webkit-border-radius: .5rem;
+    -moz-border-radius: .5rem;
+    border-radius: .5rem;
     cursor: pointer;
     text-align: center;
     transition: background 250ms ease-in-out,
@@ -51,97 +77,100 @@ strong {
 
 .wrapper {
     display: grid;
-    width: 100vw;
-    height: 100vh;
+    width: 95vw;
+    height: 95vh;
     grid-template-columns: repeat(10, 1fr);
     grid-template-rows: repeat(5, 1fr);
     grid-template-areas:
         "sc sc sc hd   hd   hd   hd   as   as   as  "
         "sc sc sc cr   cr   cr   cr   as   as   as  "
         "sc sc sc rh   rh   rh   rh   chat chat chat"
+        "sc sc sc rh   rh   rh   rh   chat chat chat"
         "sc sc sc ke   ke   ke   ke   chat chat chat"
-        "sc sc sc bu   bu   bu   bu   chat chat chat"
 }
 
 scorecard {
     grid-area: sc;
-    -webkit-border-radius: 5px;
-    -moz-border-radius: 5px;
-    border-radius: 5px;
+    -webkit-border-radius: .25rem;
+    -moz-border-radius: .25rem;
+    border-radius: .25rem;
     background-color: #F7C830;
 }
+#you {
+    width: 3.375rem;
+    text-align: center;
+    float: right;
+    font-weight: bold;
+    border-left: .125rem solid #FF0000;
+    height: 2.688rem;
+}
+#activePlayer {
+    width: 3.438rem;
+    height: 2.688rem;
+    float: right;
+    text-align: center;
+    font-weight: bold;
+    border-left: .125rem solid #FF0000;
+}
+#title > .scoreLabel {
+    font-weight: bold;
+}
+
 .current-roll {
     background-color: #F4A62D;
     grid-area: cr;
-    margin: 10px;
-    -webkit-border-radius: 5px;
-    -moz-border-radius: 5px;
-    border-radius: 5px;
+    margin: .5rem;
+    -webkit-border-radius: .25rem;
+    -moz-border-radius: .25rem;
+    border-radius: .25rem;
     position: relative;
 }
 .roll-history {
     background-color: #F7C830;
     grid-area: rh;
-    margin: 10px;
-    -webkit-border-radius: 5px;
-    -moz-border-radius: 5px;
-    border-radius: 5px;
+    margin: .5rem;
+    -webkit-border-radius: .25rem;
+    -moz-border-radius: .25rem;
+    border-radius: .25rem;
 }
 .keepers {
     background-color: #F4A62D;
     grid-area: ke;
-    margin: 10px;
-    -webkit-border-radius: 5px;
-    -moz-border-radius: 5px;
-    border-radius: 5px;
+    margin: .5rem;
+    -webkit-border-radius: .25rem;
+    -moz-border-radius: .25rem;
+    border-radius: .25rem;
     position: relative;
-}
-.keepers > #rollKeeperDiv {
-    vertical-align: bottom;
-    position: absolute;
-    bottom: 0;
-    left: 0;
-    right: 0;
 }
 
 #rollKeeperButton {
-    width: calc(50% - 10px);
+    width: calc(50% - .5rem);
     float: left;
-    padding-top: 5px;
-    padding-left: 10px;
+    padding-top: .25rem;
+    padding-left: .5rem;
 }
 
-#stopRollingDiv {
-    float: right;
-    width: 50%;
-}
-
-.buttons {
-    background-color: #000000;
-    grid-area: bu;
-    margin: 10px;
-}
 .all-scores {
     background-color: #EA4235;
     grid-area: as;
-    margin-bottom: 5px;
-    margin-right: 5px;
-    -webkit-border-radius: 5px;
-    -moz-border-radius: 5px;
-    border-radius: 5px;
+    margin-bottom: .25rem;
+    margin-right: .25rem;
+    -webkit-border-radius: .25rem;
+    -moz-border-radius: .25rem;
+    border-radius: .25rem;
 }
 .chat {
     background-color: #FFFFFF;
     grid-area: chat;
-    margin-top: 5px;
-    margin-right: 5px;
-    -webkit-border-radius: 5px;
-    -moz-border-radius: 5px;
-    border-radius: 5px;
+    margin-top: .25rem;
+    margin-right: .25rem;
+    -webkit-border-radius: .25rem;
+    -moz-border-radius: .25rem;
+    border-radius: .25rem;
 }
 
 #banner {
-    height: 100%;
+    height: calc(100% - 2.5rem);
     width: 100%;
 }
 
@@ -150,6 +179,29 @@ scorecard {
     background-size: contain;
     height: 100%;
     width: 100%;
+}
+
+#user-banner {
+    height: 1.875rem;
+    margin: .5rem;
+    background: #F7C830;
+    color: #DC2A28;
+    -webkit-border-radius: .25rem;
+    -moz-border-radius: .25rem;
+    border-radius: .25rem;
+}
+#isActivePlayer {
+    float: left;
+    width: calc(33% - .25rem);
+    margin: .25rem;
+}
+#stopRollingDiv,
+#finishTurnDiv,
+#leaveGameDiv {
+    float: left;
+    width: calc(33% - 0.438rem);
+    margin: .125rem;
+    text-align: center;
 }
 
 main {
@@ -168,52 +220,96 @@ fieldset {
     background-repeat: no-repeat;
     display:inline;
     background-color: #FFFFFF;
-    border-radius: 5px;
+    border-radius: .25rem;
 }
-
 #diceImg2 {
     background-image: url(../images/dice2.png);
     background-size: 50px;
     background-repeat: no-repeat;
     display:inline;
     background-color: #FFFFFF;
-    border-radius: 5px;
+    border-radius: .25rem;
 }
-
 #diceImg3 {
     background-image: url(../images/dice3.png);
     background-size: 50px;
     background-repeat: no-repeat;
     display:inline;
     background-color: #FFFFFF;
-    border-radius: 5px;
+    border-radius: .25rem;
 }
-
 #diceImg4 {
     background-image: url(../images/dice4.png);
     background-size: 50px;
     background-repeat: no-repeat;
     display:inline;
     background-color: #FFFFFF;
-    border-radius: 5px;
+    border-radius: .25rem;
 }
-
 #diceImg5 {
     background-image: url(../images/dice5.png);
     background-size: 50px;
     background-repeat: no-repeat;
     display:inline;
     background-color: #FFFFFF;
-    border-radius: 5px;
+    border-radius: .25rem;
 }
-
 #diceImg6 {
     background-image: url(../images/dice6.png);
     background-size: 50px;
     background-repeat: no-repeat;
     display:inline;
     background-color: #FFFFFF;
-    border-radius: 5px;
+    border-radius: .25rem;
+}
+
+#diceSmallImg1 {
+    background-image: url(../images/dice1.png);
+    background-size: 50px;
+    background-repeat: no-repeat;
+    display:inline;
+    background-color: #FFFFFF;
+    border-radius: .25rem;
+}
+#diceSmallImg2 {
+    background-image: url(../images/dice2.png);
+    background-size: 50px;
+    background-repeat: no-repeat;
+    display:inline;
+    background-color: #FFFFFF;
+    border-radius: .25rem;
+}
+#diceSmallImg3 {
+    background-image: url(../images/dice3.png);
+    background-size: 50px;
+    background-repeat: no-repeat;
+    display:inline;
+    background-color: #FFFFFF;
+    border-radius: .25rem;
+}
+#diceSmallImg4 {
+    background-image: url(../images/dice4.png);
+    background-size: 50px;
+    background-repeat: no-repeat;
+    display:inline;
+    background-color: #FFFFFF;
+    border-radius: .25rem;
+}
+#diceSmallImg5 {
+    background-image: url(../images/dice5.png);
+    background-size: 50px;
+    background-repeat: no-repeat;
+    display:inline;
+    background-color: #FFFFFF;
+    border-radius: .25rem;
+}
+#diceSmallImg6 {
+    background-image: url(../images/dice6.png);
+    background-size: 50px;
+    background-repeat: no-repeat;
+    display:inline;
+    background-color: #FFFFFF;
+    border-radius: .25rem;
 }
 #rollButtons {
     position: absolute;
@@ -221,42 +317,51 @@ fieldset {
     left: 0;
     right: 0;
 }
-#rollDice {
+#rollDiceDiv,
+#rollKeepersDiv,
+#setKeepersDiv {
     float: left;
+    width: 32%;
+    align-content: center;
+    text-align:center;
 }
-#setKeepers {
-    float: right;
+#scorecardTitle {
+    height: 2.5rem;
+    border: .125rem solid #FF0000;
 }
 
 .column {
     float: left;
-    width: 17%;
-    padding: 5px;
+    width: 20%;
+}
+
+.currentScore {
+    font-style: normal;
+    float: left;
+    width: 3.375rem;
+    height: 100%;
+    padding-top: .25rem;
+    text-align: center;
+    border-left: .125rem solid #FF0000;
 }
 
 .scoreLabel {
 	font-style: normal;
     float: left;
     text-align: left;
-    width: calc(100% - 50px);
-    margin: 5px 0 5px 5px;
+    width: calc(100% - 7.5rem);
+    padding-left: .25rem;
 }
 
 .scoreLabel label  {
     font-style: normal;
 }
 
-.scoreLabel {
-    float: left;
-    text-align: left;
-    width: calc(100% - 50px);
-    margin: 5px 0 5px 5px;
-}
-
 .scoreValue {
 	font-style: normal;
     float: right;
-    width: 20px;
+    width: 1.25rem;
+    margin-top: .25rem;
     text-align: center;
 }
 
@@ -305,8 +410,34 @@ fieldset {
 
 .scoreDiv {
     float: right;
-    margin: 5px 5px 5px 0;
+    width: 2.5rem;
+    margin-right: 0.938rem;
+    height: 100%;
+    border-left: .125rem solid #FF0000;
 }
+
+.scoreContainer {
+    border-bottom: .125rem solid #FF0000;
+    border-left: .125rem solid #FF0000;
+    border-right: .125rem solid #FF0000;
+    height: 1.875rem;
+}
+
+.rollSet {
+    padding-top: .5rem;
+    margin-top: -2.813rem;
+    width: calc(100% - 1.25rem);
+    float: right;
+}
+
+.rollLabel {
+    height: 1.25rem;
+    margin-left: -0.438rem;
+    margin-top: 2.188rem;
+    float: left;
+    transform: rotate(270deg);
+}
+
 
 /* Chat Dialog window style */
 #dialogue-page {
@@ -316,12 +447,12 @@ fieldset {
 
 .dialogue-container {
 	background-color: green;
-	margin: 10px 0;
+	margin: .5rem 0;
 	max-width: 700px;
 	margin-left: auto;
 	margin-right: auto;
 	box-shadow: 0 1px 11px rgba(0, 0, 0, 0.27);
-	margin-top: 30px;
+	margin-top: 1.875rem;
 	height: calc(100% - 60px);
 	max-height: 600px;
 	position: relative;
@@ -333,17 +464,17 @@ fieldset {
 	margin: 0;
 	overflow: auto;
 	overflow-y: scroll;
-	padding: 0 20px 0px 20px;
-	height: calc(100% - 150px);
+	padding: 0 1.25rem 0 1.25rem;
+	height: calc(100% - 80px);
 }
 
 #dialogue-page #dialogueForm {
-	padding: 10px;
+	padding: .5rem;
 }
 
 #dialogue-page ul li {
 	line-height: 1.5rem;
-	padding: 10px 20px;
+	padding: .5rem 1.25rem;
 	margin: 0;
 	border-bottom: 1px solid #f4f4f4;
 }
@@ -374,7 +505,7 @@ position: relative;
 	width: 42px;
 	height: 42px;
 	overflow: hidden;
-	left: 10px;
+	left: .5rem;
 	display: inline-block;
 	vertical-align: middle;
 	font-size: 18px;
@@ -397,17 +528,19 @@ position: relative;
 
 #dialogueForm .input-group input {
 	border: 0;
-	padding: 10px;
+	padding: .5rem;
 	background: whitesmoke;
 	float: left;
-	width: calc(100% - 85px);
+	width: calc(100% - 120px);
 }
 
 #dialogueForm .input-group button {
 	float: left;
 	width: 80px;
-	height: 38px;
-	margin-left: 5px;
+	height: 35px;
+	margin-left: .25rem;
+    margin-top: 0;
+    padding: 0;
 }
 
 .dialogue-header {
@@ -423,8 +556,8 @@ position: relative;
 
 @media screen and (max-width: 730px) {
 	.dialogue-container {
-	margin-left: 10px;
-	margin-right: 10px;
-	margin-top: 10px;
+	margin-left: .5rem;
+	margin-right: .5rem;
+	margin-top: .5rem;
 	}
 }
