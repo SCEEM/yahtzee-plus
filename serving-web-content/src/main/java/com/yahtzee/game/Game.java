@@ -14,7 +14,6 @@ public class Game {
   private int playerListIndex;
   private Player currentActivePlayer, system;
   private static final int MAX_PLAYERS = 6;
-  // private Chat chat;
 
 
   /**
@@ -30,6 +29,7 @@ public class Game {
   }
 
   /**
+   * Create a new Player and add them to the game.
    *
    * @return a new {@link Player}
    */
@@ -43,7 +43,6 @@ public class Game {
       if (playerList.size() == 1) {
         this.currentActivePlayer = newPlayer;
         this.currentActivePlayerBeginsTurn();
-          // newPlayer.takeTurn();
       }
 
       return newPlayer;
@@ -51,6 +50,38 @@ public class Game {
       //TODO: return error message 
       return null;
     }
+  }
+
+  /**
+   * Remove a Player from the game.
+   *
+   * @param id the id of the Player to remove
+   * @return true if the Player was removed; false if they weren't found
+   */
+  public boolean removePlayerById(int id) {
+    Player playerToRemove = this.getPlayerById(id);
+    if (playerToRemove != null) {
+      // remove them from the player list
+      playerList.remove(playerToRemove);
+      return true;
+    }
+    return false;
+  }
+
+  /**
+   * Get a Player by their id.
+   *
+   * @param id the playerId
+   * @return the Player
+   */
+  public Player getPlayerById(int id) {
+    for (Player player : playerList) {
+      if (player.getPlayerId() == id) {
+        System.out.println("Found player " + id);
+        return player;
+      }
+    }
+    return null;
   }
 
   public int getPlayerListSize() {

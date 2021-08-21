@@ -26,7 +26,8 @@ public class WebSocketChatEventListener {
         StompHeaderAccessor headerAccessor = StompHeaderAccessor.wrap(event.getMessage());
 
         String username = (String) headerAccessor.getSessionAttributes().get("username");
-        if(username != null) {
+        System.out.println("Player disconnecting: " + username);
+        if (username != null) {
 
             WebSocketChatMessage chatMessage = new WebSocketChatMessage();
             chatMessage.setType("Leave");

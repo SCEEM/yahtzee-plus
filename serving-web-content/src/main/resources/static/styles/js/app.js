@@ -48,11 +48,15 @@ function connect() {
 }
 
 function disconnect() {
+    // remove player from game
+    var id = $('#playerId').text();
+    console.log("Disconnecting player " + id);
+    stompClient.send("/app/disconnect", {}, id);
+
+    // disconnect this player
     if (stompClient !== null) {
         stompClient.disconnect();
     }
-    console.log("Disconnected");
-    stompClient.send("/app/disconnect");
 }
 
 //___________________________Receivers_________________________________
@@ -131,6 +135,7 @@ function showDice(rollInformation) {
     });
     rollCount++;
 }
+
 function showDiceAndKeepers(rollInformation) {
     let dieDiv = document.querySelectorAll('div[id^=die]'),
         keeperDiv = document.querySelectorAll('div[id^=keeper]'),
