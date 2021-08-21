@@ -285,6 +285,7 @@ function finishTurn () {
     $( "#finishTurnDiv" ).hide();
     var dieDiv = document.querySelectorAll('div[id^=die]');
     $(dieDiv).hide();
+    $('#isActivePlayer').hide();
 
     stompClient.send("/app/turn/finish");
 }
