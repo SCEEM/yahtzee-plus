@@ -9,7 +9,28 @@
     <script src="/webjars/stomp-websocket/stomp.min.js"></script>
     <script th:src="@{/styles/js/app.js}"></script>
 </head>
-<body onload="connect()">
+<!-- <body onload="connect()"> -->
+<body>
+
+<!-- This div container contains the welcome page of Yahtzee+
+    It will allow a user to submit their desired player name 
+    and load the game board. -->
+<div id="welcomePage">
+    <div class="welcome-page-container">
+        <h1 class="title">Welcome - To join the game enter your name</h1>
+        <form id="welcomeForm" name="welcomeForm">
+            <div class="form-group">
+                <input type="text" id="playerName" placeholder="name" class="form-control" />
+            </div>
+            <div class="form-group">
+                <button id="joinGame" type="submit" onclass="accent username-submit">Let's Begin</button>
+            </div>
+        </form>
+    </div>
+</div>
+
+<!-- This div contains the game board -->
+<div id="contentPage" class="hidden"> <!-- ADDED TO SHOW/HIDE MAIN GAME BOARD-->
 <p id="playerId" th:text="${playerId}" hidden></p>
 <p id="activePlayerId" th:text="${activePlayerId}" hidden></p>
 <div id="playerList" th:attr="data-playerList=${playerList}" hidden></div>
@@ -363,7 +384,7 @@
     <!-- Chat -->
     <div class="chat">
         <h3>Chat</h3>
-        <div id="dialogue-page" class="hidden">
+        <div id="dialogue-page">
             <div class="dialogue-container" style="overflow:scroll">
                 <ul id="messageList">
                 </ul>
