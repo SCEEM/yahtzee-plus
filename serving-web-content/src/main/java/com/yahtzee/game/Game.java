@@ -9,7 +9,7 @@ import com.yahtzee.player.Player;
  */
 public class Game {
 
-  private ArrayList<Player> playerList;
+  private ArrayList<Player> playerList; // the list of all Players
   private ArrayList<Integer> scoreList;
   private int playerListIndex;
   private Player currentActivePlayer, system;
@@ -61,10 +61,12 @@ public class Game {
   public boolean removePlayerById(int id) {
     Player playerToRemove = this.getPlayerById(id);
     if (playerToRemove != null) {
-      // remove them from the player list
+      // edit the playerListIndex to remove this player's turns
       playerListIndex = id < (playerListIndex % playerList.size()) ?
-              playerListIndex - (int) Math.ceil((double)playerListIndex/(double)playerList.size()) :
-              playerListIndex - (int) Math.floor((double)playerListIndex/(double)playerList.size());
+              playerListIndex - (int) Math.ceil((double) playerListIndex / (double) playerList.size()) :
+              playerListIndex - (int) Math.floor((double) playerListIndex/ (double) playerList.size());
+
+      // remove them from the player list
       playerList.remove(playerToRemove);
       return true;
     }
@@ -80,7 +82,6 @@ public class Game {
   public Player getPlayerById(int id) {
     for (Player player : playerList) {
       if (player.getPlayerId() == id) {
-        System.out.println("Found player " + id);
         return player;
       }
     }

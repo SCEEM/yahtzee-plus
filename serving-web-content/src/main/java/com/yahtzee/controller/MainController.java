@@ -79,6 +79,6 @@ public class MainController {
 
     // remove them from the game
     boolean removed = game.removePlayerById(id);
-    System.out.println("removed player " + id + " from game? " + removed);
+    System.out.println((removed ? "Successfully removed " : "Failed to remove ") + "player " + id + " from game");
   }
 }
