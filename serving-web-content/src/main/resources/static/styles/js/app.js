@@ -66,9 +66,30 @@ function disconnect() {
     stompClient.send("/app/disconnect");
 }
 
+function endGameAndShowWinner(winner){
+    console.log("The Game is Over");
+    console.log("We have a winner");
+    console.log(winner);
+    $("#contentPage").hide();
+    var winnerIdElement =  document.createElement('span');
+    var userIdText = document.createTextNode("Player number " + (winner.playerId).toString() + " is the winner");
+    // var userScoreText = document.createTextNode((winner.score));
+    winnerIdElement.append(userIdText); // adds message name to 'span' element
+    $("#winnerDiv").append(winnerIdElement);
+    $("#winnerPage").show();
+}
+
 //___________________________Receivers_________________________________
 
 function setActivePlayer (activePlayer) {
+    console.log(activePlayer);
+    if ((activePlayer.winner).toString() === "yes"){
+        // the current player is the winner, game is over
+        console.log("got a winner");
+        endGameAndShowWinner(activePlayer);
+        return;
+    }
+    console.log("continuing to active player");
     isActivePlayer = (activePlayer.playerId).toString() === $('#playerId').text();
     activePlayerId = activePlayer.playerId;
     currentDice = [];
@@ -116,6 +137,8 @@ function setActivePlayer (activePlayer) {
         $(scoreLabel).removeClass('scoreValueEnabled').addClass('scoreValueDisabled');
     });
 }
+
+
 
 function showDice(rollInformation) {
     let dieDiv = document.querySelectorAll('div[id^=die]'),

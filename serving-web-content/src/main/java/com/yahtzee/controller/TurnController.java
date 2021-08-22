@@ -111,9 +111,25 @@ public class TurnController {
   private JSONObject getActivePlayerJSON() {
     JSONObject playerJson = new JSONObject();
     Player currentActivePlayer = game.getCurrentActivePlayer();
-    playerJson.put("playerId", currentActivePlayer.getPlayerId());
-    playerJson.put("scorecard", currentActivePlayer.getScorecard());
-    return playerJson;
+    if (currentActivePlayer != null){
+      playerJson.put("playerId", currentActivePlayer.getPlayerId());
+      playerJson.put("scorecard", currentActivePlayer.getScorecard());
+      playerJson.put("winner", "no");
+      return playerJson;
+    } else { 
+      // game.getCurrentActivePlayer() will return null when the game has ended 
+      return getWinningPlayer();
+    }
+  }
+
+  private JSONObject getWinningPlayer(){
+    JSONObject winner = new JSONObject();
+    Player winningPlayer = game.getHighestScoringPlayer();
+    System.out.println("There was a winner");
+    winner.put("playerId", winningPlayer.getPlayerId());
+    winner.put("scorecard", winningPlayer.getScorecard());
+    winner.put("winner", "yes");
+    return winner;
   }
 
 }
