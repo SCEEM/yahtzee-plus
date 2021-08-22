@@ -52,6 +52,9 @@ function disconnect() {
     var id = $('#playerId').text();
     console.log("Disconnecting player " + id);
     stompClient.send("/app/disconnect", {}, id);
+    if(isActivePlayer) {
+        finishTurn();
+    }
 
     // disconnect this player
     if (stompClient !== null) {

@@ -62,6 +62,9 @@ public class Game {
     Player playerToRemove = this.getPlayerById(id);
     if (playerToRemove != null) {
       // remove them from the player list
+      playerListIndex = id < (playerListIndex % playerList.size()) ?
+              playerListIndex - (int) Math.ceil((double)playerListIndex/(double)playerList.size()) :
+              playerListIndex - (int) Math.floor((double)playerListIndex/(double)playerList.size());
       playerList.remove(playerToRemove);
       return true;
     }
