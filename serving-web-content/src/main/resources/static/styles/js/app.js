@@ -1,16 +1,26 @@
 'use strict';
 
 let stompClient = null,
+    playerName = null,
     currentDice = [],
     activePlayerId,
     rollCount = 0,
     isActivePlayer = false,
     scorecardMap = {};
 
+//______________________Game Connect/Disconnect Functions_____________
+
+function joinGameAndCreateBoard(){
+    $('#welcomePage').hide();
+    $('#contentPage').show();
+    connect();
+}
 
 function connect() {
     var socket = new SockJS('/gs-guide-websocket');
     stompClient = Stomp.over(socket);
+    playerName = $("#playerName").val();
+    console.log("player name is " + name);
 
     var bannerImg = new Image();
     bannerImg.id = 'bannerImg';
@@ -41,6 +51,7 @@ function connect() {
             console.log("HERE: " + playerList);
             updatePlayerList(JSON.parse(playerList.body));
         });
+        newUserMessage();
         stompClient.send("/app/getPlayerList");
         stompClient.send("/app/turn/getActivePlayer");
     });
@@ -84,6 +95,11 @@ function setActivePlayer (activePlayer) {
         $( "#activePlayer" ).hide();
         $('#you').css('float', 'right');
         $('#isActivePlayer').show();
+        // system message
+        // current bug: this message will be re-sent every time a new player connects
+        if (isActivePlayer){
+            sendSystemMessage(playerName + " is the active player");
+        }
     } else {
         $('#you').css('float', 'left');
         $( ".currentScore" ).show();
@@ -122,14 +138,27 @@ function showDice(rollInformation) {
         $( "#rollDice" ).prop('disabled', true );
         $('#rollKeepersDiv').hide();
     }
+    // creating string for system message
+    let str = ""
 
     dice.forEach(function (die, index){
         if (die.status !== "KEEPER") {
             showDie(die);
             showSmallDie(die);
+            // creating string for system message
+            if (index == dice.length - 1){
+                str += die.value + "";
+            } else {
+                str += die.value + ", ";
+            }
         }
     });
     rollCount++;
+
+    // system message
+    if (isActivePlayer){
+        sendSystemMessage(playerName + " rolled: " + str);
+    }
 }
 function showDiceAndKeepers(rollInformation) {
     let dieDiv = document.querySelectorAll('div[id^=die]'),
@@ -217,6 +246,11 @@ function updateScorecard (scorecard) {
         $(scoreLabel).removeClass('scoreValueEnabled').addClass('scoreValueDisabled');
     });
     $("#playerRow" + activePlayerId + "> .score").text(scorecard[scorecard.length-1])
+
+    // system message
+    if (isActivePlayer){
+        sendSystemMessage(playerName + " scored " + scorecard[scorecard.length-1] + " point(s)");
+    }
 }
 
 function updatePlayerList (playerList) {
@@ -260,10 +294,27 @@ function setKeepers () {
         });
     });
     stompClient.send("/app/turn/roll/keep", {}, JSON.stringify(currentKeepers));
+    // creating string for system message
+    let str = ""
+    currentKeepers.forEach(function(die, index){
+        if (index == currentKeepers.length - 1){
+            str += die.value + "";
+        } else {
+            str += die.value + ", ";
+        }
+    });
+    // system message
+    if (isActivePlayer){
+        sendSystemMessage("These are " + playerName + "'s current keepers: " + str);
+    }
 }
 
 function stopRolling () {
     stompClient.send("/app/turn/stopRoll");
+    // system message
+    if (isActivePlayer){
+        sendSystemMessage(playerName + " has finished rolling.");
+    }
 }
 
 function submitScore () {
@@ -288,28 +339,31 @@ function finishTurn () {
     $('#isActivePlayer').hide();
 
     stompClient.send("/app/turn/finish");
+    // system message
+    if (isActivePlayer){
+        sendSystemMessage(playerName + " finished their turn.");
+    }
 }
-
-function sendMessage() {
-    var messageContent = $("#chatMessage").val();
-    console.log(messageContent);
-	if (messageContent && stompClient) {
-		var chatMessage = {
-			content : messageContent,
-			type : 'CHAT'
-		};
-
-		stompClient.send("/app/chat.sendMessage", {}, JSON.stringify(chatMessage));
-		$('#chatMessage').val(''); //reser input
-	}
-}
-
 
 function onMessageReceived(payload) {
-    console.log(payload);
 	var message = JSON.parse(payload.body);
     console.log(message);
-	var messageElement = document.createElement('li');
+    var messageElement = $('<li>').addClass('event-data');
+
+	if (message.type === 'NEW_USER') {
+
+        message.content = message.sender + ' has joined the game';
+    } else if (message.type === 'CHAT') { // the message type is CHAT
+        
+		var element = document.createElement('i');
+        var usernameElement = document.createElement('span');
+
+        var usernameText = document.createTextNode(message.sender); // The user name is retreived from the message
+        
+		usernameElement.append(usernameText); // adds message name to 'span' element
+        element.append(usernameElement); // adds 'span' element to 'i' element
+		messageElement.append(element); // add 'i' element to the mainMessage
+	}
 
 	var textElement = document.createElement('p');
 	var messageText = document.createTextNode(message.content);
@@ -318,15 +372,52 @@ function onMessageReceived(payload) {
 	messageElement.append(textElement);
 
 	$("#messageList").append(messageElement);
-	$("#messageList").scrollTop = $("#messageList").scrollHeight;
+	$("#messageList").scrollTop($("#messageList")[0].scrollHeight);
 }
 
+function sendMessage() {
+    var messageContent = $("#chatMessage").val();
+    console.log(messageContent);
+	if (messageContent && stompClient) {
+		var chatMessage = {
+			content : messageContent,
+            type : 'CHAT',
+            sender : playerName
+		};
+
+		stompClient.send("/app/chat.sendMessage", {}, JSON.stringify(chatMessage));
+		$('#chatMessage').val(''); //reset user input
+	}
+}
+
+// This function will alert the players that a new user has joined the game
+function newUserMessage(){
+    var msg = {
+        sender : playerName,
+        content : "new user",
+        type : 'NEW_USER'
+    };
+    stompClient.send("/app/chat.sendMessage", {}, JSON.stringify(msg));
+    console.log("Sent new user message");
+}
+
+// This function will alert the players of a message from the game system
+function sendSystemMessage(msg) {
+    var sysMessage = {
+        sender : "Game",
+        content : msg,
+        type : 'SYSTEM'
+    };
+    stompClient.send("/app/chat.sendMessage", {}, JSON.stringify(sysMessage));
+    console.log("sent system message: " + msg);
+}
 
 $(function () {
     $("form").on('submit', function (e) {
         e.preventDefault();
     });
-    $( "#connect" ).click(function() { connect(); });
+    $( "#joinGame" ).click(function() { joinGameAndCreateBoard(); });
+    $( "#connect" ).click(function() { connect(); }); 
     $( "#rollDice" ).click(function() { rollDice(); });
     $( "#setKeepers" ).click(function() { setKeepers(); });
     $( "#sendChat" ).click(function() { sendMessage(); });
