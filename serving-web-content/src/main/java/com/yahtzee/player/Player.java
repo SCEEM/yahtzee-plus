@@ -108,6 +108,14 @@ public class Player {
       return null; //TODO: return error
     }
   }
+  /**
+   * Roll the dice during the Player's Turn.
+   *
+   * @return the dice as an ArrayList<Die>
+   */
+  public ArrayList<Die> rollKeepers(ArrayList<Die> keepers) {
+      return this.myTurn.rollKeepers(keepers);
+  }
 
   /**
    * Check if the Player can roll the dice.

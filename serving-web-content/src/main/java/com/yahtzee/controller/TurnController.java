@@ -34,12 +34,14 @@ public class TurnController {
    */
   @MessageMapping("/roll")
   @SendTo("/topic/roll")
-  public JSONObject rollDice(@RequestBody boolean rollKeepers) {
-    System.out.println("rollKeepers? " + rollKeepers);
+  public JSONObject rollDice(@RequestBody ArrayList<Die> keepersToRoll) {
+    System.out.println("rollKeepers? " + keepersToRoll);
     JSONObject rollObject = new JSONObject();
     Player currentPlayer = game.getCurrentActivePlayer();
     rollObject.put("dice", currentPlayer.rollDice());
+    rollObject.put("keepers", currentPlayer.rollKeepers(keepersToRoll));
     rollObject.put("canRoll", currentPlayer.canRollDice());
+    System.out.println(rollObject);
     return rollObject;
   }
 

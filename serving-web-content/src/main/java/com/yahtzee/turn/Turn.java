@@ -62,6 +62,25 @@ public class Turn {
   }
 
   /**
+   * Get the dice used for this Turn.
+   *
+   * @return the dice as an ArrayList<Integer>
+   */
+  public ArrayList<Die> rollKeepers(ArrayList<Die> keepers) {
+    ArrayList<Die> rolledKeepers = new ArrayList<>();
+    if (!keepers.isEmpty()) {
+      this.dice.forEach((die) -> {
+        System.out.println(die);
+        if (keepers.stream().anyMatch(keeper -> keeper.id.equals(die.id))) {
+          die.roll();
+          rolledKeepers.add(die);
+        };
+      });
+    }
+    return rolledKeepers;
+  }
+
+  /**
    * Hold onto a reference to the latest Roll.
    *
    * @param currentRoll the current roll
