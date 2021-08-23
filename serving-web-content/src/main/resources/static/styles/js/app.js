@@ -26,7 +26,7 @@ function connect() {
     bannerImg.id = 'bannerImg';
     $('#banner').append(bannerImg);
 
-    stompClient.connect({}, function (frame) {
+    stompClient.connect({"playerName": playerName}, function (frame) {
         console.log('Connected: ' + frame);
         stompClient.subscribe('/topic/activePlayer', function (player) {
             setActivePlayer(JSON.parse(player.body));
@@ -52,8 +52,6 @@ function connect() {
             updatePlayerList(JSON.parse(playerList.body));
         });
         newUserMessage();
-        stompClient.send("/app/getPlayerList");
-        stompClient.send("/app/turn/getActivePlayer");
     });
     console.log("Connected");
 }
@@ -78,6 +76,9 @@ function disconnect() {
 //___________________________Receivers_________________________________
 
 function setActivePlayer (activePlayer) {
+    let activePlayerName = activePlayer.playerName,
+        scoreList = document.querySelectorAll('[id^=playerRow] > .score'),
+        playerList = document.querySelectorAll('[id^=playerRow] > .player');
     isActivePlayer = (activePlayer.playerId).toString() === $('#playerId').text();
     activePlayerId = activePlayer.playerId;
     currentDice = [];
@@ -88,30 +89,28 @@ function setActivePlayer (activePlayer) {
     $( "#setKeepers" ).hide();
     $( "#submitScore" ).attr('disabled', 'disabled').hide();
     $( "#finishTurnDiv" ).hide();
-    $( '#stopRolling' ).hide();
+    $( '#stopRollingDiv' ).hide();
     $('[class=scoreCheckboxes]').hide();
     $('#rollKeepersDiv').hide();
     $('.rollLabel').hide();
     $('#keeperSet img[id^=diceImg]').remove();
     $('#rollSet img[id^=diceImg]').remove();
     $('img[id^=diceSmallImg]').remove();
-    $('#activePlayer').text('Player #' + activePlayerId);
+    $('#activePlayer').text(activePlayerName);
 
     if (isActivePlayer) {
         $( "#rollDice" ).prop('disabled', false ).show();
-        $( "#stopRolling" ).prop('disabled', false ).show();
-        $( ".currentScore" ).hide();
+        $( "#stopRollingDiv" ).prop('disabled', false ).show();
+        $( ".scoreContainer .currentScore" ).hide();
         $( "#activePlayer" ).hide();
         $('#you').css('float', 'right');
-        $('#isActivePlayer').show();
+        $('#isActivePlayer').text(playerName + ", it's your turn!").show();
         // system message
         // current bug: this message will be re-sent every time a new player connects
-        if (isActivePlayer) {
-            sendSystemMessage(playerName + " is the active player");
-        }
+        sendSystemMessage(playerName + " is the active player");
     } else {
         $('#you').css('float', 'left');
-        $( ".currentScore" ).show();
+        $( ".scoreContainer .currentScore" ).show();
         $( "#activePlayer" ).show();
     }
 
@@ -139,7 +138,7 @@ function showDice(rollInformation) {
     if (isActivePlayer) {
         $('#rollKeepersDiv').show();
         $( "#setKeepers" ).show().prop('disabled', false );
-        $( "#stopRolling" ).show();
+        $( "#stopRollingDiv" ).show();
         $('.dice:checkbox').prop("checked", false).show();
     }
 
@@ -212,7 +211,7 @@ function showKeeper (keeper, index) {
 function showScoreOptions (possibleScores) {
     $( '#rollDice' ).prop('disabled', true );
     $( '#setKeepers' ).prop('disabled', true );
-    $( '#stopRolling' ).hide();
+    $( '#stopRollingDiv' ).hide();
 
     if (isActivePlayer) {
         $('#submitScore').show();
@@ -231,31 +230,29 @@ function showScoreOptions (possibleScores) {
         }
 
     });
-    console.log("RETURNED: " + scorecard);
 }
 
-function updateScorecard (scorecard) {
+function updateScorecard (scorecard) {  
     if (isActivePlayer) {
         $( '#submitScore' ).prop('disabled', true );
         $( '#finishTurnDiv' ).removeAttr('disabled').show();
     }
-
-    scorecardMap[activePlayerId] = scorecard;
-
     (scorecard).forEach((value, index) => {
         let scoreLabel = "#scoreVal" + index,
-            currentScore = "#currentScoreVal" + index;
+            currentScore = "#currentScoreVal" + index,
+            currentScoreListVal = "#playerListScorecard" + activePlayerId + " #currentScoreListVal" + index;
         if (value !== -1) {
             $(scoreLabel+"> .scoreValue").text(value);
             if (isActivePlayer) {
                 $(currentScore).text(value);
             }
+            $(currentScoreListVal).text(value);
         } else {
             $(scoreLabel+"> .scoreValue").text("");
         }
         $(scoreLabel).removeClass('scoreValueEnabled').addClass('scoreValueDisabled');
     });
-    $("#playerRow" + activePlayerId + "> .score").text(scorecard[scorecard.length-1])
+    $("#button" + activePlayerId).text(scorecard[scorecard.length-1]);
 
     // system message
     if (isActivePlayer) {
@@ -264,20 +261,40 @@ function updateScorecard (scorecard) {
 }
 
 function updatePlayerList (playerList) {
-    console.log(playerList);
-    let tableBody = $("table tbody");
+    let tableBody = $("table.allScoreList>tbody");
+
     playerList.forEach(player => {
         let playerId = player.playerId,
             score = player.score,
+            playerName = (playerId === parseInt($('#playerId').text())) ? player.playerName + " (you)" : player.playerName,
             playerRow = document.getElementById("playerRow" + playerId),
-            markup;
+            markup,
+            $newTable;
         if (playerRow !== null) {
-            $("#playerRow" + playerId + "> .score").text(score)
+            $("#button" + playerId).text(score);
         } else {
-            markup = "<tr id='playerRow"+ playerId +"'><td>" + playerId + "</td><td class='score'>"
-                + score +"</td></tr>";
+            markup = "" +
+                "<tr id='playerRow"+ playerId +"'>" +
+                    "<td class='player'></td>" +
+                    "<td id='score"+playerId+"' class='score'>" +
+                        "<button id='button"+playerId+"' class='trigger'>"
+                        + score +"</button>" +
+                    "</td>" +
+                "</tr>";
             tableBody.append(markup);
+            $newTable = $( "#playerListScorecardTemplate.playerListScorecardTemplate" ).clone();
+            $newTable.attr('id', 'playerListScorecard'+playerId);
+            $( 'td#score'+playerId ).append($newTable);
+
+            $(function() {
+                $('button#button'+playerId).mouseenter(function (e) {
+                    $('#playerListScorecard'+playerId).show();
+                }).mouseleave(function (e) {
+                    $('#playerListScorecard'+playerId).hide();
+                });
+            });
         }
+        $("#playerRow" + playerId + " .player").text(playerName);
     });
 }
 
@@ -341,7 +358,7 @@ function submitScore () {
 function finishTurn () {
     $( "#rollDice" ).hide();
     $( "#setKeepers" ).hide();
-    $( "#stopRolling" ).hide();
+    $( "#stopRollingDiv" ).hide();
     $( "#submitScore" ).hide();
     $( "#finishTurnDiv" ).hide();
     var dieDiv = document.querySelectorAll('div[id^=die]');
@@ -357,7 +374,6 @@ function finishTurn () {
 
 function onMessageReceived(payload) {
 	var message = JSON.parse(payload.body);
-    console.log(message);
     var messageElement = $('<li>').addClass('event-data');
 
 	if (message.type === 'NEW_USER') {
@@ -387,7 +403,6 @@ function onMessageReceived(payload) {
 
 function sendMessage() {
     var messageContent = $("#chatMessage").val();
-    console.log(messageContent);
 	if (messageContent && stompClient) {
 		var chatMessage = {
 			content : messageContent,
@@ -409,6 +424,9 @@ function newUserMessage() {
     };
     stompClient.send("/app/chat.sendMessage", {}, JSON.stringify(msg));
     console.log("Sent new user message");
+
+    stompClient.send("/app/getPlayerList", {}, JSON.stringify({"id": $('#playerId').text(), "playerName": playerName}));
+    stompClient.send("/app/turn/getActivePlayer");
 }
 
 // This function will alert the players of a message from the game system

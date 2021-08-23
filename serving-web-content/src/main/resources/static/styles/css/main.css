@@ -102,7 +102,7 @@ scorecard {
     float: right;
     font-weight: bold;
     border-left: .125rem solid #FF0000;
-    height: 2.688rem;
+    height: 100%;
 }
 #activePlayer {
     width: 3.438rem;
@@ -192,15 +192,21 @@ scorecard {
 }
 #isActivePlayer {
     float: left;
-    width: calc(33% - .25rem);
+    width: calc(50% - .25rem);
     margin: .25rem;
 }
 #stopRollingDiv,
 #finishTurnDiv,
 #leaveGameDiv {
     float: left;
-    width: calc(33% - 0.438rem);
+    width: calc(50% - 0.25rem);
     margin: .125rem;
+    text-align: center;
+}
+
+#buttonDiv {
+    float: right;
+    width: calc(50% - 0.5rem);
     text-align: center;
 }
 
@@ -335,12 +341,11 @@ fieldset {
     width: 20%;
 }
 
-.currentScore {
+.scoreContainer .currentScore {
     font-style: normal;
     float: left;
     width: 3.375rem;
     height: 100%;
-    padding-top: .25rem;
     text-align: center;
     border-left: .125rem solid #FF0000;
 }
@@ -361,7 +366,6 @@ fieldset {
 	font-style: normal;
     float: right;
     width: 1.25rem;
-    margin-top: .25rem;
     text-align: center;
 }
 
@@ -386,7 +390,7 @@ fieldset {
 
 .scoreValueEnabled input[type="radio"] {
     opacity: 0.01;
-    z-index: 100;
+    z-index: 50;
     background-color: #F7C830;
 }
 
@@ -444,27 +448,79 @@ fieldset {
 }
 
 .welcome-page-container {
-	background-color: grey;
+	background-color: #F7C830;
 	width: 100%;
-	max-width: 500px;
+	max-width: 31.25rem;
 	display: inline-block;
-	margin-top: 42px;
+	margin-top: 2.625rem;
 	vertical-align: middle;
 	position: relative;
-	padding: 35px 55px 35px;
-	min-height: 250px;
+	padding: 2.188rem 3.438rem 2.188rem;
+	min-height: 15.625rem;
 	position: absolute;
 	top: 50%;
 	left: 0;
 	right: 0;
 	margin: 0 auto;
-	margin-top: -160px;
+	margin-top: -10rem;
+    -webkit-border-radius: .5rem;
+    -moz-border-radius: .5rem;
+    border-radius: .5rem;
 }
 
 .hidden {
 	display: none;
 }
 
+.playerListScorecardTemplate {
+    display: none;
+    position: absolute;
+    z-index: 99 !important;
+    margin-left: -13rem;
+    width: 15rem;
+}
+
+.allScoreList th, td {
+    border: 0.25rem solid #DC2A28;
+    padding: 0.25rem;
+    text-align: center;
+    background: #F4A62D;
+}
+.allScoreList {
+    width: calc(100% - 1rem);
+    margin: .5rem;
+}
+.player {
+    width: 70%;
+    text-align: center;
+}
+.score {
+    width: 30%;
+    text-align: center;
+}
+.trigger {
+    height: 1.25rem;
+    padding: 0;
+    width: 2rem;
+    margin: 0;
+    border-radius: 1rem;
+}
+
+td.scoreLabel,
+th.scoreLabel {
+    width: 11rem;
+    text-align: left;
+    background: #F7C830;
+    padding: 0;
+    border: 0.125rem solid #DC2A28;
+}
+td.currentScore,
+th.currentScore {
+    text-align: center;
+    background: #F7C830;
+    padding: 0;
+    border: 0.125rem solid #DC2A28;
+}
 
 /* Chat Dialog window style */
 #dialogue-page {

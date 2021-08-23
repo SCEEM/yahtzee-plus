@@ -110,6 +110,7 @@ public class TurnController {
     JSONObject playerJson = new JSONObject();
     Player currentActivePlayer = game.getCurrentActivePlayer();
     playerJson.put("playerId", currentActivePlayer.getPlayerId());
+    playerJson.put("playerName", currentActivePlayer.getName());
     playerJson.put("scorecard", currentActivePlayer.getScorecard());
     return playerJson;
   }

@@ -2,6 +2,7 @@ package com.yahtzee.controller;
 
 import com.yahtzee.game.Game;
 import com.yahtzee.player.Player;
+import com.yahtzee.player.PlayerMsg;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
 import org.springframework.messaging.handler.annotation.MessageMapping;
@@ -50,8 +51,13 @@ public class MainController {
    */
   @MessageMapping("/getPlayerList")
   @SendTo("/topic/updatePlayerList")
-  public JSONArray updatePlayerList() {
+  public JSONArray updatePlayerList(PlayerMsg playerMsg) {
     ArrayList<Player> playerList = game.getPlayerList();
+    playerList.forEach(player -> {
+      if (playerMsg.getId() == player.getPlayerId()) {
+        player.setName(playerMsg.getPlayerName());
+      }
+    });
     return makePlayerListJSON(playerList);
   }
 
@@ -60,6 +66,7 @@ public class MainController {
     for (Player player : playerList) {
       JSONObject playerJson = new JSONObject();
       playerJson.put("playerId", player.getPlayerId());
+      playerJson.put("playerName", player.getName());
       playerJson.put("score", player.getTotalScore());
       playerListJson.add(playerJson);
     }
