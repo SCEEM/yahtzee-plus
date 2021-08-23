@@ -73,9 +73,27 @@ function disconnect() {
     }
 }
 
+function endGameAndShowWinner(winner){
+    console.log("The Game is Over");
+    console.log("We have a winner");
+    console.log(winner);
+    $("#contentPage").hide();
+    var winnerIdElement =  document.createElement('span');
+    var userIdText = document.createTextNode((winner.name).toString() + " is the winner with " + (winner.score).toString() + " point(s)!");
+    winnerIdElement.append(userIdText); // adds message name to 'span' element
+    $("#winnerDiv").append(winnerIdElement);
+    $("#winnerPage").show();
+}
+
 //___________________________Receivers_________________________________
 
 function setActivePlayer (activePlayer) {
+    if ((activePlayer.winner).toString() === "yes"){
+        // the current player is the winner, game is over
+        console.log("got a winner");
+        endGameAndShowWinner(activePlayer);
+        return;
+    }
     let activePlayerName = activePlayer.playerName,
         scoreList = document.querySelectorAll('[id^=playerRow] > .score'),
         playerList = document.querySelectorAll('[id^=playerRow] > .player');
@@ -126,6 +144,8 @@ function setActivePlayer (activePlayer) {
         $(scoreLabel).removeClass('scoreValueEnabled').addClass('scoreValueDisabled');
     });
 }
+
+
 
 function showDice(rollInformation) {
     let dieDiv = document.querySelectorAll('div[id^=die]'),

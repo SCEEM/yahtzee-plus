@@ -1,6 +1,7 @@
 package com.yahtzee.game;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
 import com.yahtzee.player.Player;
 
@@ -113,6 +114,9 @@ public class Game {
     if (gameHasRoundsLeft()){ // will not assign another player to be active if there are no more rounds to play
       currentActivePlayer = playerList.get(playerListIndex % playerList.size());
       currentActivePlayer.startTurn();
+    } else {
+      // no active player is assigned when the game has reached 13 rounds
+      currentActivePlayer = null;
     }
   }
 
@@ -151,6 +155,21 @@ public class Game {
 
   public boolean isActivePlayer(Player player) {
     return player.isCurrentlyTakingTurn();
+  }
+ /** 
+  * returns the player with the highest score. This method is called when he game has ended
+  *
+  */
+  public Player getHighestScoringPlayer(){
+    Player winner = null;
+    int minScore  = -1;
+    for (Player p: playerList){
+      if (p.getTotalScore() > minScore){
+        minScore = p.getTotalScore();
+        winner = p;
+      }
+    }
+    return winner;
   }
 
 }

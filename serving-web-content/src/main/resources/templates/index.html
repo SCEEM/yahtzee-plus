@@ -9,7 +9,6 @@
     <script src="/webjars/stomp-websocket/stomp.min.js"></script>
     <script th:src="@{/styles/js/app.js}"></script>
 </head>
-<!-- <body onload="connect()"> -->
 <body>
 
 <!-- This div container contains the welcome page of Yahtzee+
@@ -496,6 +495,11 @@
         </div>
     </div>
 </div>
+</div>
+
+<div id="winnerPage" class="hidden">
+    <h1 class = "title">Winner!</h1>
+    <div id="winnerDiv" class="winner-page-container"></div>
 </div>
 </body>
 </html>
