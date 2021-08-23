@@ -156,23 +156,22 @@ function showDice(rollInformation) {
 
     keepers.forEach(function (die, outerIndex) {
         if (die.status === "KEEPER") {
-            $.each($('#keeperSet img'), (index, image) => {
+            $.each($('#keeperSet img'), (i, image) => {
                 if ($(image).data() && die.id === $(image).data().id) {
+                    var diceImg = new Image(50, 50);
+                    diceImg.id = 'diceImg' + die.value;
+                    $(diceImg).data(die);
+                    $(image).parent('.column').append(diceImg).show();
+                    if (isActivePlayer) {
+                        $(image).siblings('.keeper:checkbox').prop("checked", false).show();
+                        $('#re-roll-instructions').show();
+                    }
                     if (outerIndex === keepers.length - 1){
                         keeperStr += $(image).data().value + " for " + die.value;
                     } else {
                         keeperStr += $(image).data().value + " for " + die.value + ", ";
                     }
-                    $(image).siblings("input").hide();
                     $(image).remove();
-                    var diceImg = new Image(50, 50);
-                    diceImg.id = 'diceImg' + die.value;
-                    $(diceImg).data(die);
-                    $('#keeper' + index).append(diceImg).show();
-                    if (isActivePlayer) {
-                        $('#keeper' + index  + ' > .keeper:checkbox').prop("checked", false).show();
-                        $('#re-roll-instructions').show();
-                    }
                 }
             });
         }
