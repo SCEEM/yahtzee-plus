@@ -45,7 +45,7 @@ public class TurnController {
 
 
   /**
-   * Change the state of the specified dice to KEPT, and
+   * Change the state of the specified dice to KEEPER, and
    * return the updated dice.
    *
    * @return the dice as an ArrayList<{@link Die}>
@@ -57,7 +57,6 @@ public class TurnController {
     Player currentPlayer = game.getCurrentActivePlayer();
     rollObject.put("dice", currentPlayer.keepDice(keepers));
     rollObject.put("canRoll", currentPlayer.canRollDice());
-    // get current dice from current Turn
     return rollObject;
   }
 
@@ -99,7 +98,6 @@ public class TurnController {
   }
 
   /**
-   * Complete the given {@link Player}'s turn.
    *
    */
   @MessageMapping("/getActivePlayer")
