@@ -85,7 +85,7 @@ function setActivePlayer (activePlayer) {
     rollCount = 0;
 
     $( "#rollDice" ).hide();
-    $('.dice:checkbox').hide();
+    $('.dice:checkbox').prop("checked", false).hide();
     $( "#setKeepers" ).hide();
     $( "#select-keepers" ).hide();
     $( "#submitScore" ).attr('disabled', 'disabled').hide();
@@ -402,7 +402,7 @@ function submitScore () {
     }
     // system message
     if (isActivePlayer) {
-        sendSystemMessage(playerName + " selected " +name+ " and scored " + selectedRow + " point(s)");
+        sendSystemMessage(playerName + " selected " +name+ " and scored " + value + " point(s)");
     }
     stompClient.send("/app/turn/submitScore", {}, JSON.stringify(selectedRow));
 }
