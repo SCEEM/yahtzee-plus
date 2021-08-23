@@ -115,7 +115,6 @@ public class TurnController {
       playerJson.put("winner", "no");
       return playerJson;
     } else { 
-      // game.getCurrentActivePlayer() will return null when the game has ended 
       return getWinningPlayer();
     }
   }
