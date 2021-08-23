@@ -9,7 +9,7 @@ import com.yahtzee.player.Player;
  */
 public class Game {
 
-  private ArrayList<Player> playerList;
+  private ArrayList<Player> playerList; // the list of all Players
   private ArrayList<Integer> scoreList;
   private int playerListIndex;
   private Player currentActivePlayer;
@@ -28,6 +28,7 @@ public class Game {
   }
 
   /**
+   * Create a new Player and add them to the game.
    *
    * @return a new {@link Player}
    */
@@ -41,7 +42,6 @@ public class Game {
       if (playerList.size() == 1) {
         this.currentActivePlayer = newPlayer;
         this.currentActivePlayerBeginsTurn();
-          // newPlayer.takeTurn();
       }
 
       return newPlayer;
@@ -49,6 +49,42 @@ public class Game {
       //TODO: return error message 
       return null;
     }
+  }
+
+  /**
+   * Remove a Player from the game.
+   *
+   * @param id the id of the Player to remove
+   * @return true if the Player was removed; false if they weren't found
+   */
+  public boolean removePlayerById(int id) {
+    Player playerToRemove = this.getPlayerById(id);
+    if (playerToRemove != null) {
+      // edit the playerListIndex to remove this player's turns
+      playerListIndex = id < (playerListIndex % playerList.size()) ?
+              playerListIndex - (int) Math.ceil((double) playerListIndex / (double) playerList.size()) :
+              playerListIndex - (int) Math.floor((double) playerListIndex/ (double) playerList.size());
+
+      // remove them from the player list
+      playerList.remove(playerToRemove);
+      return true;
+    }
+    return false;
+  }
+
+  /**
+   * Get a Player by their id.
+   *
+   * @param id the playerId
+   * @return the Player
+   */
+  public Player getPlayerById(int id) {
+    for (Player player : playerList) {
+      if (player.getPlayerId() == id) {
+        return player;
+      }
+    }
+    return null;
   }
 
   public int getPlayerListSize() {

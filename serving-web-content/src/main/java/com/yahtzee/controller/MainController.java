@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import java.util.ArrayList;
 import org.json.simple.JSONObject;
 import org.json.simple.JSONArray;
+import org.springframework.web.bind.annotation.RequestBody;
 
 /**
  * The main controller class for the application.
@@ -62,7 +63,7 @@ public class MainController {
 
   private JSONArray makePlayerListJSON(ArrayList<Player> playerList) {
     JSONArray playerListJson = new JSONArray();
-    for(Player player : playerList) {
+    for (Player player : playerList) {
       JSONObject playerJson = new JSONObject();
       playerJson.put("playerId", player.getPlayerId());
       playerJson.put("playerName", player.getName());
@@ -70,5 +71,21 @@ public class MainController {
       playerListJson.add(playerJson);
     }
     return playerListJson;
+  }
+
+  /**
+   * Remove the given player from the game.
+   *
+   * @param playerId the id of the Player to remove
+   */
+  @MessageMapping("/disconnect")
+  @SendTo("/topic/disconnect")
+  public void disconnectPlayer(@RequestBody String playerId) {
+    // get id of player who left the game
+    int id = Integer.parseInt(playerId);
+
+    // remove them from the game
+    boolean removed = game.removePlayerById(id);
+    System.out.println((removed ? "Successfully removed " : "Failed to remove ") + "player " + id + " from game");
   }
 }
