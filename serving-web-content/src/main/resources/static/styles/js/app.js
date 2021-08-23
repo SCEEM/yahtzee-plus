@@ -59,11 +59,20 @@ function connect() {
 }
 
 function disconnect() {
+    // remove player from game
+    var id = $('#playerId').text();
+    console.log("Disconnecting player " + id);
+    stompClient.send("/app/disconnect", {}, id);
+    if (isActivePlayer) {
+        finishTurn();
+    }
+
+    sendSystemMessage(playerName + " has left the game");
+
+    // disconnect this player
     if (stompClient !== null) {
         stompClient.disconnect();
     }
-    console.log("Disconnected");
-    stompClient.send("/app/disconnect");
 }
 
 function endGameAndShowWinner(winner){
@@ -118,7 +127,7 @@ function setActivePlayer (activePlayer) {
         $('#isActivePlayer').show();
         // system message
         // current bug: this message will be re-sent every time a new player connects
-        if (isActivePlayer){
+        if (isActivePlayer) {
             sendSystemMessage(playerName + " is the active player");
         }
     } else {
@@ -179,10 +188,11 @@ function showDice(rollInformation) {
     rollCount++;
 
     // system message
-    if (isActivePlayer){
+    if (isActivePlayer) {
         sendSystemMessage(playerName + " rolled: " + str);
     }
 }
+
 function showDiceAndKeepers(rollInformation) {
     let dieDiv = document.querySelectorAll('div[id^=die]'),
         keeperDiv = document.querySelectorAll('div[id^=keeper]'),
@@ -271,7 +281,7 @@ function updateScorecard (scorecard) {
     $("#playerRow" + activePlayerId + "> .score").text(scorecard[scorecard.length-1])
 
     // system message
-    if (isActivePlayer){
+    if (isActivePlayer) {
         sendSystemMessage(playerName + " scored " + scorecard[scorecard.length-1] + " point(s)");
     }
 }
@@ -327,7 +337,7 @@ function setKeepers () {
         }
     });
     // system message
-    if (isActivePlayer){
+    if (isActivePlayer) {
         sendSystemMessage("These are " + playerName + "'s current keepers: " + str);
     }
 }
@@ -363,7 +373,7 @@ function finishTurn () {
 
     stompClient.send("/app/turn/finish");
     // system message
-    if (isActivePlayer){
+    if (isActivePlayer) {
         sendSystemMessage(playerName + " finished their turn.");
     }
 }
@@ -414,7 +424,7 @@ function sendMessage() {
 }
 
 // This function will alert the players that a new user has joined the game
-function newUserMessage(){
+function newUserMessage() {
     var msg = {
         sender : playerName,
         content : "new user",
