@@ -37,7 +37,7 @@
 <div class="wrapper">
     <scorecard>
         <div class="active-scorecard">
-            <h3>Active Scorecard</h3>
+            <h3>Scorecard</h3>
             <form>
                 <fieldset id="scorecard" class="row" style="text-align: left">
                     <div id="scorecardTitle">
@@ -241,16 +241,18 @@
     <header>
         <div id="banner"></div>
         <div id="user-banner">
-            <div id="isActivePlayer" hidden>It's your turn!</div>
-            <form id="stopRollingDiv">
-                <button id="stopRolling" type="submit" style="margin: 0;">Stop Rolling</button>
-            </form>
-            <form id="finishTurnDiv">
-                <button id="finishTurn" type="submit" style="margin: 0;">Finish Turn</button>
-            </form>
-            <form id="leaveGameDiv" style="float: right">
-                <button id="leaveGame" type="submit" style="margin: 0;">Leave Game</button>
-            </form>
+            <div id="isActivePlayer" hidden></div>
+            <div id="buttonDiv">
+                <form id="stopRollingDiv">
+                    <button id="stopRolling" type="submit" style="margin: 0;">Stop Rolling</button>
+                </form>
+                <form id="finishTurnDiv">
+                    <button id="finishTurn" type="submit" style="margin: 0;">Finish Turn</button>
+                </form>
+                <form id="leaveGameDiv" style="float: right">
+                    <button id="leaveGame" type="submit" style="margin: 0; float: right;">Leave Game</button>
+                </form>
+            </div>
         </div>
     </header>
 
@@ -369,14 +371,105 @@
     <!-- All Scores -->
     <div class="all-scores">
         <h3>All Scores Table</h3>
-        <table>
+        <table class="allScoreList">
             <thead>
                 <tr>
-                    <th th:scope="col">Player</th>
-                    <th th:scope="col">Score</th>
+                    <th class="player" th:scope="col">Player</th>
+                    <th class="score" th:scope="col">Score</th>
                 <tr>
             </thead>
             <tbody></tbody>
+        </table>
+
+        <table id="playerListScorecardTemplate" class="playerListScorecardTemplate">
+            <thead>
+                <tr>
+                    <th class="scoreLabel" th:scope="col">Row</th>
+                    <th class="currentScore" th:scope="col">Score</th>
+                <tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td class="scoreLabel">Aces</td>
+                    <td id="currentScoreListVal0" class="currentScore"></td>
+                </tr>
+                <tr>
+                    <td class="scoreLabel">Twos</td>
+                    <td id="currentScoreListVal1" class="currentScore"></td>
+                </tr>
+                <tr>
+                    <td class="scoreLabel">Threes</td>
+                    <td id="currentScoreListVal2" class="currentScore"></td>
+                </tr>
+                <tr>
+                    <td class="scoreLabel">Fours</td>
+                    <td id="currentScoreListVal3" class="currentScore"></td>
+                </tr>
+                <tr>
+                    <td class="scoreLabel">Fives</td>
+                    <td id="currentScoreListVal4" class="currentScore"></td>
+                </tr>
+                <tr>
+                    <td class="scoreLabel">Sixes</td>
+                    <td id="currentScoreListVal5" class="currentScore"></td>
+                </tr>
+                <tr>
+                    <td class="scoreLabel" style="font-weight: bold;">Total</td>
+                    <td id="currentScoreListVal15" class="currentScore">0</td>
+                </tr>
+                <tr>
+                    <td class="scoreLabel">Bonus</td>
+                    <td id="currentScoreListVal16" class="currentScore">0</td>
+                </tr>
+                <tr>
+                    <td class="scoreLabel" style="font-weight: bold;">Upper Total</td>
+                    <td id="currentScoreListVal17" class="currentScore">0</td>
+                </tr>
+                <tr>
+                    <td class="scoreLabel">3 of a Kind</td>
+                    <td id="currentScoreListVal6" class="currentScore"></td>
+                </tr>
+                <tr>
+                    <td class="scoreLabel">4 of a Kind</td>
+                    <td id="currentScoreListVal7" class="currentScore"></td>
+                </tr>
+                <tr>
+                    <td class="scoreLabel">Full House</td>
+                    <td id="currentScoreListVal8" class="currentScore"></td>
+                </tr>
+                <tr>
+                    <td class="scoreLabel">Small Straight</td>
+                    <td id="currentScoreListVal9" class="currentScore"></td>
+                </tr>
+                <tr>
+                    <td class="scoreLabel">Large Straight</td>
+                    <td id="currentScoreListVal10" class="currentScore"></td>
+                </tr>
+                <tr>
+                    <td class="scoreLabel">Yahtzee</td>
+                    <td id="currentScoreListVal11" class="currentScore"></td>
+                </tr>
+                <tr>
+                    <td class="scoreLabel">Chance</td>
+                    <td id="currentScoreListVal12" class="currentScore"></td>
+                </tr>
+                <tr>
+                    <td class="scoreLabel"># Yahtzee Bonuses</td>
+                    <td id="currentScoreListVal13" class="currentScore">0</td>
+                </tr>
+                <tr>
+                    <td class="scoreLabel">100 x Yahtzee Bonus</td>
+                    <td id="currentScoreListVal14" class="currentScore">0</td>
+                </tr>
+                <tr>
+                    <td class="scoreLabel" style="font-weight: bold;">Lower Total</td>
+                    <td id="currentScoreListVal18" class="currentScore">0</td>
+                </tr>
+                <tr>
+                    <td class="scoreLabel" style="font-weight: bolder;">Grand Total</td>
+                    <td id="currentScoreListVal19" class="currentScore">0</td>
+                </tr>
+            </tbody>
         </table>
     </div>
 

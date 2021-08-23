@@ -111,6 +111,7 @@ public class TurnController {
     Player currentActivePlayer = game.getCurrentActivePlayer();
     if (currentActivePlayer != null){
       playerJson.put("playerId", currentActivePlayer.getPlayerId());
+      playerJson.put("playerName", currentActivePlayer.getName());
       playerJson.put("scorecard", currentActivePlayer.getScorecard());
       playerJson.put("winner", "no");
       return playerJson;

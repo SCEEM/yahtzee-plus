@@ -93,7 +93,7 @@ public class ScoreCard {
     }
     // Bonus Score
     if (upperScore >= 63) {
-      this.scores[16] = 1;
+      this.scores[16] = 35;
       upperScore = upperScore + 35;
     } else {
       this.scores[16] = 0;
@@ -112,6 +112,8 @@ public class ScoreCard {
         lowerScore = lowerScore + this.scores[i];
       }
     }
+    //Add Yahtzee bonus score in
+    lowerScore = lowerScore + this.scores[14];
     return lowerScore;
   }
 
@@ -169,7 +171,7 @@ public class ScoreCard {
     
     
     //Three of a Kind
-    if ( (numOnes == 3 || numTwos == 3 || numThrees == 3 || numFours == 3 || numFives == 3 || numSixes == 3) &&
+    if ( (numOnes >= 3 || numTwos >= 3 || numThrees >= 3 || numFours >= 3 || numFives >= 3 || numSixes >= 3) &&
             getSectionAvailabilty(6) ) {
       int sum = getSumDice(diceValues);
       this.possibleScores[6] = sum; 
@@ -178,7 +180,7 @@ public class ScoreCard {
     }
         
     //Four of a Kind
-    if ( (numOnes == 4 || numTwos == 4 || numThrees == 4 || numFours == 4 || numFives == 4 || numSixes == 4) &&
+    if ( (numOnes >= 4 || numTwos >= 4 || numThrees >= 4 || numFours >= 4 || numFives >= 4 || numSixes >= 4) &&
             getSectionAvailabilty(7) ) {
       int sum = getSumDice(diceValues);
       this.possibleScores[7] = sum; 
@@ -222,11 +224,10 @@ public class ScoreCard {
           (this.numYahtzeeBonuses == 0)) {
       this.possibleScores[11] = 50; 
     } else if ( (numOnes == 5 || numTwos == 5 || numThrees == 5 || numFours == 5 || numFives == 5 || numSixes == 5) &&
-            (!getSectionAvailabilty(11)) &&
-            (this.numYahtzeeBonuses < 3) ) {
+            (getSectionAvailabilty(11) == false) && (this.numYahtzeeBonuses < 3) ) {
       this.numYahtzeeBonuses = this.numYahtzeeBonuses + 1; 
-      this.possibleScores[13] = this.numYahtzeeBonuses;
-      this.possibleScores[14] = this.numYahtzeeBonuses * 100; 
+      this.scores[13] = this.numYahtzeeBonuses;
+      this.scores[14] = this.scores[13] * 100; 
     } else if (getSectionAvailabilty(11)) {
       this.possibleScores[11] = 0;
     } 
