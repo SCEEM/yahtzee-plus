@@ -141,6 +141,7 @@ scorecard {
     -moz-border-radius: .25rem;
     border-radius: .25rem;
     position: relative;
+    text-align: center;
 }
 
 #rollKeeperButton {
@@ -324,7 +325,7 @@ fieldset {
     right: 0;
 }
 #rollDiceDiv,
-#rollKeepersDiv,
+#select-keepers,
 #setKeepersDiv {
     float: left;
     width: 32%;

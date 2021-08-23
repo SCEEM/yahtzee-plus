@@ -285,10 +285,7 @@
                 <div id="rollDiceDiv">
                     <button id="rollDice" class="glyphicon glyphicon-share-alt" type="submit">Roll Dice</button>
                 </div>
-                <div id="rollKeepersDiv">
-                    <input type="checkbox" id="rollKeepers" name="rollKeepers">
-                    <label for="rollKeepers">Re-Roll Keepers</label>
-                </div>
+                <p id="select-keepers" style="font-size: .7rem;">Select Keepers to Add</p>
                 <div id="setKeepersDiv" style="float: right;">
                     <button id="setKeepers" class="glyphicon glyphicon-share-alt" type="submit">Add Keepers</button>
                 </div>
@@ -355,18 +352,24 @@
         <form>
             <fieldset id="keeperSet" class="row">
                 <div id="keeper0" class="column" hidden>
+                    <input type="checkbox" class="dice keeper" name="dice" value="keeper0">
                 </div>
                 <div id="keeper1" class="column" hidden>
+                    <input type="checkbox" class="dice keeper" name="dice" value="keeper1">
                 </div>
                 <div id="keeper2" class="column" hidden>
+                    <input type="checkbox" class="dice keeper" name="dice" value="keeper2">
                 </div>
                 <div id="keeper3" class="column" hidden>
+                    <input type="checkbox" class="dice keeper" name="dice" value="keeper3">
                 </div>
                 <div id="keeper4" class="column" hidden>
+                    <input type="checkbox" class="dice keeper" name="dice" value="keeper4">
                 </div>
                 <br>
             </fieldset>
         </form>
+        <p id="re-roll-instructions" style="font-size: .7rem;">Select to Re-Roll Any Keepers</p>
     </div>
 
     <!-- All Scores -->
