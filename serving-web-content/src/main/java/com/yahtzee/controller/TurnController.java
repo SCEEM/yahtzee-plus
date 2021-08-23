@@ -126,6 +126,8 @@ public class TurnController {
     System.out.println("There was a winner");
     winner.put("playerId", winningPlayer.getPlayerId());
     winner.put("scorecard", winningPlayer.getScorecard());
+    winner.put("name", winningPlayer.getName());
+    winner.put("score", winningPlayer.getTotalScore());
     winner.put("winner", "yes");
     return winner;
   }

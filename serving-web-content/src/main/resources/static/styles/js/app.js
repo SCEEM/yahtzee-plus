@@ -79,8 +79,7 @@ function endGameAndShowWinner(winner){
     console.log(winner);
     $("#contentPage").hide();
     var winnerIdElement =  document.createElement('span');
-    var userIdText = document.createTextNode("Player number " + (winner.playerId).toString() + " is the winner");
-    // var userScoreText = document.createTextNode((winner.score));
+    var userIdText = document.createTextNode((winner.name).toString() + " is the winner with " + (winner.score).toString() + " point(s)!");
     winnerIdElement.append(userIdText); // adds message name to 'span' element
     $("#winnerDiv").append(winnerIdElement);
     $("#winnerPage").show();
